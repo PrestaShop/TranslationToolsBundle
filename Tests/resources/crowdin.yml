@@ -1,0 +1,7 @@
+paths:
+    - classes
+    - src/PrestaShop/Controller/Admin/ProductController.php
+
+exclude_files:
+    - npm_modules
+    - vendor
