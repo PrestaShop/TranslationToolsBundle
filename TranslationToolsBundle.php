@@ -1,11 +1,11 @@
 <?php
 
-namespace TranslationToolsBundle;
+namespace  PrestaShop\TranslationToolsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use TranslationToolsBundle\DependencyInjection\CompilerPass\ExtractorCompilerPass;
-use TranslationToolsBundle\DependencyInjection\CompilerPass\TranslationCompilerPass;
+use PrestaShop\TranslationToolsBundle\DependencyInjection\CompilerPass\ExtractorCompilerPass;
+use PrestaShop\TranslationToolsBundle\DependencyInjection\CompilerPass\TranslationCompilerPass;
 
 class TranslationToolsBundle extends Bundle
 {
