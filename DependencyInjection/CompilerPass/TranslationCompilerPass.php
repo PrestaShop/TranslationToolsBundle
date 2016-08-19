@@ -29,14 +29,16 @@ namespace PrestaShop\TranslationToolsBundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use PrestaShop\TranslationToolsBundle\Twig\NodeVisitor\TranslationNodeVisitor;
 use Symfony\Component\DependencyInjection\Reference;
 
 class TranslationCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $container->register('translation_tools.translation.node_visitor', TranslationNodeVisitor::class);
+        $container->register(
+            'translation_tools.translation.node_visitor',
+            'PrestaShop\TranslationToolsBundle\Twig\NodeVisitor\TranslationNodeVisitor'
+        );
 
         $translationDefinition = $container->getDefinition('twig.extension.trans');
         $translationDefinition->addArgument(new Reference('translation_tools.translation.node_visitor'));

@@ -12,32 +12,32 @@ class PhpBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->instance = new PhpBuilder;
-        
+        $this->instance = new PhpBuilder();
+
         // Remove opening <?php tag to allow output to be eval'd easier
         $this->setInaccessibleProperty($this->instance, 'output', '');
     }
-    
+
     public function tearDown()
     {
         $this->instance = null;
     }
-    
+
     public function testAppendGlobalDeclaration()
     {
         $expectedPos = PhpBuilder::POS_NEWLINE;
-        
+
         $this->instance->appendGlobalDeclaration('foo');
         eval($this->getInaccessibleProperty($this->instance, 'output'));
-        
+
         $this->assertTrue(array_key_exists('foo', $GLOBALS));
-        
+
         $this->assertEquals(
             $expectedPos,
             $this->getInaccessibleProperty($this->instance, 'pos')
         );
     }
-    
+
     public function appendMethodsProvider()
     {
         return [
@@ -50,7 +50,7 @@ class PhpBuilderTest extends TestCase
             ['appendStringLine', ['foo', 'bar', 'value'], '$foo[\'bar\'] = \'value\';'.PHP_EOL, PhpBuilder::POS_NEWLINE],
         ];
     }
-    
+
     /**
      * @dataProvider appendMethodsProvider
      */
@@ -69,14 +69,14 @@ class PhpBuilderTest extends TestCase
             $this->getInaccessibleProperty($this->instance, 'pos')
         );
     }
-    
+
     public function appendMethodsWithWrongPosProvider()
     {
         return [
             ['appendStringLine', ['dummy', 'dummy', 'dummy'], PhpBuilder::POS_VAR, 'Exception'],
         ];
     }
-    
+
     /**
      * @dataProvider appendMethodsWithWrongPosProvider
      */
@@ -86,7 +86,7 @@ class PhpBuilderTest extends TestCase
         $this->setExpectedException($expectedException);
         $this->invokeInaccessibleMethod($this->instance, $method, $parameters);
     }
-    
+
     public function testBuild()
     {
         $this->assertEquals(
