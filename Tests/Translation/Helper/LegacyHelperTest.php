@@ -60,30 +60,30 @@ class LegacyHelperTest extends TestCase
             ],
         ];
     }
-    
+
     /**
      * @dataProvider getOutputInfoProvider
      */
     public function testGetOutputInfo($expected, $input)
     {
         $result = LegacyHelper::getOutputInfo($input);
-        
+
         // Skip check for closures
         if (is_array($result) && isset($result['generateKey'])) {
             unset($result['generateKey']);
         }
-        
+
         $this->assertEquals($expected, $result);
     }
-    
+
     public function testGetKey()
     {
         $originalString = 'foo';
         $expectedOutput = 'acbd18db4cc2f85cedef654fccc4a4d8';
-        
+
         $this->assertEquals($expectedOutput, LegacyHelper::getKey($originalString));
     }
-    
+
     public function getKeyPrefixProvider()
     {
         return [
@@ -94,7 +94,7 @@ class LegacyHelperTest extends TestCase
             ['Toto', '/universe/earth/TotoController.php'],
         ];
     }
-    
+
     /**
      * @dataProvider getKeyPrefixProvider
      */

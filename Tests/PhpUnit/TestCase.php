@@ -9,9 +9,9 @@ use PHPUnit_Framework_TestCase as PhpUnitTestCase;
 class TestCase extends PhpUnitTestCase
 {
     /**
-     * 
      * @param object $object
      * @param string $property
+     *
      * @return mixed
      */
     protected function getInaccessibleProperty($object, $property)
@@ -20,15 +20,15 @@ class TestCase extends PhpUnitTestCase
         $reflectionProperty->setAccessible(true);
         $result = $reflectionProperty->getValue($object);
         $reflectionProperty->setAccessible(false);
-        
+
         return $result;
     }
-    
+
     /**
-     * 
      * @param object $object
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return TestCase
      */
     protected function setInaccessibleProperty($object, $property, $value)
@@ -37,15 +37,15 @@ class TestCase extends PhpUnitTestCase
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($object, $value);
         $reflectionProperty->setAccessible(false);
-        
+
         return $this;
     }
-    
+
     /**
-     * 
      * @param object $object
      * @param string $method
-     * @param mixed $args
+     * @param mixed  $args
+     *
      * @return mixed
      */
     protected function invokeInaccessibleMethod($object, $method, $args = [])
@@ -54,13 +54,13 @@ class TestCase extends PhpUnitTestCase
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invokeArgs($object, $args);
         $reflectionMethod->setAccessible(false);
-        
+
         return $result;
     }
-    
+
     /**
-     * 
      * @param string $resourceName
+     *
      * @return string
      */
     protected function getResource($resourceName)

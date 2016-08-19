@@ -3,7 +3,6 @@
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Dumper;
 
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\TraitExtractor;
 use Symfony\Component\Finder\Finder;
 
 class TraitExtractorTest extends TestCase
@@ -12,14 +11,14 @@ class TraitExtractorTest extends TestCase
 
     public function setUp()
     {
-        $this->instance = $this->getMockForTrait(TraitExtractor::class);
+        $this->instance = $this->getMockForTrait('PrestaShop\TranslationToolsBundle\Translation\Extractor\TraitExtractor');
     }
-    
+
     public function teaDown()
     {
         $this->instance = null;
     }
-    
+
     public function resolveDomainProvider()
     {
         return [
@@ -29,7 +28,7 @@ class TraitExtractorTest extends TestCase
             ['messages', null],
         ];
     }
-    
+
     /**
      * @dataProvider resolveDomainProvider
      */
@@ -44,31 +43,30 @@ class TraitExtractorTest extends TestCase
             [
                 'file' => 'product.html.twig',
                 'comment' => 'puff the cat',
-                'line' => 1
+                'line' => 1,
             ],
             [
                 'file' => 'product.html.twig',
                 'comment' => 'superPuff',
-                'line' => 10
-            ]
+                'line' => 10,
+            ],
         ];
 
         $this->assertEquals(
             'puff the cat',
             $this->invokeInaccessibleMethod($this->instance, 'getEntryComment', [$comments, 'product.html.twig', 1])
         );
-
     }
 
     public function testGetSetFinder()
     {
-        $finder = new Finder;
-        
+        $finder = new Finder();
+
         $this->assertSame($this->instance, $this->instance->setFinder($finder));
         $this->assertSame($finder, $this->getInaccessibleProperty($this->instance, 'finder'));
         $this->assertSame($finder, $this->instance->getFinder());
-        
+
         $this->setInaccessibleProperty($this->instance, 'finder', null);
-        $this->assertInstanceOf(Finder::class, $this->instance->getFinder());
+        $this->assertInstanceOf('Symfony\Component\Finder\Finder', $this->instance->getFinder());
     }
 }

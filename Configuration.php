@@ -57,7 +57,8 @@ class Configuration
      */
     public static function fromArray(array $arr)
     {
-        $options = (new OptionsResolver())->setRequired([
+        $optionsResolver = new OptionsResolver();
+        $options = $optionsResolver->setRequired([
             'paths',
             'exclude_files',
         ])
@@ -114,10 +115,13 @@ class Configuration
      */
     public static function getRelativePath($path)
     {
+        $realpath = realpath($path);
+        $path = empty($realpath) ? $path : $realpath;
+
         return preg_replace(
             sprintf('#^%s%s#', self::$projectDirectory, DIRECTORY_SEPARATOR),
             '',
-            empty(realpath($path)) ? $path : realpath($path)
+            $path
         );
     }
 

@@ -11,14 +11,14 @@ class MultilanguageCatalogTest extends TestCase
 
     public function setUp()
     {
-        $this->instance = new MultilanguageCatalog;
+        $this->instance = new MultilanguageCatalog();
     }
-    
+
     public function teaDown()
     {
         $this->instance = null;
     }
-    
+
     public function testGetSetHas()
     {
         $this->assertEquals(false, $this->instance->has('key'));

@@ -17,7 +17,7 @@ class TranslationNodeVisitorTest extends TestCase
             ->method('getAttribute')
             ->willReturn([
                 new Comment('//@yolo', '10'),
-                new Comment('//@todo', '14')
+                new Comment('//@todo', '14'),
             ]);
 
         $translationNodeVisitor->leaveNode($methodCall);
@@ -25,14 +25,13 @@ class TranslationNodeVisitorTest extends TestCase
             [
                 'line' => 10,
                 'comment' => '@yolo',
-                'file' => 'LegacyController.php'
+                'file' => 'LegacyController.php',
             ],
             [
                 'line' => 14,
                 'comment' => '@todo',
-                'file' => 'LegacyController.php'
-            ]
+                'file' => 'LegacyController.php',
+            ],
         ], $translationNodeVisitor->getComments());
-
     }
 }
