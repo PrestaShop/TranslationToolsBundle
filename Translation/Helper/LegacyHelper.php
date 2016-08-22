@@ -58,6 +58,16 @@ class LegacyHelper
                     },
                 ];
 
+            // when we get a simple theme
+            case preg_match('#themes/([A-Za-z0-9_-]+).+\.tpl$#', $inputFilename, $matches):
+                return [
+                    'file' => '/lang/[locale].php',
+                    'var' => '_LANG',
+                    'generateKey' => function ($string) use ($inputFilename) {
+                        return pathinfo(basename($inputFilename), PATHINFO_FILENAME).'_'.self::getKey($string);
+                    },
+                ];
+
             case preg_match('#override/classes/pdf/(?!index)\w+\.php$#', $inputFilename):
             case preg_match('#classes/pdf/(?!index)\w+\.php$#', $inputFilename):
                 return [
