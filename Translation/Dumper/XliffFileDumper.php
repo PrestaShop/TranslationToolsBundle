@@ -30,6 +30,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Dumper;
 use Locale;
 use Symfony\Component\Translation\Dumper\XliffFileDumper as BaseXliffFileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Filesystem\Filesystem;
 use PrestaShop\TranslationToolsBundle\Translation\Builder\XliffBuilder;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
 use PrestaShop\TranslationToolsBundle\Configuration;
@@ -73,7 +74,8 @@ class XliffFileDumper extends BaseXliffFileDumper
                 throw new \RuntimeException(sprintf('Unable to create directory "%s".', $directory));
             }
 
-            file_put_contents($fullpath, $this->formatCatalogue($messages, $domain, $options));
+            $fs = new Filesystem();
+            $fs->dumpFile($fullpath, $this->formatCatalogue($messages, $domain, $options));
         }
     }
 

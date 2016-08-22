@@ -31,6 +31,7 @@ use PrestaShop\TranslationToolsBundle\Translation\Builder\PhpBuilder;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\LegacyHelper;
 use Symfony\Component\Translation\Dumper\FileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PhpDumper extends FileDumper
 {
@@ -68,7 +69,8 @@ class PhpDumper extends FileDumper
                 throw new \RuntimeException(sprintf('Unable to create directory "%s".', $directory));
             }
 
-            file_put_contents($fullpath, $builder->build());
+            $fs = new Filesystem();
+            $fs->dumpFile($fullpath, $builder->build());
         }
     }
 
