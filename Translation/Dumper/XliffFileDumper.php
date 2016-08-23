@@ -126,4 +126,12 @@ class XliffFileDumper extends BaseXliffFileDumper
 
         return $context;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtension()
+    {
+        return 'xlf';
+    }
 }
