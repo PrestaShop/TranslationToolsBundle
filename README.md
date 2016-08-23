@@ -2,7 +2,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PrestaShop/TranslationToolsBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PrestaShop/TranslationToolsBundle/?branch=master)
 
-Embed Translation dumpers and extrators for PrestaShop eCommerce CMS.
+Embed Translation dumpers and extractors for PrestaShop eCommerce CMS.
 Can be also useful if you need to parse Smarty files.
 
 ## Installation
