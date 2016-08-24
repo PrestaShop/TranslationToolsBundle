@@ -54,12 +54,5 @@ services:
         tags:
           - { name: prestashop.translation.extractor, format: smarty }
 
-    prestashop.twig.extension.app:
-        class: PrestaShop\TranslationToolsBundle\Twig\Extension\AppExtension
-        arguments:
-            - "@translator"
-        tags:
-          - { name: twig.extension }
-          
     prestashop.dumper.xliff:
         class: PrestaShop\TranslationToolsBundle\Translation\Dumper\XliffFileDumper
