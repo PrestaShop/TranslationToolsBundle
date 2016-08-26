@@ -44,6 +44,8 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFunction('template_from_string', array($this, 'emptyFunction')),
             new \Twig_SimpleFunction('hookcount', array($this, 'emptyFunction')),
             new \Twig_SimpleFunction('getAdminLink', array($this, 'emptyFunction')),
+            new \Twig_SimpleFunction('youtube_link', array($this, 'emptyFunction')),
+            new \Twig_SimpleFunction('getTranslationsForms', array($this, 'emptyFunction')),
         );
     }
 
