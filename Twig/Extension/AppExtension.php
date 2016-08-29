@@ -32,6 +32,10 @@ class AppExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * We need to define and reset each twig function as the definition
+     * of theses function is stored in PrestaShop codebase.
+     */
     public function getFunctions()
     {
         return array(
@@ -44,6 +48,9 @@ class AppExtension extends \Twig_Extension
             new \Twig_SimpleFunction('template_from_string', array($this, 'emptyFunction')),
             new \Twig_SimpleFunction('hookcount', array($this, 'emptyFunction')),
             new \Twig_SimpleFunction('getAdminLink', array($this, 'emptyFunction')),
+            new \Twig_SimpleFunction('youtube_link', array($this, 'emptyFunction')),
+            new \Twig_SimpleFunction('getTranslationsForms', array($this, 'emptyFunction')),
+            new \Twig_SimpleFunction('getTranslationsTree', array($this, 'emptyFunction')),
         );
     }
 
