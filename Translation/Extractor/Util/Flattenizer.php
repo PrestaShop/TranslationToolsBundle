@@ -31,16 +31,17 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
- * This class have only one thing to do, transform:.
+ * This class have only one thing to do, transform:
  *
- * ├── Admin
- * │   └── Catalog
- * │        ├── Feature.en-US.xlf
- * │        ├── Help.en-US.xlf
- * │        └── Notification.en-US.xlf
- * └── Shop
- *      └── PDF.en-US.xlf
- * 
+ * en-US
+ *   ├── Admin
+ *   │   └── Catalog
+ *   │        ├── Feature.xlf
+ *   │        ├── Help.xlf
+ *   │        └── Notification.xlf
+ *   └── Shop
+ *        └── PDF.xlf
+ *
  *
  * Into:
  *
@@ -54,17 +55,22 @@ class Flattenizer
     /**
      * @input string $inputPath Path of directory to flattenize
      * @input string $outPath Location of flattenized files newly created
+     * @input string $locale Selected locale for theses files.
      */
-    public static function flatten($inputPath, $outputPath)
+    public static function flatten($inputPath, $outputPath, $locale)
     {
         $finder = new Finder();
         $filesystem = new Filesystem();
 
-        $filesystem->remove($outputPath)->mkdir($outputPath);
+        $filesystem->remove($outputPath);
+        $filesystem->mkdir($outputPath);
 
-        foreach ($finder->in($inputPath) as $file) {
-            $flatName = preg_replace('/\//', '', $file->getRelativePath()).$file->getFilename();
+        foreach ($finder->in($inputPath)->files() as $file) {
+            $flatName = preg_replace('#\/#', '', $file->getRelativePath()).$file->getFilename();
+            $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
             $filesystem->copy($file->getRealpath(), $outputPath.'/'.$flatName);
         }
+
+        return true;
     }
 }

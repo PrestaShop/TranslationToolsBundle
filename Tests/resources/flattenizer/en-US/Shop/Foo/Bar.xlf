@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="home/ubuntu/workspace/PrestaShop/src/PrestaShopBundle/Tests/resources/themes/fake-theme/templates/checkout/cart.tpl" source-language="en_US_POSIX" target-language="en-US" datatype="plaintext">
+    <body>
+      <trans-unit id="d1a2ba84e96d5baba4aff54f471d44d4">
+        <source>Cancel cart</source>
+        <target>Cancel cart</target>
+        <note>Context:
+File: home/ubuntu/workspace/PrestaShop/src/PrestaShopBundle/Tests/resources/themes/fake-theme/templates/checkout/cart.tpl:2</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
