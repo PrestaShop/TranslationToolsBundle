@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="home/ubuntu/workspace/PrestaShop/src/PrestaShopBundle/Tests/resources/themes/fake-theme/templates/catalog/product.tpl" source-language="en_US_POSIX" target-language="en-US" datatype="plaintext">
+    <body>
+      <trans-unit id="a38a66d53a6edc2d8e37bb36b45814ee">
+        <source>Show product</source>
+        <target>Show product</target>
+        <note>Context:
+File: home/ubuntu/workspace/PrestaShop/src/PrestaShopBundle/Tests/resources/themes/fake-theme/templates/catalog/product.tpl:1</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
