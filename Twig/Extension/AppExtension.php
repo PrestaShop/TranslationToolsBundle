@@ -3,8 +3,10 @@
 namespace PrestaShop\TranslationToolsBundle\Twig\Extension;
 
 use Symfony\Component\Translation\TranslatorInterface;
+use \Twig_Extension_InitRuntimeInterface;
+use \Twig_Environment;
 
-class AppExtension extends \Twig_Extension
+class AppExtension extends \Twig_Extension implements Twig_Extension_InitRuntimeInterface
 {
     /**
      * @var TranslatorInterface
@@ -21,15 +23,15 @@ class AppExtension extends \Twig_Extension
         $this->translation = $translation;
     }
 
-    public function getFilters()
+    public function initRuntime(Twig_Environment $environment)
     {
-        return array(
-            new \Twig_SimpleFilter('renderhook', array($this, 'emptyFunction')),
-            new \Twig_SimpleFilter('renderhooksarray', array($this, 'emptyFunction')),
-            new \Twig_SimpleFilter('configuration', array($this, 'emptyFunction')),
-            new \Twig_SimpleFilter('intCast', array($this, 'emptyFunction')),
-            new \Twig_SimpleFilter('arrayCast', array($this, 'emptyFunction')),
-        );
+        $environment->registerUndefinedFunctionCallback(function () {
+            return;
+        });
+
+        $environment->registerUndefinedFilterCallback(function() {
+            return;
+        });
     }
 
     /**
@@ -39,18 +41,7 @@ class AppExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('renderhook', array($this, 'emptyFunction')),
             new \Twig_SimpleFunction('renderhooksarray', array($this, 'transChoice')),
-            new \Twig_SimpleFunction('trans', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('transChoice', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('transchoice', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('getLegacyLayout', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('template_from_string', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('hookcount', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('getAdminLink', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('youtube_link', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('getTranslationsForms', array($this, 'emptyFunction')),
-            new \Twig_SimpleFunction('getTranslationsTree', array($this, 'emptyFunction')),
         );
     }
 
@@ -62,11 +53,6 @@ class AppExtension extends \Twig_Extension
     public function transChoice($string)
     {
         return $this->translation->transChoice($string);
-    }
-
-    public function emptyFunction()
-    {
-        return;
     }
 
     /**
