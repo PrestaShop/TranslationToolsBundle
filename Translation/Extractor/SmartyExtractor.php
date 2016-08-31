@@ -74,10 +74,11 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     {
         foreach ($this->smartyCompiler->setTemplateFile($resource->getPathname())->getTranslationTags() as $translation) {
             $domain = $this->resolveDomain(isset($translation['tag']['d']) ? $translation['tag']['d'] : null);
+            $string = stripslashes($translation['tag']['s']);
 
-            $catalogue->set($this->prefix.$translation['tag']['s'], $translation['tag']['s'], $domain);
+            $catalogue->set($this->prefix.$string, $string, $domain);
             $catalogue->setMetadata(
-                $this->prefix.$translation['tag']['s'],
+                $this->prefix.$string,
                 [
                     'line' => $translation['line'],
                     'file' => $translation['template'],
