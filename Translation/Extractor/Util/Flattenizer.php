@@ -56,14 +56,17 @@ class Flattenizer
      * @input string $inputPath Path of directory to flattenize
      * @input string $outPath Location of flattenized files newly created
      * @input string $locale Selected locale for theses files.
+     * @input boolean $cleanPath Clean input path after flatten.
      */
-    public static function flatten($inputPath, $outputPath, $locale)
+    public static function flatten($inputPath, $outputPath, $locale, $cleanPath = true)
     {
         $finder = new Finder();
         $filesystem = new Filesystem();
 
-        $filesystem->remove($outputPath);
-        $filesystem->mkdir($outputPath);
+        if ($cleanPath) {
+            $filesystem->remove($outputPath);
+            $filesystem->mkdir($outputPath);
+        }
 
         foreach ($finder->in($inputPath)->files() as $file) {
             $flatName = preg_replace('#\/#', '', $file->getRelativePath()).$file->getFilename();
