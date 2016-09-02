@@ -43,4 +43,12 @@ class PhpExtractorTest extends TestCase
         $this->assertTrue($messageCatalogue->has('Successful deletion'));
         $this->assertArrayHasKey('Prestashop', $messageCatalogue->all('Domain'));
     }
+
+    public function testExtractEmails()
+    {
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor->extract($this->getResource('fixtures/TestExtractEmails.php'), $messageCatalogue);
+
+        $this->assertTrue($messageCatalogue->has('Always keep your account details safe.', 'Emails'));
+    }
 }

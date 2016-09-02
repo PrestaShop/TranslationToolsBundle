@@ -30,6 +30,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Arg;
 
@@ -40,7 +41,7 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
     /**
      * @var array
      */
-    protected $supportMethods = ['l', 'trans'];
+    protected $supportMethods = ['l', 'trans', 't'];
 
     /**
      * @var array
@@ -79,21 +80,26 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
             }
         }
 
-        if ($node instanceof MethodCall) {
-            if (!is_string($node->name) || empty($node->args)) {
+        if ($node instanceof MethodCall || $node instanceof FuncCall) {
+            if ((!is_string($node->name) && !is_a($node->name, 'PhpParser\Node\Name')) || empty($node->args)) {
                 return;
+            } elseif (is_a($node->name, 'PhpParser\Node\Name')) {
+                $nodeName = $node->name->parts[0];
+            } else {
+                $nodeName = $node->name;
             }
 
             $key = $this->getValue($node->args[0]);
-
-            if (in_array($node->name, $this->supportMethods) && !empty($key)) {
+            if (in_array($nodeName, $this->supportMethods) && !empty($key)) {
                 $translation = [
                     'source' => $key,
                     'line' => $node->args[0]->getLine(),
                 ];
 
-                if ($node->name == 'trans' && count($node->args) > 2 && $node->args[2]->value instanceof String_) {
+                if ($nodeName == 'trans' && count($node->args) > 2 && $node->args[2]->value instanceof String_) {
                     $translation['domain'] = $node->args[2]->value->value;
+                } elseif ($nodeName == 't') {
+                    $translation['domain'] = 'Emails';
                 }
 
                 $this->translations[] = $translation;
