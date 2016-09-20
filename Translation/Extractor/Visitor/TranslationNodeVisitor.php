@@ -99,7 +99,7 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
                 if ($nodeName == 'trans' && count($node->args) > 2 && $node->args[2]->value instanceof String_) {
                     $translation['domain'] = $node->args[2]->value->value;
                 } elseif ($nodeName == 't') {
-                    $translation['domain'] = 'Emails';
+                    $translation['domain'] = 'Emails.Body';
                 }
 
                 $this->translations[] = $translation;
