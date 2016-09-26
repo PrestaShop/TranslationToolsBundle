@@ -54,7 +54,7 @@ class Flattenizer
 {
     /**
      * @input string $inputPath Path of directory to flattenize
-     * @input string $outPath Location of flattenized files newly created
+     * @input string $outputPath Location of flattenized files newly created
      * @input string $locale Selected locale for theses files.
      * @input boolean $cleanPath Clean input path after flatten.
      */
@@ -68,12 +68,28 @@ class Flattenizer
             $filesystem->mkdir($outputPath);
         }
 
-        foreach ($finder->in($inputPath)->files() as $file) {
+        return self::flattenFiles($finder->in($inputPath)->files(), $outputPath, $locale, $filesystem);
+    }
+
+    /**
+     * @param SplFileInfo $files List of files to flattenize
+     * @param string $outputPath Location of flattenized files newly created
+     * @param string $locale Selected locale for theses files
+     * @param Filesystem $filesystem Instance of Filesystem
+     * @param bool $addLocale Should add the locale to filename
+     * @return bool
+     */
+    public static function flattenFiles($files, $outputPath, $locale, $filesystem, $addLocale = true)
+    {
+        foreach ($files as $file) {
             $flatName = preg_replace('#\/#', '', $file->getRelativePath()).$file->getFilename();
-            $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
+
+            if ($addLocale) {
+                $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
+            }
+
             $filesystem->copy($file->getRealpath(), $outputPath.'/'.$flatName);
         }
-
         return true;
     }
 }
