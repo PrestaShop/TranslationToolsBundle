@@ -68,12 +68,20 @@ class Flattenizer
             $filesystem->mkdir($outputPath);
         }
 
-        foreach ($finder->in($inputPath)->files() as $file) {
+        return self::flattenFiles($finder->in($inputPath)->files(), $outputPath, $locale, $filesystem);
+    }
+
+    public static function flattenFiles($files, $outputPath, $locale, $filesystem, $addLocale = true)
+    {
+        foreach ($files as $file) {
             $flatName = preg_replace('#\/#', '', $file->getRelativePath()).$file->getFilename();
-            $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
+
+            if ($addLocale) {
+                $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
+            }
+
             $filesystem->copy($file->getRealpath(), $outputPath.'/'.$flatName);
         }
-
         return true;
     }
 }
