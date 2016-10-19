@@ -52,6 +52,10 @@ use Symfony\Component\Finder\Finder;
  */
 class Flattenizer
 {
+    public static $finder = null;
+
+    public static $filesystem = null;
+
     /**
      * @input string $inputPath Path of directory to flattenize
      * @input string $outputPath Location of flattenized files newly created
@@ -60,8 +64,16 @@ class Flattenizer
      */
     public static function flatten($inputPath, $outputPath, $locale, $cleanPath = true)
     {
-        $finder = new Finder();
-        $filesystem = new Filesystem();
+        $finder = self::$finder;
+        $filesystem = self::$filesystem;
+
+        if (is_null(self::$finder)) {
+            $finder = new Finder();
+        }
+
+        if (is_null(self::$filesystem)) {
+            $filesystem = new Filesystem();
+        }
 
         if ($cleanPath) {
             $filesystem->remove($outputPath);
