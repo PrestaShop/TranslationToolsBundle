@@ -119,7 +119,7 @@ class Configuration
         $path = empty($realpath) ? $path : $realpath;
 
         return preg_replace(
-            sprintf('#^%s%s#', self::$projectDirectory, DIRECTORY_SEPARATOR),
+            sprintf('#^%s%s$#', self::$projectDirectory, DIRECTORY_SEPARATOR),
             '',
             $path
         );
