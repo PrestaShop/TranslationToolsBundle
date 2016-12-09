@@ -2,6 +2,7 @@
 
 namespace  PrestaShop\TranslationToolsBundle;
 
+use Symfony\Component\Console\Application;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PrestaShop\TranslationToolsBundle\DependencyInjection\CompilerPass\ExtractorCompilerPass;
@@ -14,4 +15,10 @@ class TranslationToolsBundle extends Bundle
         $container->addCompilerPass(new ExtractorCompilerPass());
         $container->addCompilerPass(new TranslationCompilerPass());
     }
+
+        public function registerCommands(Application $application)
+        {
+            // disable registering of commands
+            return;
+        }
 }

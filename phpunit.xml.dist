@@ -30,4 +30,8 @@
         </whitelist>
     </filter>
 
+    <php>
+        <server name="KERNEL_DIR" value="Tests/Kernel" />
+    </php>
+
 </phpunit>
