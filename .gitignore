@@ -3,3 +3,6 @@ vendor/
 composer.lock
 phpunit.xml
 build/
+Tests/Kernel/cache
+Tests/Kernel/dumps
+Tests/Kernel/logs

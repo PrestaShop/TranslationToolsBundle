@@ -1,0 +1,15 @@
+parameters:
+    locale: 'en'
+    translation.dir_dump: '%kernel.root_dir%/dumps'
+
+framework:
+    secret:        s3cr3t
+    test: ~
+    profiler:      { only_exceptions: false }
+    validation:    { enabled: false, enable_annotations: false }
+    session:
+        storage_id: session.storage.filesystem
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"

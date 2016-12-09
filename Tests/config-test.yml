@@ -1,0 +1,20 @@
+cache_dir: var/cache/test
+paths:
+  - classes
+  - controllers
+  - admin-dev
+  - modules
+  - src
+  - override
+  - install-dev
+  - themes
+  - pdf
+exclude_files:
+  - classes/PrestaShopAutoload.php
+  - app/cache/
+  - app/logs
+  - node_modules
+  - vendor
+  - tools
+  - mails
+  - js
