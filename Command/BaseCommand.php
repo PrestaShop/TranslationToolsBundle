@@ -68,9 +68,11 @@ abstract class BaseCommand extends ContainerAwareCommand
         $downloader = $this->getContainer()->get('crowdin.download')
             ->setPackage($input->getOption('package').'.zip')
             ->setCopyDestination(Configuration::getCacheDir());
+        
+        $branch = $input->getOption('branch');
 
-        if (!empty($input->getOption('branch'))) {
-            $downloader->setBranch($input->getOption('branch'));
+        if (!empty($branch)) {
+            $downloader->setBranch($branch);
         }
 
         $downloader->execute();
