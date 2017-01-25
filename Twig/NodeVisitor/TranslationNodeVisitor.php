@@ -41,7 +41,7 @@ class TranslationNodeVisitor extends BaseTranslationNodeVisitor
             $this->messages[] = array(
                 $node->getNode('node')->getAttribute('value'),
                 $this->getReadDomainFromArguments($node->getNode('arguments'), 1),
-                'line' => $node->getTemplateLine(),
+                'line' => $node->getLine(),
             );
         } elseif (
             $node instanceof \Twig_Node_Expression_Filter &&
