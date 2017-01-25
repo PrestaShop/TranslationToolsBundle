@@ -28,6 +28,11 @@
     "PrestaShop/smarty": "dev-master",
     "nikic/php-parser": "^2.1"
   },
+  "config": {
+    "platform": {
+      "php": "5.4.0"
+    }
+  },
   "require-dev": {
     "symfony/framework-bundle": "^2.8",
     "phpunit/phpunit": "~4.8",
