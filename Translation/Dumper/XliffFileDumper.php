@@ -94,10 +94,12 @@ class XliffFileDumper extends BaseXliffFileDumper
         $xliffBuilder->setVersion('1.2');
 
         foreach ($messages->all($domain) as $source => $target) {
+          if (!empty($source)) {
             $metadata = $messages->getMetadata($source, $domain);
             $metadata['file'] = Configuration::getRelativePath($metadata['file']);
             $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
             $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
+          }
         }
 
         return html_entity_decode($xliffBuilder->build()->saveXML());
