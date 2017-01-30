@@ -123,7 +123,11 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
                 );
             }
         } catch (\PhpParser\Error $e) {
-            throw new \Exception('Parse Error: ', $e->getMessage());
+            throw new \Exception(
+                sprintf('Could not parse tokens in "%s" file. Is it syntactically valid?', $file),
+                $e->getCode(),
+                $e
+            );
         }
     }
 
