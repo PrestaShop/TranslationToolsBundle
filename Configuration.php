@@ -110,19 +110,22 @@ class Configuration
 
     /**
      * @param string $path
+     * @param string|bool $rootDir
      *
      * @return string
      */
-    public static function getRelativePath($path)
+    public static function getRelativePath($path, $rootDir = false)
     {
         $realpath = realpath($path);
         $path = empty($realpath) ? $path : $realpath;
 
-        return preg_replace(
-            sprintf('#^%s%s$#', self::$projectDirectory, DIRECTORY_SEPARATOR),
-            '',
-            $path
-        );
+        if (!empty($rootDir)) {
+            $rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        } else {
+            $rootDir = '';
+        }
+
+        return str_replace($rootDir, '', $path);
     }
 
     /**
