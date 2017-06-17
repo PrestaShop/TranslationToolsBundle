@@ -29,6 +29,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 
