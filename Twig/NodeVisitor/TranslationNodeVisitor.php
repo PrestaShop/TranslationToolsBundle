@@ -41,7 +41,7 @@ class TranslationNodeVisitor extends BaseTranslationNodeVisitor
             $this->messages[] = array(
                 $node->getNode('node')->getAttribute('value'),
                 $this->getReadDomainFromArguments($node->getNode('arguments'), 1),
-                'line' => $node->getLine(),
+                'line' => $node->getTemplateLine(),
             );
         } elseif (
             $node instanceof \Twig_Node_Expression_Filter &&
@@ -52,14 +52,14 @@ class TranslationNodeVisitor extends BaseTranslationNodeVisitor
             $this->messages[] = array(
                 $node->getNode('node')->getAttribute('value'),
                 $this->getReadDomainFromArguments($node->getNode('arguments'), 2),
-                'line' => $node->getLine(),
+                'line' => $node->getTemplateLine(),
             );
         } elseif ($node instanceof TransNode) {
             // extract trans nodes
             $this->messages[] = array(
                 $node->getNode('body')->getAttribute('data'),
                 $this->getReadDomainFromNode($node->getNode('domain')),
-                'line' => $node->getLine(),
+                'line' => $node->getTemplateLine(),
             );
         }
 
