@@ -76,9 +76,17 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
                 $this->extractTemplateFile($file, $catalogue);
             } catch (\Twig_Error $e) {
                 if ($file instanceof SplFileInfo) {
-                    $e->setTemplateFile($file->getRelativePathname());
+                    $e->setSourceContext(new \Twig_Source(
+                        $e->getSourceContext()->getCode(),
+                        $e->getSourceContext()->getName(),
+                        $file->getRelativePathname()
+                    ));
                 } elseif ($file instanceof \SplFileInfo) {
-                    $e->setTemplateFile($file->getRealPath());
+                    $e->setSourceContext(new \Twig_Source(
+                        $e->getSourceContext()->getCode(),
+                        $e->getSourceContext()->getName(),
+                        $file->getRealPath()
+                    ));
                 }
 
                 throw $e;
