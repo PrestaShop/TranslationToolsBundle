@@ -52,6 +52,11 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     private $twig;
 
     /**
+     * @var \Twig_Lexer
+     */
+    private $twigLexer;
+
+    /**
      * The twig environment.
      *
      * @var \Twig_Environment
@@ -59,6 +64,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
+        $this->twigLexer = new \Twig_Lexer($this->twig);
     }
 
     /**
@@ -111,7 +117,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $tokens = $this->twig->tokenize(file_get_contents($file->getPathname()), $file->getFilename());
         $this->twig->parse($tokens);
 
-        $comments = $this->twig->getLexer()->getComments();
+        $comments = $this->twigLexer->getComments();
 
         foreach ($visitor->getMessages() as $message) {
             $domain = $this->resolveDomain(isset($message[1]) ? $message[1] : null);
