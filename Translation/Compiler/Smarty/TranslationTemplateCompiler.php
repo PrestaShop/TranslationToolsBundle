@@ -38,10 +38,10 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
 {
     /**
      *  Inherited from Smarty_Internal_TemplateCompilerBase.
-     * 
+     *
      * @var Smarty_Internal_Template
      * @var bool                     $inheritance_child
-     * 
+     *
      * Inherited from Smarty_Internal_SmartyTemplateCompiler
      * @var Smarty $smarty
      * @var string $lexer_class
@@ -147,7 +147,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
             case Smarty_Internal_Templateparser::TP_COMMENT:
                 return trim($string, " \t\n\r\0\x0B{*}");
             default:
-                return trim($string, '{}\'"');
+                return substr($string, 1, -1);
         }
     }
 
