@@ -29,6 +29,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 
@@ -51,6 +52,11 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     private $twig;
 
     /**
+     * @var \Twig_Lexer
+     */
+    private $twigLexer;
+
+    /**
      * The twig environment.
      *
      * @var \Twig_Environment
@@ -58,6 +64,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
+        $this->twigLexer = new \Twig_Lexer($this->twig);
     }
 
     /**
@@ -75,9 +82,17 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
                 $this->extractTemplateFile($file, $catalogue);
             } catch (\Twig_Error $e) {
                 if ($file instanceof SplFileInfo) {
-                    $e->setTemplateFile($file->getRelativePathname());
+                    $e->setSourceContext(new \Twig_Source(
+                        $e->getSourceContext()->getCode(),
+                        $e->getSourceContext()->getName(),
+                        $file->getRelativePathname()
+                    ));
                 } elseif ($file instanceof \SplFileInfo) {
-                    $e->setTemplateFile($file->getRealPath());
+                    $e->setSourceContext(new \Twig_Source(
+                        $e->getSourceContext()->getCode(),
+                        $e->getSourceContext()->getName(),
+                        $file->getRealPath()
+                    ));
                 }
 
                 throw $e;
@@ -102,7 +117,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $tokens = $this->twig->tokenize(file_get_contents($file->getPathname()), $file->getFilename());
         $this->twig->parse($tokens);
 
-        $comments = $this->twig->getLexer()->getComments();
+        $comments = $this->twigLexer->getComments();
 
         foreach ($visitor->getMessages() as $message) {
             $domain = $this->resolveDomain(isset($message[1]) ? $message[1] : null);
