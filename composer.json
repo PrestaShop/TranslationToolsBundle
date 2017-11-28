@@ -7,7 +7,7 @@
   "authors": [
     {
       "name": "Mickaël Andrieu",
-      "email": "andrieu.travail@gmail.com"
+      "email": "mickael.andrieu@solvolabs.com"
     },
     {
       "name": "Nawo Mbechezi",
@@ -26,7 +26,8 @@
   "require": {
     "php": ">=5.4",
     "PrestaShop/smarty": "dev-master",
-    "nikic/php-parser": "^2.1"
+    "nikic/php-parser": "^2.1",
+    "twig/twig": "~1.27|~2.0"
   },
   "config": {
     "platform": {
@@ -34,7 +35,7 @@
     }
   },
   "require-dev": {
-    "symfony/framework-bundle": "^2.8",
+    "symfony/framework-bundle": "^2.8|^3.0",
     "phpunit/phpunit": "~4.8",
     "symfony/phpunit-bridge": "^2.8|^3.0"
   }
