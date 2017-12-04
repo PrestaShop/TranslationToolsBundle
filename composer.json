@@ -27,12 +27,13 @@
     "php": "^5.4 || ^7.1",
     "PrestaShop/smarty": "dev-master",
     "nikic/php-parser": "^2.1",
-    "twig/twig": "^1.34",
-    "symfony/twig-bridge": "^2.8"
+    "twig/twig": "^1.34 || ^2.0",
+    "symfony/twig-bridge": "^2.8 || ^3.0"
   },
   "require-dev": {
-    "symfony/framework-bundle": "^2.8",
-    "phpunit/phpunit": "~4.8",
-    "symfony/phpunit-bridge": "^2.8|^3.0"
+    "symfony/framework-bundle": "^2.8 || ^3.0",
+    "symfony/translation": "^2.8 || ^3.0",
+    "doctrine/common":  "~2.5.3",
+    "phpunit/phpunit": "~4.8"
   }
 }
