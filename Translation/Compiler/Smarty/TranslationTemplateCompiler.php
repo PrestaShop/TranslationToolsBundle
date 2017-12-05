@@ -87,7 +87,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
                 }
 
                 $this->parser->doParse($this->lex->token, $this->lex->value);
-                if ($this->lex->token === Smarty_Internal_Templateparser::TP_COMMENT) {
+                if ($this->lex->token === Smarty_Internal_Templateparser::TP_TEXT) {
                     $comment = [
                         'line' => $this->lex->line,
                         'value' => $this->lex->value,
@@ -126,6 +126,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
           tags in the templates are replaces with PHP code,
           then written to compiled files. */
         // init the lexer/parser to compile the template
+        $this->parent_compiler = $this;
         $this->template = new Smarty_Internal_Template($this->templateFile, $this->smarty);
         $this->lex = new $this->lexer_class(file_get_contents($this->templateFile), $this);
         $this->parser = new $this->parser_class($this->lex, $this);
@@ -144,7 +145,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
     private function naturalize($string, $token = null)
     {
         switch ($token) {
-            case Smarty_Internal_Templateparser::TP_COMMENT:
+            case Smarty_Internal_Templateparser::TP_TEXT:
                 return trim($string, " \t\n\r\0\x0B{*}");
             default:
                 return substr($string, 1, -1);
@@ -198,7 +199,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
         ];
 
         if (!empty($previousComment) && $previousComment['line'] == $tag['line'] - 1) {
-            $tag['comment'] = $this->naturalize($previousComment['value'], Smarty_Internal_Templateparser::TP_COMMENT);
+            $tag['comment'] = $this->naturalize($previousComment['value'], Smarty_Internal_Templateparser::TP_TEXT);
         }
 
         return $tag;

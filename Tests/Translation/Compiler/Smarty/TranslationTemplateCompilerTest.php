@@ -159,10 +159,10 @@ class TranslationTemplateCompilerTest extends TestCase
         return [
             ['String', ["'String'"]],
             ['tag', ['{tag}']],
-            ['tag', ['{tag}', Smarty_Internal_Templateparser::TP_COMMENT]],
-            ['tag', ['{*tag*}', Smarty_Internal_Templateparser::TP_COMMENT]],
-            ['tag', ['{* tag*}', Smarty_Internal_Templateparser::TP_COMMENT]],
-            ['tag', ['{* tag *}', Smarty_Internal_Templateparser::TP_COMMENT]],
+            ['tag', ['{tag}', Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{*tag*}', Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{* tag*}', Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{* tag *}', Smarty_Internal_Templateparser::TP_TEXT]],
         ];
     }
 

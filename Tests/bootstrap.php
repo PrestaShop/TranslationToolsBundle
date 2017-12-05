@@ -14,8 +14,4 @@ EOT
     );
 }
 
-// include smarty custom autoloader
-$smartyLoader = require __DIR__.'/../vendor/prestashop/smarty/Autoloader.php';
-Smarty_Autoloader::register();
-
 AnnotationRegistry::registerLoader('class_exists');
