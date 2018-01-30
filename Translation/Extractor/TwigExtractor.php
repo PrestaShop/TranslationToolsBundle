@@ -52,7 +52,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     private $twig;
 
     /**
-     * @var \Twig_Lexer
+     * @var Lexer
      */
     private $twigLexer;
 
@@ -64,7 +64,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;
-        $this->twigLexer = new \Twig_Lexer($this->twig);
+        $this->twigLexer = new Lexer($this->twig);
     }
 
     /**
