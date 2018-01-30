@@ -93,7 +93,12 @@ class Flattenizer
      */
     public static function flattenFiles($files, $outputPath, $locale, $filesystem, $addLocale = true)
     {
+        $tmp_files = array();
         foreach ($files as $file) {
+            $tmp_files[] = $file;
+        }
+        
+        foreach ($tmp_files as $file) {
             $flatName = preg_replace('#[\/\\\]#', '', $file->getRelativePath()).$file->getFilename();
 
             if ($addLocale) {
