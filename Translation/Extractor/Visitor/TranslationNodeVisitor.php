@@ -96,8 +96,13 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
                     'line' => $node->args[0]->getLine(),
                 ];
 
-                if ($nodeName == 'trans' && count($node->args) > 2 && $node->args[2]->value instanceof String_) {
-                    $translation['domain'] = $node->args[2]->value->value;
+                if ($nodeName == 'trans') {
+                    // First line is Symfony Style, second is Prestashop FrameworkBundle Style
+                    if (count($node->args) > 2 && $node->args[2]->value instanceof String_) {
+                        $translation['domain'] = $node->args[2]->value->value;
+                    } elseif (count($node->args) > 1 && $node->args[1]->value instanceof String_) {
+                        $translation['domain'] = $node->args[1]->value->value;
+                    }
                 } elseif ($nodeName == 't') {
                     $translation['domain'] = 'Emails.Body';
                 }
