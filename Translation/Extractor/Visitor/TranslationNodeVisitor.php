@@ -68,48 +68,12 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
      */
     public function leaveNode(Node $node)
     {
-        $comments = $node->getAttribute('comments');
+        $this->tryExtractComments($node);
 
-        if (is_array($comments)) {
-            foreach ($comments as $comment) {
-                $this->comments[] = [
-                    'line' => $comment->getLine(),
-                    'file' => $this->file,
-                    'comment' => trim($comment->getText(), " \t\n\r\0\x0B/*"),
-                ];
-            }
-        }
-
-        if ($node instanceof MethodCall || $node instanceof FuncCall) {
-            if ((!is_string($node->name) && !is_a($node->name, 'PhpParser\Node\Name')) || empty($node->args)) {
-                return;
-            } elseif (is_a($node->name, 'PhpParser\Node\Name')) {
-                $nodeName = $node->name->parts[0];
-            } else {
-                $nodeName = $node->name;
-            }
-
-            $key = $this->getValue($node->args[0]);
-            if (in_array($nodeName, $this->supportMethods) && !empty($key)) {
-                $translation = [
-                    'source' => $key,
-                    'line' => $node->args[0]->getLine(),
-                ];
-
-                if ($nodeName == 'trans') {
-                    // First line is Symfony Style, second is Prestashop FrameworkBundle Style
-                    if (count($node->args) > 2 && $node->args[2]->value instanceof String_) {
-                        $translation['domain'] = $node->args[2]->value->value;
-                    } elseif (count($node->args) > 1 && $node->args[1]->value instanceof String_) {
-                        $translation['domain'] = $node->args[1]->value->value;
-                    }
-                } elseif ($nodeName == 't') {
-                    $translation['domain'] = 'Emails.Body';
-                }
-
-                $this->translations[] = $translation;
-            }
-        }
+        (
+            $this->tryExtractTranslationFromMethod($node)
+            || $this->tryExtractTranslationFromArray($node)
+        );
     }
 
     /**
@@ -140,5 +104,146 @@ class TranslationNodeVisitor extends NodeVisitorAbstract
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * @param Node $node
+     */
+    private function tryExtractComments(Node $node)
+    {
+        $comments = $node->getAttribute('comments');
+
+        if (is_array($comments)) {
+            foreach ($comments as $comment) {
+                $this->comments[] = [
+                    'line'    => $comment->getLine(),
+                    'file'    => $this->file,
+                    'comment' => trim($comment->getText(), " \t\n\r\0\x0B/*"),
+                ];
+            }
+        }
+    }
+
+    /**
+     * @param Node $node
+     *
+     * @return bool True if it was a method
+     */
+    private function tryExtractTranslationFromMethod(Node $node)
+    {
+        if (!($node instanceof MethodCall || $node instanceof FuncCall)) {
+            return false;
+        }
+
+        if ((!is_string($node->name) && !is_a($node->name, 'PhpParser\Node\Name')) || empty($node->args)) {
+            return false;
+        }
+
+        if (is_a($node->name, 'PhpParser\Node\Name')) {
+            $nodeName = $node->name->parts[0];
+        } else {
+            $nodeName = $node->name;
+        }
+
+        $key = $this->getValue($node->args[0]);
+        if (in_array($nodeName, $this->supportMethods) && !empty($key)) {
+            $translation = [
+                'source' => $key,
+                'line'   => $node->args[0]->getLine(),
+            ];
+
+            if ($nodeName == 'trans') {
+                // First line is Symfony Style, second is Prestashop FrameworkBundle Style
+                if (count($node->args) > 2 && $node->args[2]->value instanceof String_) {
+                    $translation['domain'] = $node->args[2]->value->value;
+                } elseif (count($node->args) > 1 && $node->args[1]->value instanceof String_) {
+                    $translation['domain'] = $node->args[1]->value->value;
+                }
+            } elseif ($nodeName == 't') {
+                $translation['domain'] = 'Emails.Body';
+            }
+
+            $this->translations[] = $translation;
+        }
+        return true;
+    }
+
+    /**
+     * This method looks for arrays like this:
+     *
+     * ```php
+     * [
+     *     'key' => 'This text is lonely',
+     *     'parameters' => [],
+     *     'domain' => 'Admin.Notifications.Error',
+     * ]
+     *
+     * [
+     *     'key' => 'This text is lonely',
+     *     'domain' => 'Admin.Notifications.Error',
+     * ]
+     * ```
+     *
+     * Parameters can be in any order
+     *
+     * @param Node $node
+     *
+     * @return bool
+     */
+    private function tryExtractTranslationFromArray(Node $node)
+    {
+        if (!$node instanceof Node\Expr\Array_) {
+            return false;
+        }
+
+        $countItems = count($node->items);
+
+        if (!(in_array($countItems, [2, 3]))) {
+            return false;
+        }
+
+        $translation = [
+            'source' => null,
+            'domain' => null,
+            'line'   => $node->getAttribute('startLine')
+        ];
+
+        $parametersFound = false;
+        foreach ($node->items as $item) {
+            if (!($item instanceof Node\Expr\ArrayItem && $item->key instanceof String_)) {
+                return false;
+            }
+
+            switch($item->key->value) {
+                case 'key':
+                    if (!$item->value instanceof String_) {
+                        return false;
+                    }
+                    $translation['source'] = $item->value->value;
+                    continue 2;
+
+                case 'domain':
+                    if (!$item->value instanceof String_) {
+                        return false;
+                    }
+                    $translation['domain'] = $item->value->value;
+                    continue 2;
+
+                case 'parameters':
+                    $parametersFound = true;
+                    continue 2;
+            }
+
+            // break if the key isn't one of the three above
+            return false;
+        }
+
+        if ($translation['source'] === null || $translation['domain'] === null || ($countItems === 3 && !$parametersFound)) {
+            return false;
+        }
+
+        $this->translations[] = $translation;
+
+        return true;
     }
 }
