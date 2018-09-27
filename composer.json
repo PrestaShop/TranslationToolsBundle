@@ -32,7 +32,7 @@
   "require": {
     "php": ">=5.6",
     "smarty/smarty": "^3.1",
-    "nikic/php-parser": "^2.1",
+    "nikic/php-parser": "^3",
     "twig/twig": "^1.34 || ^2.0",
     "symfony/twig-bridge": "^3.0"
   },
