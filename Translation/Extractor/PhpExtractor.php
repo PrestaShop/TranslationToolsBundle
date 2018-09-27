@@ -27,14 +27,17 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\FormNodeVisitor;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ArrayTranslationDefinition;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ExplicitTranslationCall;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 use PhpParser\ParserFactory;
 use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\TranslationNodeVisitor;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNodeVisitor;
 
 class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
@@ -104,17 +107,28 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     {
         $code = file_get_contents($file);
 
-        $nodeVisitor = new TranslationNodeVisitor($file->getFilename());
+        $translationCollection = new TranslationCollection();
+        $commentsNodeVisitor = new CommentsNodeVisitor($file->getFilename());
+
+        $translationVisitors = [
+            new ArrayTranslationDefinition($translationCollection),
+            new ExplicitTranslationCall($translationCollection),
+        ];
+
         $traverser = new NodeTraverser();
-        $traverser->addVisitor($nodeVisitor);
+        $traverser->addVisitor($commentsNodeVisitor);
+        foreach ($translationVisitors as $visitor) {
+            $traverser->addVisitor($visitor);
+        }
+
 
         try {
             $stmts = $this->parser->parse($code);
             $traverser->traverse($stmts);
 
-            $comments = $nodeVisitor->getComments();
+            $comments = $commentsNodeVisitor->getComments();
 
-            foreach ($nodeVisitor->getTranslations() as $translation) {
+            foreach ($translationCollection->getTranslations() as $translation) {
                 $translation['domain'] = empty($translation['domain'])
                     ? $this->resolveDomain(null)
                     : $translation['domain'];

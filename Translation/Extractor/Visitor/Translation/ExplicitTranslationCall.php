@@ -1,21 +1,26 @@
 <?php
 
-namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Analyzer;
+namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation;
 
 use PhpParser\Node;
 
 /**
  * Looks up for a translation call using l(), trans() or t()
  */
-class ExplicitTranslationCall implements AnalyzerInterface
+class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 {
 
     const SUPPORTED_METHODS = ['l', 'trans', 't'];
 
+    public function leaveNode(Node $node)
+    {
+        $this->translations->add($this->extractFrom($node));
+    }
+
     /**
      * @inheritdoc
      */
-    public function getTranslations(Node $node)
+    public function extractFrom(Node $node)
     {
         if (!$this->appliesFor($node)) {
             return [];

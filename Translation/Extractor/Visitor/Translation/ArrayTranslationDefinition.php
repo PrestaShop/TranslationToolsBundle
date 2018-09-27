@@ -1,9 +1,11 @@
 <?php
 
-namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Analyzer;
+namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation;
 
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\NodeVisitorAbstract;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
 
 /**
  * This class looks for arrays like this:
@@ -23,12 +25,20 @@ use PhpParser\Node\Scalar\String_;
  *
  * Parameters can be in any order
  */
-class ArrayTranslationDefinition implements AnalyzerInterface
+class ArrayTranslationDefinition extends AbstractTranslationNodeVisitor
 {
+
+    public function leaveNode(Node $node)
+    {
+        $this->translations->add($this->extractFrom($node));
+    }
+
     /**
-     * @inheritDoc
+     * @param Node $node
+     *
+     * @return array Array of translations to add
      */
-    public function getTranslations(Node $node)
+    public function extractFrom(Node $node)
     {
         if (!$this->appliesFor($node)) {
             return [];
