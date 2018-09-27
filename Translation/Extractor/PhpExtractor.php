@@ -27,6 +27,7 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\FormNodeVisitor;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -58,11 +59,17 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 
     public function __construct()
     {
-        $lexer = new Lexer(array(
-            'usedAttributes' => array(
-                'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos',
-            ),
-        ));
+        $lexer = new Lexer(
+            array(
+                'usedAttributes' => array(
+                    'comments',
+                    'startLine',
+                    'endLine',
+                    'startTokenPos',
+                    'endTokenPos',
+                ),
+            )
+        );
 
         $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
     }
@@ -108,10 +115,22 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
             $comments = $nodeVisitor->getComments();
 
             foreach ($nodeVisitor->getTranslations() as $translation) {
-                $translation['domain'] = empty($translation['domain']) ? $this->resolveDomain(null) :  $translation['domain'];
-                $comment = $metadata['comment'] = $this->getEntryComment($comments, $file->getFilename(), ($translation['line'] - 1));
+                $translation['domain'] = empty($translation['domain'])
+                    ? $this->resolveDomain(null)
+                    : $translation['domain'];
 
-                $catalog->set($translation['source'], $this->prefix.trim($translation['source']), $translation['domain']);
+                $comment = $metadata['comment'] = $this->getEntryComment(
+                    $comments,
+                    $file->getFilename(),
+                    ($translation['line'] - 1)
+                );
+
+                $catalog->set(
+                    $translation['source'],
+                    $this->prefix.trim($translation['source']),
+                    $translation['domain']
+                );
+
                 $catalog->setMetadata(
                     $translation['source'],
                     [
