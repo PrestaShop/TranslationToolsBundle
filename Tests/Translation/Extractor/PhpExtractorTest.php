@@ -97,6 +97,99 @@ class PhpExtractorTest extends TestCase
     }
 
     /**
+     * @param $file
+     * @param $expected
+     *
+     * @dataProvider provideFormTranslationFixtures
+     */
+    public function testExtractFormTranslations($file, $expected)
+    {
+        $messageCatalogue = $this->buildMessageCatalogue($file);
+
+        $domains = $messageCatalogue->getDomains();
+
+        foreach ($expected as $expectedDomain => $expectedStrings) {
+            // the domain should be defined
+            $this->assertContains(
+                $expectedDomain,
+                $domains,
+                sprintf('Domain "%s" is not defined in %s', $expectedDomain, print_r($domains, true))
+            );
+
+            // all strings should be defined in the appropriate domain
+            foreach ($expectedStrings as $string) {
+                $this->assertTrue(
+                    $messageCatalogue->defines($string, $expectedDomain),
+                    sprintf('"%s" not found in %s', $string, $expectedDomain)
+                );
+            }
+        }
+    }
+
+    public function provideFormTranslationFixtures()
+    {
+        return [
+            'TestFormChoices.php' => [
+                'file' => 'fixtures/TestFormChoices.php',
+                'expected' => [
+                    'Admin.Global' => [
+                        'Ascending',
+                        'Descending',
+                    ],
+                    'Admin.Shopparameters.Feature' => [
+                        'Product name',
+                        'Product price',
+                        'Product add date',
+                        'Product modified date',
+                        'Position inside category',
+                        'Brand',
+                        'Product quantity',
+                        'Product reference',
+                    ]
+                ]
+            ],
+            'TestFormChoicesTranslatorAware.php' => [
+                'file' => 'fixtures/TestFormChoicesTranslatorAware.php',
+                'expected' => [
+                    'Install' => [
+                        "Animals and Pets",
+                        "Art and Culture",
+                        "Babies",
+                        "Beauty and Personal Care",
+                        "Cars",
+                        "Computer Hardware and Software",
+                        "Download",
+                        "Fashion and accessories",
+                        "Flowers, Gifts and Crafts",
+                        "Food and beverage",
+                        "HiFi, Photo and Video",
+                        "Home and Garden",
+                        "Home Appliances",
+                        "Jewelry",
+                        "Lingerie and Adult",
+                        "Mobile and Telecom",
+                        "Services",
+                        "Shoes and accessories",
+                        "Sport and Entertainment",
+                        "Travel",
+                    ],
+                    'Admin.Shopparameters.Feature' => [
+                        'Round up away from zero, when it is half way there (recommended)',
+                        'Round down towards zero, when it is half way there',
+                        'Round towards the next even value',
+                        'Round towards the next odd value',
+                        'Round up to the nearest value',
+                        'Round down to the nearest value',
+                        'Round on each item',
+                        'Round on each line',
+                        'Round on the total',
+                    ]
+                ]
+            ],
+        ];
+    }
+
+    /**
      * @param $fixtureResource
      *
      * @return MessageCatalogue
