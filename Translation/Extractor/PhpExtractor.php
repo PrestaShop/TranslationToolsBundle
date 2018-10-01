@@ -123,7 +123,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
             $traverser->addVisitor($visitor);
         }
 
-        $nodeDumper = new NodeDumper();
+        //$nodeDumper = new NodeDumper();
 
         try {
             $stmts = $this->parser->parse($code);
