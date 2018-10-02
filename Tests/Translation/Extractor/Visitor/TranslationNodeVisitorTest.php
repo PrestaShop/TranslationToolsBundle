@@ -3,14 +3,14 @@
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor\Visitor;
 
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\TranslationNodeVisitor;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNodeVisitor;
 use PhpParser\Comment;
 
 class TranslationNodeVisitorTest extends TestCase
 {
     public function testGetComments()
     {
-        $translationNodeVisitor = new TranslationNodeVisitor('LegacyController.php');
+        $translationNodeVisitor = new CommentsNodeVisitor('LegacyController.php');
         $methodCall = $this->getMockBuilder('PhpParser\Node\Expr\MethodCall')->disableOriginalConstructor()->getMock();
 
         $methodCall
