@@ -27,10 +27,11 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use PhpParser\NodeDumper;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\FormNodeVisitor;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ArrayTranslationDefinition;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ExplicitTranslationCall;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\FormType\FormTypeDeclaration;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -113,6 +114,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
         $translationVisitors = [
             new ArrayTranslationDefinition($translationCollection),
             new ExplicitTranslationCall($translationCollection),
+            new FormTypeDeclaration($translationCollection),
         ];
 
         $traverser = new NodeTraverser();
@@ -121,9 +123,11 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
             $traverser->addVisitor($visitor);
         }
 
+        //$nodeDumper = new NodeDumper();
 
         try {
             $stmts = $this->parser->parse($code);
+            //$debug = $nodeDumper->dump($stmts);
             $traverser->traverse($stmts);
 
             $comments = $commentsNodeVisitor->getComments();
