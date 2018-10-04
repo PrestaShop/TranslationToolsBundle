@@ -65,6 +65,7 @@ class XliffFileDumper extends BaseXliffFileDumper
             throw new \InvalidArgumentException('The file dumper needs a path option.');
         }
 
+        $fs = new Filesystem();
         // save a file for each domain
         foreach ($messages->getDomains() as $domain) {
             $domainPath = DomainHelper::getExportPath($domain);
@@ -74,7 +75,6 @@ class XliffFileDumper extends BaseXliffFileDumper
                 throw new \RuntimeException(sprintf('Unable to create directory "%s".', $directory));
             }
 
-            $fs = new Filesystem();
             $fs->dumpFile($fullpath, $this->formatCatalogue($messages, $domain, $options));
         }
     }
@@ -94,12 +94,15 @@ class XliffFileDumper extends BaseXliffFileDumper
         $xliffBuilder->setVersion('1.2');
 
         foreach ($messages->all($domain) as $source => $target) {
-          if (!empty($source)) {
-            $metadata = $messages->getMetadata($source, $domain);
-            $metadata['file'] = Configuration::getRelativePath($metadata['file'], (!empty($options['root_dir']) ? $options['root_dir'] : false) );
-            $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
-            $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
-          }
+            if (!empty($source)) {
+                $metadata = $messages->getMetadata($source, $domain);
+                $metadata['file'] = Configuration::getRelativePath(
+                    $metadata['file'],
+                    !empty($options['root_dir']) ? realpath($options['root_dir']) : false
+                );
+                $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
+                $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
+            }
         }
 
         return html_entity_decode($xliffBuilder->build()->saveXML());
