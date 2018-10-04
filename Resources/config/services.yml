@@ -11,15 +11,15 @@ services:
             - "Smarty_Internal_Templatelexer"
             - "Smarty_Internal_Templateparser"
             - "@prestashop.smarty"
-            
+
     prestashop.translation.parser.crowdin_php_parser:
         class: PrestaShop\TranslationToolsBundle\Translation\Parser\CrowdinPhpParser
-            
+
     prestashop.translation.manager.original_string_manager:
         class: PrestaShop\TranslationToolsBundle\Translation\Manager\OriginalStringManager
         arguments:
             - "@prestashop.translation.parser.crowdin_php_parser"
-            
+
     prestashop.translation.manager.translation_manager:
         class: PrestaShop\TranslationToolsBundle\Translation\Manager\TranslationManager
         arguments:
@@ -30,7 +30,7 @@ services:
         arguments:
             - "@prestashop.translation.parser.crowdin_php_parser"
             - "@prestashop.translation.manager.original_string_manager"
-        
+
     prestashop.translation.chainextractor:
         class:  PrestaShop\TranslationToolsBundle\Translation\Extractor\ChainExtractor
 
