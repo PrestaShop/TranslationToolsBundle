@@ -27,11 +27,15 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use Twig_Source;
+use Twig_Environment;
+use Twig_Error;
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
 
 class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
 {
@@ -47,7 +51,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     /**
      * The twig environment.
      *
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     private $twig;
 
@@ -59,9 +63,9 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     /**
      * The twig environment.
      *
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(Twig_Environment $twig)
     {
         $this->twig = $twig;
         $this->twigLexer = new Lexer($this->twig);
@@ -80,15 +84,15 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
 
             try {
                 $this->extractTemplateFile($file, $catalogue);
-            } catch (\Twig_Error $e) {
+            } catch (Twig_Error $e) {
                 if ($file instanceof SplFileInfo) {
-                    $e->setSourceContext(new \Twig_Source(
+                    $e->setSourceContext(new Twig_Source(
                         $e->getSourceContext()->getCode(),
                         $e->getSourceContext()->getName(),
                         $file->getRelativePathname()
                     ));
                 } elseif ($file instanceof \SplFileInfo) {
-                    $e->setSourceContext(new \Twig_Source(
+                    $e->setSourceContext(new Twig_Source(
                         $e->getSourceContext()->getCode(),
                         $e->getSourceContext()->getName(),
                         $file->getRealPath()
@@ -109,12 +113,12 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
             $file = new \SplFileInfo($file);
         }
 
-        $visitor = $this->twig->getExtension('translator')->getTranslationNodeVisitor();
+        $visitor = $this->twig->getExtension(TranslationExtension::class)->getTranslationNodeVisitor();
         $visitor->enable();
 
         $this->twig->setLexer(new Lexer($this->twig));
 
-        $tokens = $this->twig->tokenize(file_get_contents($file->getPathname()), $file->getFilename());
+        $tokens = $this->twig->tokenize(new Twig_Source(file_get_contents($file->getPathname()), $file->getFilename()));
         $this->twig->parse($tokens);
 
         $comments = $this->twigLexer->getComments();
