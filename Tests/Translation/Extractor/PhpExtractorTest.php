@@ -106,24 +106,7 @@ class PhpExtractorTest extends TestCase
     {
         $messageCatalogue = $this->buildMessageCatalogue($file);
 
-        $domains = $messageCatalogue->getDomains();
-
-        foreach ($expected as $expectedDomain => $expectedStrings) {
-            // the domain should be defined
-            $this->assertContains(
-                $expectedDomain,
-                $domains,
-                sprintf('Domain "%s" is not defined in %s', $expectedDomain, print_r($domains, true))
-            );
-
-            // all strings should be defined in the appropriate domain
-            foreach ($expectedStrings as $string) {
-                $this->assertTrue(
-                    $messageCatalogue->defines($string, $expectedDomain),
-                    sprintf('"%s" not found in %s', $string, $expectedDomain)
-                );
-            }
-        }
+        $this->verifyCatalogue($messageCatalogue, $expected);
     }
 
     public function provideFormTranslationFixtures()
@@ -201,4 +184,5 @@ class PhpExtractorTest extends TestCase
 
         return $messageCatalogue;
     }
+
 }

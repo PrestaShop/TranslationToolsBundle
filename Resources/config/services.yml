@@ -4,6 +4,8 @@ services:
         calls:
             - [setCompileDir, ['%kernel.cache_dir%/smarty']]
             - [forceCompile, [true]]
+            - [registerResource, ['module', "@prestashop.translation.helper.smarty.smarty_resource_module"]]
+            - [registerResource, ['parent', "@prestashop.translation.helper.smarty.smarty_resource_parent"]]
 
     prestashop.compiler.smarty.template:
         class: PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler
@@ -11,6 +13,12 @@ services:
             - "Smarty_Internal_Templatelexer"
             - "Smarty_Internal_Templateparser"
             - "@prestashop.smarty"
+
+    prestashop.translation.helper.smarty.smarty_resource_module:
+        class: PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceModule
+
+    prestashop.translation.helper.smarty.smarty_resource_parent:
+        class: PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceParent
 
     prestashop.translation.parser.crowdin_php_parser:
         class: PrestaShop\TranslationToolsBundle\Translation\Parser\CrowdinPhpParser

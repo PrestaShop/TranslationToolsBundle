@@ -5,6 +5,7 @@ namespace PrestaShop\TranslationToolsBundle\Tests\PhpUnit;
 use ReflectionProperty;
 use ReflectionMethod;
 use PHPUnit_Framework_TestCase as PhpUnitTestCase;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class TestCase extends PhpUnitTestCase
 {
@@ -66,5 +67,31 @@ class TestCase extends PhpUnitTestCase
     protected function getResource($resourceName)
     {
         return realpath(__DIR__.'/../resources/'.$resourceName);
+    }
+
+    /**
+     * @param $messageCatalogue
+     * @param array[] $expected
+     */
+    protected function verifyCatalogue(MessageCatalogue $messageCatalogue, $expected)
+    {
+        $domains = $messageCatalogue->getDomains();
+
+        foreach ($expected as $expectedDomain => $expectedStrings) {
+            // the domain should be defined
+            $this->assertContains(
+                $expectedDomain,
+                $domains,
+                sprintf('Domain "%s" is not defined in %s', $expectedDomain, print_r($domains, true))
+            );
+
+            // all strings should be defined in the appropriate domain
+            foreach ($expectedStrings as $string) {
+                $this->assertTrue(
+                    $messageCatalogue->defines($string, $expectedDomain),
+                    sprintf('"%s" not found in %s', $string, $expectedDomain)
+                );
+            }
+        }
     }
 }
