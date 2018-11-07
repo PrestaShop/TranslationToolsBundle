@@ -72,7 +72,15 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
      */
     protected function extractFromFile(SplFileInfo $resource, MessageCatalogue $catalogue)
     {
-        foreach ($this->smartyCompiler->setTemplateFile($resource->getPathname())->getTranslationTags() as $translation) {
+        $compiler = $this->smartyCompiler->setTemplateFile($resource->getPathname());
+        $translationTags = $compiler->getTranslationTags();
+
+        foreach ($translationTags as $translation) {
+            // do not include "old styled" translations in the catalogue
+            if (isset($translation['tag']['mod'])) {
+                continue;
+            }
+
             $domain = $this->resolveDomain(isset($translation['tag']['d']) ? $translation['tag']['d'] : null);
             $string = stripslashes($translation['tag']['s']);
 
