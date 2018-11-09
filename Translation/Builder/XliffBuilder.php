@@ -66,6 +66,8 @@ class XliffBuilder
         $xliff->setAttribute('version', $this->version);
         $xliff->setAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:'.$this->version);
 
+        ksort($this->originalFiles);
+
         foreach ($this->originalFiles as $key => $file) {
             $body = $file->appendChild($this->dom->createElement('body'));
 
