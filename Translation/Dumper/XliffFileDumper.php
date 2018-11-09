@@ -96,10 +96,20 @@ class XliffFileDumper extends BaseXliffFileDumper
         foreach ($messages->all($domain) as $source => $target) {
             if (!empty($source)) {
                 $metadata = $messages->getMetadata($source, $domain);
+
+                /**
+                 * Handle original file information from xliff file.
+                 * This is needed if at least part of the catalogue was read from xliff files
+                 */
+                if (is_array($metadata['file']) && !empty($metadata['file']['original'])) {
+                    $metadata['file'] = $metadata['file']['original'];
+                }
+
                 $metadata['file'] = Configuration::getRelativePath(
                     $metadata['file'],
                     !empty($options['root_dir']) ? realpath($options['root_dir']) : false
                 );
+
                 $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
                 $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
             }
@@ -115,21 +125,25 @@ class XliffFileDumper extends BaseXliffFileDumper
      */
     private function getNote($transMetadata)
     {
-        $context = 'Context:';
+        $notes = [];
 
         if (!empty($transMetadata['file'])) {
-            $context .= PHP_EOL.'File: '.$transMetadata['file'];
 
             if (isset($transMetadata['line'])) {
-                $context .= ':'.$transMetadata['line'];
+                $notes['line'] = 'Line: '.$transMetadata['line'];
             }
 
             if (isset($transMetadata['comment'])) {
-                $context .= PHP_EOL.' Comment: '.$transMetadata['comment'];
+                $notes['comment'] = 'Comment: '.$transMetadata['comment'];
             }
         }
 
-        return $context;
+        if (empty($notes) && isset($transMetadata['notes'][0]['content'])) {
+            // use notes loaded from xliff file
+            return $transMetadata['notes'][0]['content'];
+        }
+
+        return implode(PHP_EOL, $notes);
     }
 
     /**

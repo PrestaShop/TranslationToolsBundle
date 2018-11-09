@@ -52,8 +52,8 @@ class XliffFileDumperTest extends TestCase
     public function getNoteProvider()
     {
         return [
-            ['Context:', [[]]],
-            ['Context:'.PHP_EOL.'File: file:0', [['file' => 'file', 'line' => '0']]],
+            ['', [[]]],
+            ['Line: 0', [['file' => 'file', 'line' => '0']]],
         ];
     }
 
