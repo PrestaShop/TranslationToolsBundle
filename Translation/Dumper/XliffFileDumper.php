@@ -125,21 +125,25 @@ class XliffFileDumper extends BaseXliffFileDumper
      */
     private function getNote($transMetadata)
     {
-        $context = 'Context:';
+        $notes = [];
 
         if (!empty($transMetadata['file'])) {
-            $context .= PHP_EOL.'File: '.$transMetadata['file'];
 
             if (isset($transMetadata['line'])) {
-                $context .= ':'.$transMetadata['line'];
+                $notes['line'] = 'Line: '.$transMetadata['line'];
             }
 
             if (isset($transMetadata['comment'])) {
-                $context .= PHP_EOL.' Comment: '.$transMetadata['comment'];
+                $notes['comment'] = 'Comment: '.$transMetadata['comment'];
             }
         }
 
-        return $context;
+        if (empty($notes) && isset($transMetadata['notes'][0]['content'])) {
+            // use notes loaded from xliff file
+            return $transMetadata['notes'][0]['content'];
+        }
+
+        return implode(PHP_EOL, $notes);
     }
 
     /**
