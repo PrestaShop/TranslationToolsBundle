@@ -100,6 +100,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
 
                 $this->parser->yy_accept();
             } catch (SmartyException $e) {
+                $this->parser->yy_accept();
             }
         }
 
