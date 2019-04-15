@@ -48,21 +48,7 @@ class SmartyExtractorTest extends TestCase
      */
     protected function setUp()
     {
-        $smarty = new Smarty();
-        $smarty
-            ->setCompileDir(__DIR__ . '/../../cache/smarty')
-            ->setForceCompile(true);
 
-        $smarty->registerResource('module', new SmartyResourceModule());
-        $smarty->registerResource('parent', new SmartyResourceParent());
-
-        $compiler = new TranslationTemplateCompiler(
-            Smarty_Internal_Templatelexer::class,
-            Smarty_Internal_Templateparser::class,
-            $smarty
-        );
-
-        $this->instance = new SmartyExtractor($compiler);
     }
 
     public function testExtractWithDomain()
@@ -84,24 +70,80 @@ class SmartyExtractorTest extends TestCase
         $this->verifyCatalogue($messageCatalogue, $expected);
     }
 
-    public function testExtractWithoutDomain()
+    public function testExtractWithoutExternalModules()
     {
         $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl');
 
         $this->assertEmpty($messageCatalogue->getDomains());
     }
 
+    public function testWithExternalModules()
+    {
+        $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl', SmartyExtractor::INCLUDE_EXTERNAL_MODULES);
+
+        $expected = [
+            'messages' => [
+                'Advanced Customization',
+                'You can edit your theme sheet by using the Parent/Child theme feature',
+                'Advanced use only.',
+                'Support team might not be able to assist you on issues created by your own child theme.',
+                'Download your current theme',
+                'You picked a theme but still want to bring some specific adjustments? Get a child theme, it will allow you to keep the parts you want and customize the others!',
+                'Edit your child theme',
+                'Once the child theme created, next step is simple: apply the changes you want within the desired files, it will handle the customization part while keeping the parent theme’s look and functionality.',
+                'Upload your child theme',
+                'As you only bring modification to the child theme, you can upgrade the parent theme easily, without losing your customization.',
+                'An error occurred',
+                'Please check that you have the rights to write to the folders /app/cache/ and /themes/',
+                'Download theme',
+                'Downloading',
+                'Information',
+                'By using this method you can only override the CSS of your theme.',
+                'By using this method you can override the CSS and html of your theme, and add analytics tags.',
+                'Once uploaded, the child theme will be available in your Theme & Logo section',
+            ]
+        ];
+
+        $this->verifyCatalogue($messageCatalogue, $expected);
+    }
+
     /**
      * @param $fixtureResource
      *
+     * @param bool $includeExternalModules
+     *
      * @return MessageCatalogue
      */
-    private function buildMessageCatalogue($fixtureResource)
+    private function buildMessageCatalogue($fixtureResource, $includeExternalModules = false)
     {
         $messageCatalogue = new MessageCatalogue('en');
-        $this->instance->extract($this->getResource($fixtureResource), $messageCatalogue);
+        $this->buildExtractor($includeExternalModules)->extract($this->getResource($fixtureResource), $messageCatalogue);
 
         return $messageCatalogue;
+    }
+
+    /**
+     * @param bool $includeExternalModules
+     *
+     * @return SmartyExtractor
+     */
+    private function buildExtractor($includeExternalModules = false)
+    {
+        $smarty = new Smarty();
+        $smarty
+            ->setCompileDir(__DIR__ . '/../../cache/smarty')
+            ->setForceCompile(true);
+
+        $smarty->registerResource('module', new SmartyResourceModule());
+        $smarty->registerResource('parent', new SmartyResourceParent());
+
+        $compiler = new TranslationTemplateCompiler(
+            Smarty_Internal_Templatelexer::class,
+            Smarty_Internal_Templateparser::class,
+            $smarty
+        );
+
+        return new SmartyExtractor($compiler, $includeExternalModules);
     }
 
     /**

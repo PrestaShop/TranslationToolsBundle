@@ -37,6 +37,9 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
 {
     use TraitExtractor;
 
+    const INCLUDE_EXTERNAL_MODULES = true;
+    const EXCLUDE_EXTERNAL_MODULES = false;
+
     /**
      * @var TranslationTemplateCompiler
      */
@@ -44,11 +47,18 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     private $prefix;
 
     /**
-     * @param TranslationTemplateCompiler $smartyCompiler
+     * @var bool
      */
-    public function __construct(TranslationTemplateCompiler $smartyCompiler)
+    private $includeExternalWordings;
+
+    /**
+     * @param TranslationTemplateCompiler $smartyCompiler
+     * @param bool $includeExternalWordings Set to SmartyCompiler::INCLUDE_EXTERNAL_MODULES to include wordings signed with 'mod' (external modules)
+     */
+    public function __construct(TranslationTemplateCompiler $smartyCompiler, $includeExternalWordings = self::EXCLUDE_EXTERNAL_MODULES)
     {
         $this->smartyCompiler = $smartyCompiler;
+        $this->includeExternalWordings = $includeExternalWordings;
     }
 
     /**
@@ -76,8 +86,8 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
         $translationTags = $compiler->getTranslationTags();
 
         foreach ($translationTags as $translation) {
-            // do not include "old styled" translations in the catalogue
-            if (isset($translation['tag']['mod'])) {
+            // skip "old styled" external translations
+            if (isset($translation['tag']['mod']) && !$this->includeExternalWordings) {
                 continue;
             }
 
