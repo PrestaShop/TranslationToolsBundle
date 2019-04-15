@@ -76,16 +76,18 @@ class DomainHelper
      */
     public static function buildModuleDomainFromLegacySource($moduleName, $sourceFileName)
     {
-        $source = basename($sourceFileName, '.tpl');
+        $source = strtolower(basename($sourceFileName, '.tpl'));
         if ('controller' == substr($source, -10, 10)) {
             $source = substr($source, 0, -10);
         }
 
-        $extractedDomain = sprintf(
-            'Modules.%s.%s',
-            ucfirst(str_replace('_', '', $moduleName)),
-            $source
-        );
+        $transformedModuleName = ucfirst(str_replace('_', '', $moduleName));
+
+        $extractedDomain = 'Modules.' . $transformedModuleName;
+
+        if ($source !== $moduleName) {
+            $extractedDomain .= '.' . $source;
+        }
 
         return $extractedDomain;
     }
