@@ -65,4 +65,28 @@ class DomainHelper
     {
         return str_replace(DIRECTORY_SEPARATOR, '.', $exportPath);
     }
+
+    /**
+     * Builds a module domain name for the legacy system
+     *
+     * @param string $moduleName Name of the module (eg. ps_themecusto)
+     * @param string $sourceFileName Filename where the wording was found (eg. someFile.tpl)
+     *
+     * @return string The domain name (eg. Modules.Psthemecusto.somefile)
+     */
+    public static function buildModuleDomainFromLegacySource($moduleName, $sourceFileName)
+    {
+        $source = basename($sourceFileName, '.tpl');
+        if ('controller' == substr($source, -10, 10)) {
+            $source = substr($source, 0, -10);
+        }
+
+        $extractedDomain = sprintf(
+            'Modules.%s.%s',
+            ucfirst(str_replace('_', '', $moduleName)),
+            $source
+        );
+
+        return $extractedDomain;
+    }
 }
