@@ -85,9 +85,7 @@ class DomainHelper
 
         $extractedDomain = 'Modules.' . $transformedModuleName;
 
-        if ($source !== $moduleName) {
-            $extractedDomain .= '.' . ucfirst($source);
-        }
+        $extractedDomain .= '.' . ucfirst($source);
 
         return $extractedDomain;
     }
