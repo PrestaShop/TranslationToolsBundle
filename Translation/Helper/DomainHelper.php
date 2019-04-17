@@ -77,6 +77,8 @@ class DomainHelper
     public static function buildModuleDomainFromLegacySource($moduleName, $sourceFileName)
     {
         $source = strtolower(basename($sourceFileName, '.tpl'));
+
+        // sourced from https://github.com/PrestaShop/PrestaShop/blob/1.6.1.x/classes/Translate.php#L174-L178
         if ('controller' == substr($source, -10, 10)) {
             $source = substr($source, 0, -10);
         }
@@ -85,7 +87,7 @@ class DomainHelper
 
         $extractedDomain = 'Modules.' . $transformedModuleName;
 
-        $extractedDomain .= '.' . ucfirst($source);
+        $extractedDomain .= '.' . ucfirst(str_replace('_', '', $source));
 
         return $extractedDomain;
     }
