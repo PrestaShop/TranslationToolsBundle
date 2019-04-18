@@ -76,10 +76,10 @@ class DomainHelper
      */
     public static function buildModuleDomainFromLegacySource($moduleName, $sourceFileName)
     {
-        $transformedModuleName = ucfirst(str_replace('_', '', $moduleName));
+        $transformedModuleName = self::buildModuleDomainNameComponent($moduleName);
 
         if (empty($sourceFileName)) {
-            $source = $transformedModuleName;
+            $source = self::transformDomainComponent($moduleName);
         } else {
             $source = strtolower(basename($sourceFileName, '.tpl'));
 
@@ -88,11 +88,65 @@ class DomainHelper
                 $source = substr($source, 0, -10);
             }
 
-            $source = ucfirst(str_replace('_', '', $source));
+            $source = ucfirst(strtr($source, ['_' => '']));
         }
 
-        $extractedDomain = 'Modules.' . $transformedModuleName . '.' . $source;
+        $domain = 'Modules.' . $transformedModuleName . '.' . $source;
 
-        return $extractedDomain;
+        return $domain;
+    }
+
+    /**
+     * Returns the base domain for the provided module name
+     *
+     * @param string $moduleName
+     * @param bool $withDots True to use separating dots
+     *
+     * @return string
+     */
+    public static function buildModuleBaseDomain($moduleName, $withDots = false)
+    {
+        $domain = 'Modules';
+
+        if ($withDots) {
+            $domain .= '.';
+        }
+
+        $domain .= self::buildModuleDomainNameComponent($moduleName);
+
+        return $domain;
+    }
+
+    /**
+     * Transforms the module name to use in a domain
+     *
+     * @param string $moduleName
+     *
+     * @return string
+     */
+    private static function buildModuleDomainNameComponent($moduleName)
+    {
+        if ('ps_' === substr($moduleName, 0, 3)) {
+            $moduleName = substr($moduleName, 3);
+        }
+
+        return self::transformDomainComponent($moduleName);
+    }
+
+    /**
+     * Formats a domain component by removing unwanted characters
+     *
+     * @param string $component
+     *
+     * @return string
+     */
+    private static function transformDomainComponent($component)
+    {
+        return ucfirst(
+            strtr(
+                strtolower($component),
+                ['_' => '']
+            )
+        );
     }
 }
