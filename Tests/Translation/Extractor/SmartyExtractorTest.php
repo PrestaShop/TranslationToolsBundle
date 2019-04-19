@@ -38,19 +38,6 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 class SmartyExtractorTest extends TestCase
 {
-    /**
-     * @var SmartyExtractor
-     */
-    private $instance;
-
-    /**
-     * @inheritDoc
-     */
-    protected function setUp()
-    {
-
-    }
-
     public function testExtractWithDomain()
     {
         $messageCatalogue = $this->buildMessageCatalogue('payment_return.tpl');
@@ -82,7 +69,7 @@ class SmartyExtractorTest extends TestCase
         $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl', SmartyExtractor::INCLUDE_EXTERNAL_MODULES);
 
         $expected = [
-            'messages' => [
+            'Modules.Themecusto.Oldsystem' => [
                 'Advanced Customization',
                 'You can edit your theme sheet by using the Parent/Child theme feature',
                 'Advanced use only.',

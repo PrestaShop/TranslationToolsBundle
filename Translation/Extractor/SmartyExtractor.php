@@ -28,6 +28,7 @@
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
 use SplFileInfo;
+use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
@@ -55,8 +56,10 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
      * @param TranslationTemplateCompiler $smartyCompiler
      * @param bool $includeExternalWordings Set to SmartyCompiler::INCLUDE_EXTERNAL_MODULES to include wordings signed with 'mod' (external modules)
      */
-    public function __construct(TranslationTemplateCompiler $smartyCompiler, $includeExternalWordings = self::EXCLUDE_EXTERNAL_MODULES)
-    {
+    public function __construct(
+        TranslationTemplateCompiler $smartyCompiler,
+        $includeExternalWordings = self::EXCLUDE_EXTERNAL_MODULES
+    ) {
         $this->smartyCompiler = $smartyCompiler;
         $this->includeExternalWordings = $includeExternalWordings;
     }
@@ -86,17 +89,29 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
         $translationTags = $compiler->getTranslationTags();
 
         foreach ($translationTags as $translation) {
+            $extractedDomain = null;
+
             // skip "old styled" external translations
-            if (isset($translation['tag']['mod']) && !$this->includeExternalWordings) {
-                continue;
+            if (isset($translation['tag']['mod'])) {
+                if (!$this->includeExternalWordings) {
+                    continue;
+                }
+
+                // domain
+                $extractedDomain = DomainHelper::buildModuleDomainFromLegacySource(
+                    $translation['tag']['mod'],
+                    $resource->getBasename()
+                );
+            } elseif (isset($translation['tag']['d'])) {
+                $extractedDomain = $translation['tag']['d'];
             }
 
-            $domain = $this->resolveDomain(isset($translation['tag']['d']) ? $translation['tag']['d'] : null);
+            $domain = $this->resolveDomain($extractedDomain);
             $string = stripslashes($translation['tag']['s']);
 
-            $catalogue->set($this->prefix.$string, $string, $domain);
+            $catalogue->set($this->prefix . $string, $string, $domain);
             $catalogue->setMetadata(
-                $this->prefix.$string,
+                $this->prefix . $string,
                 [
                     'line' => $translation['line'],
                     'file' => $translation['template'],
