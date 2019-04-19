@@ -69,7 +69,7 @@ class SmartyExtractorTest extends TestCase
         $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl', SmartyExtractor::INCLUDE_EXTERNAL_MODULES);
 
         $expected = [
-            'Modules.Psthemecusto.Oldsystem' => [
+            'Modules.Themecusto.Oldsystem' => [
                 'Advanced Customization',
                 'You can edit your theme sheet by using the Parent/Child theme feature',
                 'Advanced use only.',
