@@ -145,7 +145,7 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
                     && in_array($useData->name->parts, self::SUPPORTED_FORM_TYPES)
                 ) {
                     $this->useSfFormAbstractTypeFound = true;
-                    $this->sfFormAbstractTypeAlias = $useData->alias;
+                    $this->sfFormAbstractTypeAlias = end($useData->name->parts);
                 }
             }
         }

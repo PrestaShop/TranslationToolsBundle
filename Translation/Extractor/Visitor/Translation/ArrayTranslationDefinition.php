@@ -27,7 +27,6 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationColl
  */
 class ArrayTranslationDefinition extends AbstractTranslationNodeVisitor
 {
-
     public function leaveNode(Node $node)
     {
         $this->translations->add($this->extractFrom($node));
@@ -58,7 +57,7 @@ class ArrayTranslationDefinition extends AbstractTranslationNodeVisitor
                 return [];
             }
 
-            switch($item->key->value) {
+            switch ($item->key->value) {
                 case 'key':
                     if (!$item->value instanceof String_) {
                         return [];

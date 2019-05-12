@@ -9,7 +9,6 @@ use PhpParser\Node;
  */
 class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 {
-
     const SUPPORTED_METHODS = ['l', 'trans', 't'];
 
     public function leaveNode(Node $node)
@@ -62,10 +61,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     {
         return (
             ($node instanceof Node\Expr\MethodCall || $node instanceof Node\Expr\FuncCall)
-            && (
-                (is_string($node->name) && $node->name instanceof Node\Name)
-                || !empty($node->args)
-            )
+            && ($node->name instanceof Node\Name|| !empty($node->args))
         );
     }
 
@@ -94,6 +90,6 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
         if ($node->name instanceof Node\Name) {
             return $node->name->parts[0];
         }
-        return $node->name;
+        return (string) $node->name;
     }
 }

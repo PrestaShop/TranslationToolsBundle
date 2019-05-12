@@ -1,4 +1,4 @@
-<?php include ('header.php'); ?>
+<?php include('header.php'); ?>
 
 <tr>
 	<td align="center" class="titleblock">
@@ -67,4 +67,4 @@
 	</td>
 </tr>
 
-<?php include ('footer.php'); ?>
+<?php include('footer.php'); ?>

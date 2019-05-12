@@ -25,5 +25,4 @@ abstract class AbstractTranslationNodeVisitor extends NodeVisitorAbstract implem
     {
         return $this->translations;
     }
-
 }

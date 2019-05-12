@@ -128,7 +128,6 @@ class XliffFileDumper extends BaseXliffFileDumper
         $notes = [];
 
         if (!empty($transMetadata['file'])) {
-
             if (isset($transMetadata['line'])) {
                 $notes['line'] = 'Line: '.$transMetadata['line'];
             }
