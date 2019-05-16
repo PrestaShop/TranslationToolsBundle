@@ -32,6 +32,15 @@ class TestController
             'Look, no parameters',
             'admin.product.help'
         );
+
+        $this->trans(
+            'Look, no domain'
+        );
+
+        $this->trans(
+            'It works with no domain and with parameters',
+            []
+        );
     }
 
     public function barAction()
