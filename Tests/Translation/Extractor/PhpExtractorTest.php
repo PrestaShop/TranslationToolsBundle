@@ -42,11 +42,19 @@ class PhpExtractorTest extends TestCase
         $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'admin.product.help'));
     }
 
-    public function testItInterpolatesDomainVariables()
+    public function testItExtractsTransWithoutDomain()
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
+        $this->assertTrue($messageCatalogue->defines('Look, no domain', 'messages'));
+        $this->assertTrue($messageCatalogue->defines('It works with no domain and with parameters', 'messages'));
+    }
+
+    public function testItInterpolatesDomainVariables()
+    {
         $this->markTestIncomplete("The extractor doesn't know how to interpolate variables yet");
+
+        $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
         $this->assertTrue($messageCatalogue->defines('Bar', 'admin.product.plop'));
     }
