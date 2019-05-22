@@ -88,8 +88,9 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     private function getNodeName(Node $node)
     {
         if ($node->name instanceof Node\Name) {
+            // $node->name is an instance of Identifier
             return $node->name->parts[0];
         }
-        return (string) $node->name;
+        return $node->name->name;
     }
 }

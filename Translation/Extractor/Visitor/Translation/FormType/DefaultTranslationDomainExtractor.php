@@ -157,7 +157,8 @@ class DefaultTranslationDomainExtractor
      */
     private function nodeIsConfigurationOptionsMethod(Node\Stmt\ClassMethod $node)
     {
-        return ((string) $node->name === self::CONFIGURE_OPTIONS);
+        /** @var $node->name Identifier */
+        return ($node->name->name === self::CONFIGURE_OPTIONS);
     }
 
     /**
@@ -188,7 +189,8 @@ class DefaultTranslationDomainExtractor
         return ($node instanceof Node\Expr\MethodCall
             && $node->var instanceof Node\Expr\Variable
             && $node->var->name === $this->optionsResolverName
-            && (string) $node->name === self::SET_DEFAULTS_DECLARATION_METHOD_NAME
+            // $node->name is an instance of Identifier
+            && $node->name->name === self::SET_DEFAULTS_DECLARATION_METHOD_NAME
             && count($node->args) > 0
         );
     }

@@ -63,7 +63,8 @@ class ChoiceExtractor
 
         return (
             $node instanceof Node\Expr\MethodCall
-            && (string) $node->name === self::METHOD_NAME
+            // $node->name is an instance of Identifier
+            && $node->name->name === self::METHOD_NAME
             && count($node->args) >= self::EXPECTED_ARG_COUNT
             && $this->argIsChoiceType($node->args[self::CLASS_ARG_INDEX])
         );
