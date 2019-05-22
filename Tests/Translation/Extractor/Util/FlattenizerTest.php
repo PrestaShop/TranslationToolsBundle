@@ -28,7 +28,8 @@ class FlattenizerTest extends \PHPUnit_Framework_TestCase
     {
         $done = Flattenizer::flatten(
             self::$fixturesPath,
-            self::$outputPath,'en-US'
+            self::$outputPath,
+            'en-US'
         );
 
         $this->assertTrue($done);

@@ -27,7 +27,6 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
-use PhpParser\NodeDumper;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ArrayTranslationDefinition;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ExplicitTranslationCall;
@@ -123,11 +122,8 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
             $traverser->addVisitor($visitor);
         }
 
-        //$nodeDumper = new NodeDumper();
-
         try {
             $stmts = $this->parser->parse($code);
-            //$debug = $nodeDumper->dump($stmts);
             $traverser->traverse($stmts);
 
             $comments = $commentsNodeVisitor->getComments();

@@ -4,7 +4,6 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Util;
 
 class TranslationCollection
 {
-
     private $translations = [];
 
     /**
@@ -61,5 +60,4 @@ class TranslationCollection
     {
         return $this->translations;
     }
-
 }

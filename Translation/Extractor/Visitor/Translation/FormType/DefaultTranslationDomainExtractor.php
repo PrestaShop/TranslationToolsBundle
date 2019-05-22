@@ -157,7 +157,8 @@ class DefaultTranslationDomainExtractor
      */
     private function nodeIsConfigurationOptionsMethod(Node\Stmt\ClassMethod $node)
     {
-        return ($node->name === self::CONFIGURE_OPTIONS);
+        /** @var $node->name Identifier */
+        return ($node->name->name === self::CONFIGURE_OPTIONS);
     }
 
     /**
@@ -171,7 +172,8 @@ class DefaultTranslationDomainExtractor
     {
         if (isset($classMethod->params[self::OPTIONS_RESOLVER_PARAM_INDEX])) {
             $resolverParam = $classMethod->params[self::OPTIONS_RESOLVER_PARAM_INDEX];
-            return $resolverParam->name;
+
+            return $resolverParam->var->name;
         }
 
         return '';
@@ -187,7 +189,8 @@ class DefaultTranslationDomainExtractor
         return ($node instanceof Node\Expr\MethodCall
             && $node->var instanceof Node\Expr\Variable
             && $node->var->name === $this->optionsResolverName
-            && $node->name === self::SET_DEFAULTS_DECLARATION_METHOD_NAME
+            // $node->name is an instance of Identifier
+            && $node->name->name === self::SET_DEFAULTS_DECLARATION_METHOD_NAME
             && count($node->args) > 0
         );
     }
@@ -204,16 +207,16 @@ class DefaultTranslationDomainExtractor
             && $defaults->value instanceof Node\Expr\Array_
             && !empty($defaults->value->items)
         ) {
-           foreach ($defaults->value->items as $item) {
-               if ($item instanceof Node\Expr\ArrayItem
+            foreach ($defaults->value->items as $item) {
+                if ($item instanceof Node\Expr\ArrayItem
                    && $item->key instanceof Node\Scalar\String_
                    && $item->key->value === 'translation_domain'
                    && $item->value instanceof Node\Scalar\String_
                ) {
-                   $this->setDefaultTranslationDomain($item->value->value);
-                   return true;
-               }
-           }
+                    $this->setDefaultTranslationDomain($item->value->value);
+                    return true;
+                }
+            }
         }
 
         return false;
@@ -227,6 +230,4 @@ class DefaultTranslationDomainExtractor
         $this->defaultTranslationDomain = $defaultTranslationDomain;
         $this->defaultTranslationDomainFound = true;
     }
-
-
 }

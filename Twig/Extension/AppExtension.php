@@ -29,7 +29,7 @@ class AppExtension extends \Twig_Extension implements Twig_Extension_InitRuntime
             return;
         });
 
-        $environment->registerUndefinedFilterCallback(function() {
+        $environment->registerUndefinedFilterCallback(function () {
             return;
         });
     }

@@ -192,5 +192,4 @@ class PhpExtractorTest extends TestCase
 
         return $messageCatalogue;
     }
-
 }
