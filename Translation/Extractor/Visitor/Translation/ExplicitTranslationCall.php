@@ -21,7 +21,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
      */
     public function extractFrom(Node $node)
     {
-        if (!$this->appliesFor($node)) {
+        if (empty($node->args) || !$this->appliesFor($node)) {
             return [];
         }
 
