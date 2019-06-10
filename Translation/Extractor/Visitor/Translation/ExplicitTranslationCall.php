@@ -65,7 +65,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 
         return (
             ($node instanceof Node\Expr\MethodCall || $node instanceof Node\Expr\FuncCall)
-            && ($node->name instanceof Node\Name)
+            && ($node->name instanceof Node\Identifier || $node->name instanceof Node\Name)
         );
     }
 
