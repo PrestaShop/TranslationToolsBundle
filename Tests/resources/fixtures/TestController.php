@@ -11,6 +11,8 @@ class TestController
 
     public function productAction()
     {
+        $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
+
         $this->trans('Fingers', [], 'admin.product.help');
     }
 
