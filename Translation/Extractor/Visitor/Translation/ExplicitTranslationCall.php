@@ -21,7 +21,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
      */
     public function extractFrom(Node $node)
     {
-        if (empty($node->args) || !$this->appliesFor($node)) {
+        if (!$this->appliesFor($node)) {
             return [];
         }
 
@@ -59,9 +59,13 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
      */
     private function appliesFor(Node $node)
     {
+        if (empty($node->args)) {
+            return false;
+        }
+
         return (
             ($node instanceof Node\Expr\MethodCall || $node instanceof Node\Expr\FuncCall)
-            && ($node->name instanceof Node\Name || !empty($node->args))
+            && ($node->name instanceof Node\Identifier || $node->name instanceof Node\Name)
         );
     }
 
