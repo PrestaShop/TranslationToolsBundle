@@ -69,6 +69,10 @@ class DomainHelperTest extends TestCase
             ['ps_test_ps_something', 'testMe', 'Modules.Testpssomething.Testme'],
             ['ps_test_ps_something', 'test-Me', 'Modules.Testpssomething.Test-me'],
             ['ps_test_ps_something', 'test.Me', 'Modules.Testpssomething.Test.me'],
+            ['some_module', 'ps_some_test.tpl', 'Modules.Somemodule.Pssometest'],
+            ['some_module', 'some_test.tpl', 'Modules.Somemodule.Sometest'],
+            ['some_module', 'some_test.html', 'Modules.Somemodule.Sometest.html'],
+            ['some_module', 'some_test.html.twig', 'Modules.Somemodule.Sometest.html.twig'],
         ];
     }
 
