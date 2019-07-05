@@ -73,6 +73,8 @@ class DomainHelperTest extends TestCase
             ['some_module', 'some_test.tpl', 'Modules.Somemodule.Sometest'],
             ['some_module', 'some_test.html', 'Modules.Somemodule.Sometest.html'],
             ['some_module', 'some_test.html.twig', 'Modules.Somemodule.Sometest.html.twig'],
+            ['some_module', 'SomeController', 'Modules.Somemodule.Some'],
+            ['some_module', 'SomeController.php', 'Modules.Somemodule.Somecontroller.php'],
         ];
     }
 
