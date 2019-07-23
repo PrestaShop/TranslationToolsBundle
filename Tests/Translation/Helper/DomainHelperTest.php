@@ -64,11 +64,17 @@ class DomainHelperTest extends TestCase
             ['ps_test', '', 'Modules.Test.Pstest'],
             ['ps_test_Something', '', 'Modules.Testsomething.Pstestsomething'],
             ['ps_test_ps_Something', '', 'Modules.Testpssomething.Pstestpssomething'],
-            ['ps_test_Ps_something', 'test_me', 'Modules.Testpssomething.Testme'],
-            ['ps_test_ps_something', 'test_Me', 'Modules.Testpssomething.Testme'],
+            ['ps_test_Ps_something', 'test_me', 'Modules.Testpssomething.Test_me'],
+            ['ps_test_ps_something', 'test_Me', 'Modules.Testpssomething.Test_me'],
             ['ps_test_ps_something', 'testMe', 'Modules.Testpssomething.Testme'],
             ['ps_test_ps_something', 'test-Me', 'Modules.Testpssomething.Test-me'],
             ['ps_test_ps_something', 'test.Me', 'Modules.Testpssomething.Test.me'],
+            ['some_module', 'ps_some_test.tpl', 'Modules.Somemodule.Ps_some_test'],
+            ['some_module', 'some_test.tpl', 'Modules.Somemodule.Some_test'],
+            ['some_module', 'some_test.html', 'Modules.Somemodule.Some_test.html'],
+            ['some_module', 'some_test.html.twig', 'Modules.Somemodule.Some_test.html.twig'],
+            ['some_module', 'SomeController', 'Modules.Somemodule.Some'],
+            ['some_module', 'SomeController.php', 'Modules.Somemodule.Somecontroller.php'],
         ];
     }
 
