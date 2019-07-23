@@ -88,7 +88,7 @@ class DomainHelper
                 $source = substr($source, 0, -10);
             }
 
-            $source = ucfirst(strtr($source, ['_' => '']));
+            $source = ucfirst($source);
         }
 
         $domain = 'Modules.' . $transformedModuleName . '.' . $source;
