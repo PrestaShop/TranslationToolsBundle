@@ -2,24 +2,25 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
+use PHPUnit\Framework\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\Flattenizer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class FlattenizerTest extends \PHPUnit_Framework_TestCase
+class FlattenizerTest extends TestCase
 {
     private static $fixturesPath;
     private static $fs;
     private static $outputPath;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fixturesPath = self::path('flattenizer/en-US');
         self::$fs = new Filesystem();
         self::$outputPath = self::path('flattenized-translations');
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$fs->remove(self::$outputPath);
     }

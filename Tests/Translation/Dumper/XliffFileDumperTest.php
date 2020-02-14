@@ -10,12 +10,12 @@ class XliffFileDumperTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new XliffFileDumper();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -74,7 +74,7 @@ class XliffFileDumperTest extends TestCase
 
     public function testDumpWithoutPath()
     {
-        $this->setExpectedException('InvalidArgumentException', 'The file dumper needs a path option.');
+        $this->expectException('InvalidArgumentException', 'The file dumper needs a path option.');
         $this->instance->dump($this->getFilledMessageCatalogue());
     }
 
@@ -87,7 +87,7 @@ class XliffFileDumperTest extends TestCase
         }
 
         mkdir($directory, 0500);
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
         $this->instance->dump($this->getFilledMessageCatalogue(), ['path' => $directory]);
     }
 

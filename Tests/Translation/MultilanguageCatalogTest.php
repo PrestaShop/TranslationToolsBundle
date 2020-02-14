@@ -9,12 +9,12 @@ class MultilanguageCatalogTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new MultilanguageCatalog();
     }
 
-    public function teaDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }

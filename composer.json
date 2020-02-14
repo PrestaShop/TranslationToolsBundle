@@ -35,7 +35,7 @@
   },
   "require-dev": {
     "doctrine/common": "~2.10.0",
-    "phpunit/phpunit": "^5.7",
+    "phpunit/phpunit": "^7.5 || ^8.5",
     "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
     "symfony/translation": "^3.4 || ^4.4 || ^5.0"
   }
