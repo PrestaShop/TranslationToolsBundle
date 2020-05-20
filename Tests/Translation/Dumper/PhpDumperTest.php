@@ -10,12 +10,12 @@ class PhpDumperTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new PhpDumper();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -51,7 +51,7 @@ class PhpDumperTest extends TestCase
 
     public function testDumpWithoutPath()
     {
-        $this->setExpectedException('InvalidArgumentException', 'The file dumper needs a path option.');
+        $this->expectException('InvalidArgumentException', 'The file dumper needs a path option.');
         $this->instance->dump($this->getFilledMessageCatalogue());
     }
 
@@ -64,7 +64,7 @@ class PhpDumperTest extends TestCase
         }
 
         mkdir($directory, 0500);
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
         $this->instance->dump($this->getFilledMessageCatalogue(), ['path' => $directory]);
     }
 

@@ -9,12 +9,12 @@ class TraitExtractorTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = $this->getMockForTrait('PrestaShop\TranslationToolsBundle\Translation\Extractor\TraitExtractor');
     }
 
-    public function teaDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }

@@ -10,7 +10,7 @@ class PhpBuilderTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new PhpBuilder();
 
@@ -18,7 +18,7 @@ class PhpBuilderTest extends TestCase
         $this->setInaccessibleProperty($this->instance, 'output', '');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -83,7 +83,7 @@ class PhpBuilderTest extends TestCase
     public function testAppendMethodsWithWrongPos($method, $parameters, $position, $expectedException)
     {
         $this->setInaccessibleProperty($this->instance, 'pos', $position);
-        $this->setExpectedException($expectedException);
+        $this->expectException($expectedException);
         $this->invokeInaccessibleMethod($this->instance, $method, $parameters);
     }
 

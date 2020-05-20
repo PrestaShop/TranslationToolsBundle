@@ -11,7 +11,7 @@ class TranslationTemplateCompilerTest extends TestCase
 {
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new TranslationTemplateCompiler(
             'Smarty_Internal_Templatelexer',
@@ -20,7 +20,7 @@ class TranslationTemplateCompilerTest extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -32,7 +32,7 @@ class TranslationTemplateCompilerTest extends TestCase
 
         $this->assertSame($this->instance, $this->instance->setTemplateFile($validFile));
         $this->assertEquals($validFile, $this->getInaccessibleProperty($this->instance, 'templateFile'));
-        $this->setExpectedException('Symfony\Component\Filesystem\Exception\FileNotFoundException');
+        $this->expectException('Symfony\Component\Filesystem\Exception\FileNotFoundException');
 
         $this->instance->setTemplateFile($invalidFile);
     }

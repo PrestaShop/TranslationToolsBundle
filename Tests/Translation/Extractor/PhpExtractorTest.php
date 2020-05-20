@@ -16,7 +16,7 @@ class PhpExtractorTest extends TestCase
      */
     protected $phpExtractor;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->phpExtractor = new PhpExtractor();
     }
