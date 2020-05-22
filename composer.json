@@ -4,20 +4,6 @@
   "keywords": ["translation", "parser", "prestashop"],
   "license": "MIT",
   "type": "bundle",
-  "authors": [
-    {
-      "name": "Mickaël Andrieu",
-      "email": "andrieu.travail@gmail.com"
-    },
-    {
-      "name": "Nawo Mbechezi",
-      "email": "mlanawo.mbechezi@ikimea.com"
-    },
-    {
-      "name": "Jérémie Tabet",
-      "email": "master@jeremietabet.com"
-    }
-  ],
   "config": {
     "sort-packages": true
   },
