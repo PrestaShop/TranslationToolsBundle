@@ -6,16 +6,12 @@
   "type": "bundle",
   "authors": [
     {
-      "name": "Mickaël Andrieu",
-      "email": "andrieu.travail@gmail.com"
+      "name": "PrestaShop SA",
+      "email": "contact@prestashop.com"
     },
     {
-      "name": "Nawo Mbechezi",
-      "email": "mlanawo.mbechezi@ikimea.com"
-    },
-    {
-      "name": "Jérémie Tabet",
-      "email": "master@jeremietabet.com"
+      "name": "PrestaShop Community",
+      "homepage": "http://contributors.prestashop.com/"
     }
   ],
   "config": {
