@@ -143,6 +143,8 @@ class PhpExtractorTest extends TestCase
                 'file' => 'fixtures/TestFormChoicesTranslatorAware.php',
                 'expected' => [
                     'Install' => [
+                        "Some %foo% wording",
+                        "-- Please choose your main activity --",
                         "Animals and Pets",
                         "Art and Culture",
                         "Babies",

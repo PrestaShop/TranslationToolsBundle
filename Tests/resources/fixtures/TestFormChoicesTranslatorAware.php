@@ -53,6 +53,8 @@ class PreferencesType extends TranslatorAwareType
         $configuration = $this->getConfiguration();
         $isSslEnabled = $configuration->getBoolean('PS_SSL_ENABLED');
 
+        $test = $this->trans("Some %foo% wording", 'Install', ["%foo%" => "random"]);
+
         if ($this->isSecure) {
             $builder->add('enable_ssl', SwitchType::class);
         }
