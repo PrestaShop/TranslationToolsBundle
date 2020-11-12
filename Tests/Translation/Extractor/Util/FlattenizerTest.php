@@ -1,6 +1,6 @@
 <?php
 
-namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
+namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor\Util;
 
 use PHPUnit\Framework\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\Flattenizer;
