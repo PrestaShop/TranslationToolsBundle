@@ -1,6 +1,6 @@
 <?php
 
-namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Dumper;
+namespace PrestaShop\TranslationToolsBundle\Tests\Translation;
 
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\MultilanguageCatalog;
