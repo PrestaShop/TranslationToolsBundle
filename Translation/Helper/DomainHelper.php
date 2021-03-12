@@ -40,7 +40,7 @@ class DomainHelper
         $directorySegments = array_slice($segments, 0, 2);
 
         if (count($directorySegments) !== count($segments)) {
-            return implode(DIRECTORY_SEPARATOR, $directorySegments).DIRECTORY_SEPARATOR.implode('.', array_slice($segments, 2));
+            return implode(DIRECTORY_SEPARATOR, $directorySegments) . DIRECTORY_SEPARATOR . implode('.', array_slice($segments, 2));
         }
 
         return implode(DIRECTORY_SEPARATOR, $directorySegments);

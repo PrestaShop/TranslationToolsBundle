@@ -17,7 +17,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function extractFrom(Node $node)
     {
@@ -35,7 +35,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 
         $translation = [
             'source' => $key,
-            'line'   => $node->args[0]->getLine(),
+            'line' => $node->args[0]->getLine(),
         ];
 
         if ($nodeName == 'trans') {
@@ -53,8 +53,6 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     }
 
     /**
-     * @param Node $node
-     *
      * @return bool
      */
     private function appliesFor(Node $node)
@@ -63,16 +61,13 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
             return false;
         }
 
-        return (
+        return
             ($node instanceof Node\Expr\MethodCall || $node instanceof Node\Expr\FuncCall)
             && ($node->name instanceof Node\Identifier || $node->name instanceof Node\Name)
-        );
+        ;
     }
 
-
     /**
-     * @param Node\Arg $arg
-     *
      * @return string|null
      */
     private function getValue(Node\Arg $arg)
@@ -95,6 +90,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
             // $node->name is an instance of Identifier
             return $node->name->parts[0];
         }
+
         return $node->name->name;
     }
 }

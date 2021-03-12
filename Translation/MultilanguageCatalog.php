@@ -29,7 +29,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation;
 
 class MultilanguageCatalog
 {
-    /** @var [] $messages (key/locale) */
+    /** @var [] (key/locale) */
     private $messages = [];
 
     /**
@@ -61,7 +61,7 @@ class MultilanguageCatalog
     /**
      * @param string|int $key
      * @param string|int $locale
-     * @param mixed      $translation
+     * @param mixed $translation
      */
     public function set($key, $locale, $translation)
     {

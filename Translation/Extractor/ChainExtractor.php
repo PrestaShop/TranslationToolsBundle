@@ -27,11 +27,11 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
-use Symfony\Component\Translation\Extractor\ChainExtractor as BaseChaineExtractor;
-use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use PrestaShop\TranslationToolsBundle\Configuration;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\Extractor\ChainExtractor as BaseChaineExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class ChainExtractor extends BaseChaineExtractor
 {
@@ -43,8 +43,7 @@ class ChainExtractor extends BaseChaineExtractor
     private $extractors = [];
 
     /**
-     * @param string             $format
-     * @param ExtractorInterface $extractor
+     * @param string $format
      *
      * @return self
      */
@@ -65,11 +64,11 @@ class ChainExtractor extends BaseChaineExtractor
         $finder->ignoreUnreadableDirs();
 
         foreach (Configuration::getPaths() as $item) {
-            $finder->path('{^'.$item.'}');
+            $finder->path('{^' . $item . '}');
         }
 
         foreach (Configuration::getExcludeFiles() as $item) {
-            $finder->notPath('{^'.$item.'}');
+            $finder->notPath('{^' . $item . '}');
         }
 
         foreach ($this->extractors as $extractor) {

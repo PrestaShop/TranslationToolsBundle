@@ -2,9 +2,9 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\PhpUnit;
 
-use ReflectionProperty;
-use ReflectionMethod;
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+use ReflectionMethod;
+use ReflectionProperty;
 use Symfony\Component\Translation\MessageCatalogue;
 
 class TestCase extends PhpUnitTestCase
@@ -28,7 +28,7 @@ class TestCase extends PhpUnitTestCase
     /**
      * @param object $object
      * @param string $property
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return TestCase
      */
@@ -45,7 +45,7 @@ class TestCase extends PhpUnitTestCase
     /**
      * @param object $object
      * @param string $method
-     * @param mixed  $args
+     * @param mixed $args
      *
      * @return mixed
      */
@@ -66,7 +66,7 @@ class TestCase extends PhpUnitTestCase
      */
     protected function getResource($resourceName)
     {
-        return realpath(__DIR__.'/../resources/'.$resourceName);
+        return realpath(__DIR__ . '/../resources/' . $resourceName);
     }
 
     /**

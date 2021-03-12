@@ -104,7 +104,7 @@ class TestController
                 'domain' => 'Admin.Notifications.Error',
                 'parameters' => [],
                 'foo' => [],
-            ]
+            ],
         ];
 
         return [

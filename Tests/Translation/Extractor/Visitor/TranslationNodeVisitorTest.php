@@ -2,9 +2,9 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor\Visitor;
 
+use PhpParser\Comment;
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNodeVisitor;
-use PhpParser\Comment;
 
 class TranslationNodeVisitorTest extends TestCase
 {

@@ -47,7 +47,6 @@ class ChoiceExtractor
      */
     private $defaultTranslationDomain;
 
-
     public function __construct(Node $node, $defaultTranslationDomain = '')
     {
         $this->rootNode = $node;
@@ -61,13 +60,13 @@ class ChoiceExtractor
     {
         $node = $this->rootNode;
 
-        return (
+        return
             $node instanceof Node\Expr\MethodCall
             // $node->name is an instance of Identifier
             && $node->name->name === self::METHOD_NAME
             && count($node->args) >= self::EXPECTED_ARG_COUNT
             && $this->argIsChoiceType($node->args[self::CLASS_ARG_INDEX])
-        );
+        ;
     }
 
     /**
@@ -115,7 +114,7 @@ class ChoiceExtractor
             $translationDomainNode = $this->getOptionNodeByKey(self::OPTION_NAME_TRANSLATION_DOMAIN, $options);
 
             if (!$translationDomainNode instanceof Node\Scalar\String_) {
-                throw new \RuntimeException("Translation Domain node is not a string");
+                throw new \RuntimeException('Translation Domain node is not a string');
             }
 
             return $translationDomainNode->value;
@@ -135,7 +134,7 @@ class ChoiceExtractor
         $choicesNode = $this->getOptionNodeByKey(self::OPTION_NAME_CHOICES, $options);
 
         if (!$choicesNode instanceof Node\Expr\Array_) {
-            throw new \RuntimeException("Choices node is not an array");
+            throw new \RuntimeException('Choices node is not an array');
         }
 
         return $choicesNode;
@@ -150,7 +149,7 @@ class ChoiceExtractor
 
         $arg = $node->args[self::OPTIONS_ARG_INDEX];
         if (!$arg->value instanceof Node\Expr\Array_) {
-            throw new \RuntimeException("The options node is not an array");
+            throw new \RuntimeException('The options node is not an array');
         }
 
         return $arg->value;
@@ -160,7 +159,6 @@ class ChoiceExtractor
      * Look up option in the options node
      *
      * @param string $optionName Option name to look up
-     * @param Node\Expr\Array_ $optionsNode
      *
      * @return Node\Expr Node
      */
@@ -179,16 +177,14 @@ class ChoiceExtractor
     }
 
     /**
-     * @param Node\Arg $node
-     *
      * @return bool
      */
     private function argIsChoiceType(Node\Arg $node)
     {
-        return (
+        return
             $node->value instanceof Node\Expr\ClassConstFetch
             && $node->value->class instanceof Node\Name
             && in_array(self::CHOICE_CLASS_NAME, $node->value->class->parts)
-        );
+        ;
     }
 }

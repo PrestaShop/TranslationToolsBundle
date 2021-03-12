@@ -57,7 +57,7 @@ class PhpDumperTest extends TestCase
 
     public function testDumpWithUnwritablePath()
     {
-        $directory = $this->getResource('').'/unwritable';
+        $directory = $this->getResource('') . '/unwritable';
 
         if (is_dir($directory)) {
             rmdir($directory);
@@ -70,7 +70,7 @@ class PhpDumperTest extends TestCase
 
     public function testDumpWithValidConfig()
     {
-        $directory = $this->getResource('').'/dump';
+        $directory = $this->getResource('') . '/dump';
         $expectedFiles = [
             'dump/themes/classic/lang/en.php',
             'dump/translations/en/admin.php',

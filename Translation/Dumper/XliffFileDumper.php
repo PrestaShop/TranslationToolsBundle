@@ -28,12 +28,12 @@
 namespace PrestaShop\TranslationToolsBundle\Translation\Dumper;
 
 use Locale;
-use Symfony\Component\Translation\Dumper\XliffFileDumper as BaseXliffFileDumper;
-use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Filesystem\Filesystem;
+use PrestaShop\TranslationToolsBundle\Configuration;
 use PrestaShop\TranslationToolsBundle\Translation\Builder\XliffBuilder;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
-use PrestaShop\TranslationToolsBundle\Configuration;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Translation\Dumper\XliffFileDumper as BaseXliffFileDumper;
+use Symfony\Component\Translation\MessageCatalogue;
 
 class XliffFileDumper extends BaseXliffFileDumper
 {
@@ -49,17 +49,17 @@ class XliffFileDumper extends BaseXliffFileDumper
      */
     private function getRelativePath($domain, $locale)
     {
-        return strtr($this->relativePathTemplate, array(
+        return strtr($this->relativePathTemplate, [
             '%locale%' => $locale,
             '%domain%' => $domain,
             '%extension%' => $this->getExtension(),
-        ));
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dump(MessageCatalogue $messages, $options = array())
+    public function dump(MessageCatalogue $messages, $options = [])
     {
         if (!array_key_exists('path', $options)) {
             throw new \InvalidArgumentException('The file dumper needs a path option.');
@@ -82,7 +82,7 @@ class XliffFileDumper extends BaseXliffFileDumper
     /**
      * {@inheritdoc}
      */
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
     {
         if (array_key_exists('default_locale', $options)) {
             $defaultLocale = $options['default_locale'];
@@ -97,7 +97,7 @@ class XliffFileDumper extends BaseXliffFileDumper
             if (!empty($source)) {
                 $metadata = $messages->getMetadata($source, $domain);
 
-                /**
+                /*
                  * Handle original file information from xliff file.
                  * This is needed if at least part of the catalogue was read from xliff files
                  */
@@ -129,11 +129,11 @@ class XliffFileDumper extends BaseXliffFileDumper
 
         if (!empty($transMetadata['file'])) {
             if (isset($transMetadata['line'])) {
-                $notes['line'] = 'Line: '.$transMetadata['line'];
+                $notes['line'] = 'Line: ' . $transMetadata['line'];
             }
 
             if (isset($transMetadata['comment'])) {
-                $notes['comment'] = 'Comment: '.$transMetadata['comment'];
+                $notes['comment'] = 'Comment: ' . $transMetadata['comment'];
             }
         }
 

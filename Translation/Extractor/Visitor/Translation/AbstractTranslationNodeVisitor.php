@@ -7,7 +7,6 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationColl
 
 abstract class AbstractTranslationNodeVisitor extends NodeVisitorAbstract implements TranslationVisitorInterface
 {
-
     /**
      * @var TranslationCollection
      */
@@ -19,7 +18,7 @@ abstract class AbstractTranslationNodeVisitor extends NodeVisitorAbstract implem
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTranslationCollection()
     {

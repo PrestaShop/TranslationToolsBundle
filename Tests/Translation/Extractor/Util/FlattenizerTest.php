@@ -34,12 +34,12 @@ class FlattenizerTest extends TestCase
         );
 
         $this->assertTrue($done);
-        $isFilesExists = self::$fs->exists(array(
-            self::$outputPath.'/ShopFooBar.en-US.xlf',
-            self::$outputPath.'/ShopThemeActions.en-US.xlf',
-            self::$outputPath.'/ShopThemeProduct.en-US.xlf',
-            self::$outputPath.'/ShopThemeCart.en-US.xlf',
-        ));
+        $isFilesExists = self::$fs->exists([
+            self::$outputPath . '/ShopFooBar.en-US.xlf',
+            self::$outputPath . '/ShopThemeActions.en-US.xlf',
+            self::$outputPath . '/ShopThemeProduct.en-US.xlf',
+            self::$outputPath . '/ShopThemeCart.en-US.xlf',
+        ]);
 
         $this->assertTrue($isFilesExists);
     }
@@ -56,19 +56,19 @@ class FlattenizerTest extends TestCase
 
         $this->assertTrue($done);
 
-        $isFilesExists = self::$fs->exists(array(
-            $output.'/Emails.en-US.xlf',
-            $output.'/Install.en-US.xlf',
-            $output.'/messages.en-US.xlf',
-            $output.'/AdminCatalogFeature.en-US.xlf',
-            $output.'/AdminActions.en-US.xlf',
-        ));
+        $isFilesExists = self::$fs->exists([
+            $output . '/Emails.en-US.xlf',
+            $output . '/Install.en-US.xlf',
+            $output . '/messages.en-US.xlf',
+            $output . '/AdminCatalogFeature.en-US.xlf',
+            $output . '/AdminActions.en-US.xlf',
+        ]);
 
         $this->assertTrue($isFilesExists);
     }
 
     private static function path($resourceName)
     {
-        return __DIR__.'/../../../resources/'.$resourceName;
+        return __DIR__ . '/../../../resources/' . $resourceName;
     }
 }

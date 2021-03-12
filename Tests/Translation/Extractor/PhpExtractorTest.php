@@ -2,9 +2,9 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
+use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\PhpExtractor;
 use Symfony\Component\Translation\MessageCatalogue;
-use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 
 /**
  * @todo: Mock MessageCatalogue
@@ -136,35 +136,35 @@ class PhpExtractorTest extends TestCase
                         'Brand',
                         'Product quantity',
                         'Product reference',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'TestFormChoicesTranslatorAware.php' => [
                 'file' => 'fixtures/TestFormChoicesTranslatorAware.php',
                 'expected' => [
                     'Install' => [
-                        "Some %foo% wording",
-                        "-- Please choose your main activity --",
-                        "Animals and Pets",
-                        "Art and Culture",
-                        "Babies",
-                        "Beauty and Personal Care",
-                        "Cars",
-                        "Computer Hardware and Software",
-                        "Download",
-                        "Fashion and accessories",
-                        "Flowers, Gifts and Crafts",
-                        "Food and beverage",
-                        "HiFi, Photo and Video",
-                        "Home and Garden",
-                        "Home Appliances",
-                        "Jewelry",
-                        "Lingerie and Adult",
-                        "Mobile and Telecom",
-                        "Services",
-                        "Shoes and accessories",
-                        "Sport and Entertainment",
-                        "Travel",
+                        'Some %foo% wording',
+                        '-- Please choose your main activity --',
+                        'Animals and Pets',
+                        'Art and Culture',
+                        'Babies',
+                        'Beauty and Personal Care',
+                        'Cars',
+                        'Computer Hardware and Software',
+                        'Download',
+                        'Fashion and accessories',
+                        'Flowers, Gifts and Crafts',
+                        'Food and beverage',
+                        'HiFi, Photo and Video',
+                        'Home and Garden',
+                        'Home Appliances',
+                        'Jewelry',
+                        'Lingerie and Adult',
+                        'Mobile and Telecom',
+                        'Services',
+                        'Shoes and accessories',
+                        'Sport and Entertainment',
+                        'Travel',
                     ],
                     'Admin.Shopparameters.Feature' => [
                         'Round up away from zero, when it is half way there (recommended)',
@@ -176,8 +176,8 @@ class PhpExtractorTest extends TestCase
                         'Round on each item',
                         'Round on each line',
                         'Round on the total',
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }

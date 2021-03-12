@@ -27,11 +27,11 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty;
 
-use SmartyException;
-use SmartyCompilerException;
 use Smarty_Internal_SmartyTemplateCompiler;
-use Smarty_Internal_Templateparser;
 use Smarty_Internal_Template;
+use Smarty_Internal_Templateparser;
+use SmartyCompilerException;
+use SmartyException;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
@@ -40,14 +40,14 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
      *  Inherited from Smarty_Internal_TemplateCompilerBase.
      *
      * @var Smarty_Internal_Template
-     * @var bool                     $inheritance_child
+     * @var bool
      *
      * Inherited from Smarty_Internal_SmartyTemplateCompiler
-     * @var Smarty $smarty
-     * @var string $lexer_class
-     * @var object $lex
-     * @var string $parser_class
-     * @var object $parser
+     * @var Smarty
+     * @var string
+     * @var object
+     * @var string
+     * @var object
      */
 
     /**
@@ -137,8 +137,8 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
     }
 
     /**
-     * @param string   $string
-     * @param null|int $token
+     * @param string $string
+     * @param int|null $token
      *
      * @return string
      */
@@ -153,8 +153,6 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
     }
 
     /**
-     * @param array $tagStack
-     *
      * @return array|null
      */
     private function explodeLTag(array $tagStack)
@@ -184,10 +182,6 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
     }
 
     /**
-     * @param array                   $value
-     * @param SmartyCompilerException $exception
-     * @param array                   $previousComment
-     *
      * @return array
      */
     private function getTag(array $value, SmartyCompilerException $exception, array $previousComment)

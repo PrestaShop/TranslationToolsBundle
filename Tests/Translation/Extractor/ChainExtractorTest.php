@@ -2,9 +2,9 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
+use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\ChainExtractor;
 use Symfony\Component\Translation\MessageCatalogue;
-use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 
 class ChainExtractorTest extends TestCase
 {
@@ -31,7 +31,7 @@ class ChainExtractorTest extends TestCase
     public function testExtract()
     {
         $directory = '/';
-        $catalog = new MessageCatalogue('en', array());
+        $catalog = new MessageCatalogue('en', []);
         $extractor = $this->getMockBuilder('Symfony\Component\Translation\Extractor\ExtractorInterface')
             ->setMethods(['setFinder', 'extract', 'setPrefix'])
             ->disableOriginalConstructor()

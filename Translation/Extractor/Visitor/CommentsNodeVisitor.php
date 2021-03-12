@@ -2,8 +2,8 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor;
 
-use PhpParser\NodeVisitorAbstract;
 use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
 
 /**
  * Extracts comment information
@@ -43,9 +43,6 @@ class CommentsNodeVisitor extends NodeVisitorAbstract
         return $this->comments;
     }
 
-    /**
-     * @param Node $node
-     */
     private function tryExtractComments(Node $node)
     {
         $comments = $node->getAttribute('comments');
@@ -53,8 +50,8 @@ class CommentsNodeVisitor extends NodeVisitorAbstract
         if (is_array($comments)) {
             foreach ($comments as $comment) {
                 $this->comments[] = [
-                    'line'    => $comment->getLine(),
-                    'file'    => $this->file,
+                    'line' => $comment->getLine(),
+                    'file' => $this->file,
                     'comment' => trim($comment->getText(), " \t\n\r\0\x0B/*"),
                 ];
             }

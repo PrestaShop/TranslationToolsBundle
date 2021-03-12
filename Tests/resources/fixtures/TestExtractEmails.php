@@ -1,8 +1,8 @@
-<?php include('header.php'); ?>
+<?php include 'header.php'; ?>
 
 <tr>
 	<td align="center" class="titleblock">
-		<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
+		<font size="2" face="<?php echo $emailDefaultFont; ?>Open-sans, sans-serif" color="#555454">
 			<span class="title"><?php echo t('Hi {firstname} {lastname},'); ?></span><br/>
 			<span class="subtitle"><?php echo t('Thank you for creating a customer account at {shop_name}.'); ?></span>
 		</font>
@@ -17,7 +17,7 @@
 			<tr>
 				<td width="10">&nbsp;</td>
 				<td>
-					<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
+					<font size="2" face="<?php echo $emailDefaultFont; ?>Open-sans, sans-serif" color="#555454">
 						<p data-html-only="1" style="border-bottom:1px solid #D6D4D4;">
 							<?php echo t('Your {shop_name} login details'); ?>
 						</p>
@@ -41,7 +41,7 @@
 			<tr>
 				<td width="10">&nbsp;</td>
 				<td>
-					<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
+					<font size="2" face="<?php echo $emailDefaultFont; ?>Open-sans, sans-serif" color="#555454">
 						<p style="border-bottom:1px solid #D6D4D4;"><?php echo t('Important Security Tips:'); ?></p>
 						<ol>
 							<li><?php echo t('Always keep your account details safe.'); ?></li>
@@ -61,10 +61,10 @@
 </tr>
 <tr>
 	<td class="linkbelow">
-		<font size="2" face="<?php echo $emailDefaultFont ?>Open-sans, sans-serif" color="#555454">
+		<font size="2" face="<?php echo $emailDefaultFont; ?>Open-sans, sans-serif" color="#555454">
 			<span><?php echo t('You can now place orders on our shop:'); ?> <a href="{shop_url}">{shop_name}</a></span>
 		</font>
 	</td>
 </tr>
 
-<?php include('footer.php'); ?>
+<?php include 'footer.php'; ?>

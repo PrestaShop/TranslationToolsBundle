@@ -33,9 +33,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ExtractorCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function process(ContainerBuilder $container)
     {
         foreach ($container->findTaggedServiceIds('prestashop.translation.extractor') as $id => $attributes) {

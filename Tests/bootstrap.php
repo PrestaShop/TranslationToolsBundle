@@ -2,8 +2,8 @@
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-if (!($loader = @include __DIR__.'/../vendor/autoload.php')) {
-    die(<<<EOT
+if (!($loader = @include __DIR__ . '/../vendor/autoload.php')) {
+    exit(<<<EOT
 You need to install the project dependencies using Composer:
 $ wget http://getcomposer.org/composer.phar
 OR
