@@ -23,6 +23,7 @@
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+
 namespace PrestaShopBundle\Form\Admin\Configure\ShopParameters\ProductPreferences;
 
 use Symfony\Component\Form\AbstractType;
@@ -66,6 +67,7 @@ class PaginationType extends AbstractType
                 'choice_translation_domain' => 'Admin.Global',
             ]);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -75,6 +77,7 @@ class PaginationType extends AbstractType
             'translation_domain' => 'Admin.Shopparameters.Feature',
         ]);
     }
+
     /**
      * {@inheritdoc}
      */

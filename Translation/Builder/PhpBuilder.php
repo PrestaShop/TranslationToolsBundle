@@ -79,13 +79,13 @@ class PhpBuilder
     public function appendStringLine($varName, $key, $value)
     {
         if ($this->pos !== self::POS_NEWLINE) {
-            throw new Exception('Unable to append new line (current pos is '.$this->pos.')');
+            throw new Exception('Unable to append new line (current pos is ' . $this->pos . ')');
         }
 
         $this->appendVar($varName)
             ->appendKey($key)
             ->appendVarAssignation()
-            ->appendValue("'".$value."'")
+            ->appendValue("'" . $value . "'")
             ->appendEndOfLine();
 
         return $this;
@@ -96,7 +96,7 @@ class PhpBuilder
      */
     protected function open()
     {
-        $this->output .= '<?php'.PHP_EOL.PHP_EOL;
+        $this->output .= '<?php' . PHP_EOL . PHP_EOL;
         $this->pos = self::POS_NEWLINE;
 
         return $this;
@@ -109,7 +109,7 @@ class PhpBuilder
      */
     protected function appendVar($varName)
     {
-        $this->output .= '$'.$varName;
+        $this->output .= '$' . $varName;
         $this->pos = self::POS_VAR;
 
         return $this;
@@ -122,7 +122,7 @@ class PhpBuilder
      */
     protected function appendKey($key)
     {
-        $this->output .= "['".$key."']";
+        $this->output .= "['" . $key . "']";
         $this->pos = self::POS_ARRAY_KEY;
 
         return $this;
@@ -157,7 +157,7 @@ class PhpBuilder
      */
     protected function appendEndOfLine()
     {
-        $this->output .= ';'.PHP_EOL;
+        $this->output .= ';' . PHP_EOL;
         $this->pos = self::POS_NEWLINE;
 
         return $this;

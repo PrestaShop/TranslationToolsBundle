@@ -44,17 +44,17 @@ class LegacyHelper
                     'file' => 'translations/[locale]/admin.php',
                     'var' => '_LANGADM',
                     'generateKey' => function ($string) use ($inputFilename) {
-                        return self::getKeyPrefix($inputFilename).self::getKey($string);
+                        return self::getKeyPrefix($inputFilename) . self::getKey($string);
                     },
                 ];
 
             case preg_match('#^themes/([A-Za-z0-9_]+).+\.tpl$#', $inputFilename, $matches):
             case preg_match('#^themes/([A-Za-z0-9_]+)(?!modules/)[a-zA-Z0-9/-]+(?!_ss\d|\d)\.tpl$#', $inputFilename, $matches):
                 return [
-                    'file' => 'themes/'.$matches[1].'/lang/[locale].php',
+                    'file' => 'themes/' . $matches[1] . '/lang/[locale].php',
                     'var' => '_LANG',
                     'generateKey' => function ($string) use ($inputFilename) {
-                        return pathinfo(basename($inputFilename), PATHINFO_FILENAME).'_'.self::getKey($string);
+                        return pathinfo(basename($inputFilename), PATHINFO_FILENAME) . '_' . self::getKey($string);
                     },
                 ];
 
@@ -64,7 +64,7 @@ class LegacyHelper
                     'file' => '/lang/[locale].php',
                     'var' => '_LANG',
                     'generateKey' => function ($string) use ($inputFilename) {
-                        return pathinfo(basename($inputFilename), PATHINFO_FILENAME).'_'.self::getKey($string);
+                        return pathinfo(basename($inputFilename), PATHINFO_FILENAME) . '_' . self::getKey($string);
                     },
                 ];
 
@@ -74,16 +74,16 @@ class LegacyHelper
                     'file' => 'translations/[locale]/pdf.php',
                     'var' => '_LANGPDF',
                     'generateKey' => function ($string) {
-                        return 'PDF'.self::getKey($string);
+                        return 'PDF' . self::getKey($string);
                     },
                 ];
 
             case preg_match('#(?:/|^)modules/([A-Za-z0-9_]+)/#', $inputFilename, $matches):
                 return [
-                    'file' => 'modules/'.$matches[1].'/translations/[locale].php',
+                    'file' => 'modules/' . $matches[1] . '/translations/[locale].php',
                     'var' => '_MODULE',
                     'generateKey' => function ($string) use ($inputFilename, $matches) {
-                        return '<{'.$matches[1].'}prestashop>'.pathinfo(basename($inputFilename), PATHINFO_FILENAME).'_'.self::getKey($string);
+                        return '<{' . $matches[1] . '}prestashop>' . pathinfo(basename($inputFilename), PATHINFO_FILENAME) . '_' . self::getKey($string);
                     },
                 ];
 
@@ -100,8 +100,8 @@ class LegacyHelper
                 return [
                     'file' => 'translations/[locale]/fields.php',
                     'var' => '_FIELDS',
-                    'generateKey' => function ($string, $domain) use ($inputFilename) {
-                        return $domain.'_'.md5($string);
+                    'generateKey' => function ($string, $domain) {
+                        return $domain . '_' . md5($string);
                     },
                 ];
 

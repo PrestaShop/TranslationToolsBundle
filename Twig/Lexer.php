@@ -26,11 +26,11 @@ class Lexer extends \Twig_Lexer
 
         if (is_array($commentMatch[1])) {
             foreach ($commentMatch[1] as $comment) {
-                $this->comments[] = array(
+                $this->comments[] = [
                     'line' => $this->lineno,
                     'comment' => $comment,
                     'file' => $this->filename,
-                );
+                ];
             }
         }
 

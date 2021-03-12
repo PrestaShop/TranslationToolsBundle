@@ -89,19 +89,21 @@ class Flattenizer
      * @param string $locale Selected locale for theses files
      * @param Filesystem $filesystem Instance of Filesystem
      * @param bool $addLocale Should add the locale to filename
+     *
      * @return bool
      */
     public static function flattenFiles($files, $outputPath, $locale, $filesystem, $addLocale = true)
     {
         foreach ($files as $file) {
-            $flatName = preg_replace('#[\/\\\]#', '', $file->getRelativePath()).$file->getFilename();
+            $flatName = preg_replace('#[\/\\\]#', '', $file->getRelativePath()) . $file->getFilename();
 
             if ($addLocale) {
-                $flatName = preg_replace('#\.xlf#', '.'.$locale.'.xlf', $flatName);
+                $flatName = preg_replace('#\.xlf#', '.' . $locale . '.xlf', $flatName);
             }
 
-            $filesystem->copy($file->getRealpath(), $outputPath.'/'.$flatName);
+            $filesystem->copy($file->getRealpath(), $outputPath . '/' . $flatName);
         }
+
         return true;
     }
 }

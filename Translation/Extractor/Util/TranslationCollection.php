@@ -23,7 +23,7 @@ class TranslationCollection
             'domain' => $domain,
         ];
 
-        return  $translation;
+        return $translation;
     }
 
     /**
@@ -40,6 +40,7 @@ class TranslationCollection
 
     /**
      * Applies the provided translation domain for all translation items that don't specify a domain
+     *
      * @param string $domain
      */
     public function applyDefaultTranslationDomain($domain)

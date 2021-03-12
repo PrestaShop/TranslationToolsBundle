@@ -2,10 +2,10 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Compiler\Smarty;
 
-use Smarty;
-use Smarty_Internal_Templateparser;
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase as TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
+use Smarty;
+use Smarty_Internal_Templateparser;
 
 class TranslationTemplateCompilerTest extends TestCase
 {

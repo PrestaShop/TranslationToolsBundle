@@ -2,7 +2,6 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Builder;
 
-use Exception;
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Builder\PhpBuilder;
 
@@ -41,13 +40,13 @@ class PhpBuilderTest extends TestCase
     public function appendMethodsProvider()
     {
         return [
-            ['open', [], '<?php'.PHP_EOL.PHP_EOL, PhpBuilder::POS_NEWLINE],
+            ['open', [], '<?php' . PHP_EOL . PHP_EOL, PhpBuilder::POS_NEWLINE],
             ['appendVar', ['foo'], '$foo', PhpBuilder::POS_VAR],
             ['appendKey', ['bar'], "['bar']", PhpBuilder::POS_ARRAY_KEY],
             ['appendVarAssignation', [], ' = ', PhpBuilder::POS_ASSIGN],
             ['appendValue', ["'value'"], "'value'", PhpBuilder::POS_VALUE],
-            ['appendEndOfLine', [], ';'.PHP_EOL, PhpBuilder::POS_NEWLINE],
-            ['appendStringLine', ['foo', 'bar', 'value'], '$foo[\'bar\'] = \'value\';'.PHP_EOL, PhpBuilder::POS_NEWLINE],
+            ['appendEndOfLine', [], ';' . PHP_EOL, PhpBuilder::POS_NEWLINE],
+            ['appendStringLine', ['foo', 'bar', 'value'], '$foo[\'bar\'] = \'value\';' . PHP_EOL, PhpBuilder::POS_NEWLINE],
         ];
     }
 

@@ -80,7 +80,7 @@ class XliffFileDumperTest extends TestCase
 
     public function testDumpWithUnwritablePath()
     {
-        $directory = $this->getResource('').'/unwritable';
+        $directory = $this->getResource('') . '/unwritable';
 
         if (is_dir($directory)) {
             rmdir($directory);
@@ -93,7 +93,7 @@ class XliffFileDumperTest extends TestCase
 
     public function testDumpWithValidConfig()
     {
-        $directory = $this->getResource('').'/dump';
+        $directory = $this->getResource('') . '/dump';
 
         $this->instance->dump(
             $this->getFilledMessageCatalogue(),

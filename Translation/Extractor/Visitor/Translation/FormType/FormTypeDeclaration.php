@@ -13,13 +13,12 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\
  */
 class FormTypeDeclaration extends AbstractTranslationNodeVisitor
 {
-
     /**
      * FQCN to symfony form AbstractType, separated into parts
      */
     const SUPPORTED_FORM_TYPES = [
         ['Symfony', 'Component', 'Form', 'AbstractType'],
-        ['PrestaShopBundle', 'Form', 'Admin', 'Type', 'TranslatorAwareType']
+        ['PrestaShopBundle', 'Form', 'Admin', 'Type', 'TranslatorAwareType'],
     ];
 
     /**
@@ -61,7 +60,6 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
         $this->defaultTranslationDomainExtractor = new DefaultTranslationDomainExtractor();
     }
 
-
     public function enterNode(Node $node)
     {
         if ($this->shouldTryToExtractWordings($node)) {
@@ -79,29 +77,25 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
 
     private function needsPostProcessing()
     {
-        return (
+        return
             $this->classIsKnownToBeFormType
             && !empty($this->defaultTranslationDomain)
-        );
+        ;
     }
 
     /**
-     * @param Node $node
-     *
      * @return bool
      */
     private function shouldTryToExtractWordings(Node $node)
     {
-        return (
+        return
             $this->continueVisiting
             && $this->isAnInterestingNode($node)
             && $this->checkIfClassIsFormType($node)
-        );
+        ;
     }
 
     /**
-     * @param Node $node
-     *
      * @return bool
      */
     private function checkIfClassIsFormType(Node $node)
@@ -117,8 +111,6 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
     /**
      * Check if this node should be inspected
      *
-     * @param Node $node
-     *
      * @return bool
      */
     private function isAnInterestingNode(Node $node)
@@ -128,13 +120,12 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Find out if this node is a Use for a supported form type
-     *
-     * @param Node $node
      */
     private function checkIfUseSfAbstractTypeIsPresent(Node $node)
     {
@@ -153,8 +144,6 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
 
     /**
      * Find out if this node is a Class node which extends AbstractType
-     *
-     * @param Node $node
      */
     private function checkIfClassDeclarationExtendsSfAbstractType(Node $node)
     {
@@ -170,9 +159,6 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
         }
     }
 
-    /**
-     * @param Node $node
-     */
     private function tryToExtractChoiceWordings(Node $node)
     {
         if ($node instanceof Node\Expr\MethodCall) {

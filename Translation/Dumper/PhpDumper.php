@@ -29,9 +29,9 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Dumper;
 
 use PrestaShop\TranslationToolsBundle\Translation\Builder\PhpBuilder;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\LegacyHelper;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Translation\Dumper\FileDumper;
 use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Filesystem\Filesystem;
 
 class PhpDumper extends FileDumper
 {
@@ -43,7 +43,7 @@ class PhpDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    public function dump(MessageCatalogue $messages, $options = array())
+    public function dump(MessageCatalogue $messages, $options = [])
     {
         if (!array_key_exists('path', $options)) {
             throw new \InvalidArgumentException('The file dumper needs a path option.');
@@ -62,7 +62,7 @@ class PhpDumper extends FileDumper
 
         // Create files
         foreach ($this->builders as $filename => $builder) {
-            $fullpath = $options['path'].'/'.$filename;
+            $fullpath = $options['path'] . '/' . $filename;
             $directory = dirname($fullpath);
 
             if (!file_exists($directory) && !@mkdir($directory, 0777, true)) {
@@ -77,7 +77,7 @@ class PhpDumper extends FileDumper
     /**
      * {@inheritdoc}
      */
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
     {
         foreach ($messages->all($domain) as $source => $target) {
             $metadata = $messages->getMetadata($source, $domain);

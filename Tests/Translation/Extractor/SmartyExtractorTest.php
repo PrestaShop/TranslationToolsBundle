@@ -51,7 +51,7 @@ class SmartyExtractorTest extends TestCase
                 'Your order will be sent as soon as we receive payment.',
                 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
                 'We noticed a problem with your order. If you think this is an error, feel free to contact our [1]expert customer support team[/1].',
-            ]
+            ],
         ];
 
         $this->verifyCatalogue($messageCatalogue, $expected);
@@ -88,7 +88,7 @@ class SmartyExtractorTest extends TestCase
                 'By using this method you can only override the CSS of your theme.',
                 'By using this method you can override the CSS and html of your theme, and add analytics tags.',
                 'Once uploaded, the child theme will be available in your Theme & Logo section',
-            ]
+            ],
         ];
 
         $this->verifyCatalogue($messageCatalogue, $expected);
@@ -96,7 +96,6 @@ class SmartyExtractorTest extends TestCase
 
     /**
      * @param $fixtureResource
-     *
      * @param bool $includeExternalModules
      *
      * @return MessageCatalogue
@@ -140,6 +139,6 @@ class SmartyExtractorTest extends TestCase
      */
     protected function getResource($resourceName)
     {
-        return parent::getResource('fixtures/smarty/'.$resourceName);
+        return parent::getResource('fixtures/smarty/' . $resourceName);
     }
 }

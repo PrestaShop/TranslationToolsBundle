@@ -29,10 +29,10 @@ namespace PrestaShopBundle\Form\Admin\Configure\ShopParameters\General;
 use PrestaShop\PrestaShop\Adapter\Entity\Order;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class returning the content of the form in the maintenance page.
@@ -53,7 +53,7 @@ class PreferencesType extends TranslatorAwareType
         $configuration = $this->getConfiguration();
         $isSslEnabled = $configuration->getBoolean('PS_SSL_ENABLED');
 
-        $test = $this->trans("Some %foo% wording", 'Install', ["%foo%" => "random"]);
+        $test = $this->trans('Some %foo% wording', 'Install', ['%foo%' => 'random']);
 
         if ($this->isSecure) {
             $builder->add('enable_ssl', SwitchType::class);

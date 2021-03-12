@@ -27,17 +27,17 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use PhpParser\Lexer;
+use PhpParser\NodeTraverser;
+use PhpParser\ParserFactory;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
+use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNodeVisitor;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ArrayTranslationDefinition;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ExplicitTranslationCall;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\FormType\FormTypeDeclaration;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
-use PhpParser\ParserFactory;
-use PhpParser\Lexer;
-use PhpParser\NodeTraverser;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNodeVisitor;
 
 class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
@@ -63,15 +63,15 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     public function __construct()
     {
         $lexer = new Lexer(
-            array(
-                'usedAttributes' => array(
+            [
+                'usedAttributes' => [
                     'comments',
                     'startLine',
                     'endLine',
                     'startTokenPos',
                     'endTokenPos',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
@@ -99,7 +99,6 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 
     /**
      * @param $file
-     * @param MessageCatalogue $catalog
      *
      * @throws \Exception
      */
@@ -141,7 +140,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 
                 $catalog->set(
                     $translation['source'],
-                    $this->prefix.trim($translation['source']),
+                    $this->prefix . trim($translation['source']),
                     $translation['domain']
                 );
 
@@ -156,11 +155,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
                 );
             }
         } catch (\PhpParser\Error $e) {
-            throw new \Exception(
-                sprintf('Could not parse tokens in "%s" file. Is it syntactically valid?', $file),
-                $e->getCode(),
-                $e
-            );
+            throw new \Exception(sprintf('Could not parse tokens in "%s" file. Is it syntactically valid?', $file), $e->getCode(), $e);
         }
     }
 
