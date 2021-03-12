@@ -37,20 +37,6 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
 {
     /**
-     *  Inherited from Smarty_Internal_TemplateCompilerBase.
-     *
-     * @var Smarty_Internal_Template
-     * @var bool
-     *
-     * Inherited from Smarty_Internal_SmartyTemplateCompiler
-     * @var Smarty
-     * @var string
-     * @var object
-     * @var string
-     * @var object
-     */
-
-    /**
      * @var bool
      */
     public $nocache = false;
