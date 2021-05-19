@@ -1,4 +1,6 @@
 services:
+    _defaults:
+        public: true
     prestashop.smarty:
         class: PrestaShop\TranslationToolsBundle\Smarty
         calls:
