@@ -23,7 +23,7 @@
     }
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.2",
     "friendsofphp/php-cs-fixer": "^2.18",
     "nikic/php-parser": "^4",
     "smarty/smarty": "^3.1",

@@ -30,8 +30,6 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Translation\Manager\OriginalStringManager;
 use PrestaShop\TranslationToolsBundle\Translation\Parser\CrowdinPhpParser;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
-use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
 class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInterface
@@ -58,9 +56,9 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalog)
+    public function extract($resource, MessageCatalogue $catalog, array $excludedResources = [])
     {
-        $files = $this->extractFiles($resource);
+        $files = $this->extractFiles($resource, $excludedResources);
         foreach ($files as $file) {
             $generator = $this->crodwinPhpParser->parseFileTokens($file);
             for (; $generator->valid(); $generator->next()) {
@@ -109,10 +107,13 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
      *
      * @return array
      */
-    protected function extractFromDirectory($directory)
+    protected function extractFromDirectory($directory, $excludedResources = [])
     {
         $finder = new Finder();
 
-        return $finder->files()->name('*.php')->in($directory);
+        return $finder->files()
+            ->name('*.php')
+            ->in($directory)
+            ->exclude($excludedResources);
     }
 }
