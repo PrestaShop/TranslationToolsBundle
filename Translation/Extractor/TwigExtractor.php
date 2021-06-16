@@ -14,7 +14,6 @@ use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -61,9 +60,9 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalogue)
+    public function extract($resource, MessageCatalogue $catalogue, array $excludedResources = [])
     {
-        $files = $this->extractFiles($resource);
+        $files = $this->extractFiles($resource, $excludedResources);
         foreach ($files as $file) {
             if (!$this->canBeExtracted($file->getRealpath())) {
                 continue;
@@ -163,8 +162,40 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
      *
      * @return Finder
      */
-    protected function extractFromDirectory($directory)
+    protected function extractFromDirectory($directory, $excludedResources = [])
     {
-        return $this->getFinder()->files()->name('*.twig')->in($directory);
+        return $this->getFinder()->files()
+            ->name('*.twig')
+            ->in($directory)
+            ->exclude($excludedResources);
+    }
+
+    /**
+     * @param string|iterable $resource Files, a file or a directory
+     * @param array $excludedResources Directories that can be excluded from scanned resources
+     *
+     * @return iterable
+     */
+    protected function extractFiles($resource, array $excludedResources = [])
+    {
+        if (\is_array($resource) || $resource instanceof \Traversable) {
+            $files = [];
+            foreach ($resource as $file) {
+                if ($this->canBeExtracted($file) && !in_array($file, $excludedResources, true)) {
+                    $files[] = $this->toSplFileInfo($file);
+                }
+            }
+        } elseif (is_file($resource)) {
+            $files = $this->canBeExtracted($resource) ? [$this->toSplFileInfo($resource)] : [];
+        } else {
+            $files = $this->extractFromDirectory($resource, $excludedResources);
+        }
+
+        return $files;
+    }
+
+    private function toSplFileInfo(string $file): \SplFileInfo
+    {
+        return new \SplFileInfo($file);
     }
 }
