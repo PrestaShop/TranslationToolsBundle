@@ -30,8 +30,6 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
 use SplFileInfo;
-use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
-use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
 class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterface
@@ -66,9 +64,9 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalogue)
+    public function extract($resource, MessageCatalogue $catalogue, array $excludedResources = [])
     {
-        $files = $this->extractFiles($resource);
+        $files = $this->extractFiles($resource, $excludedResources);
         foreach ($files as $file) {
             if (!$this->canBeExtracted($file->getRealpath())) {
                 continue;
@@ -135,8 +133,11 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     /**
      * {@inheritdoc}
      */
-    protected function extractFromDirectory($directory)
+    protected function extractFromDirectory($directory, $excludedResources = [])
     {
-        return $this->getFinder()->name('*.tpl')->in($directory);
+        return $this->getFinder()
+            ->name('*.tpl')
+            ->in($directory)
+            ->exclude($excludedResources);
     }
 }
