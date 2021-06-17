@@ -32,7 +32,7 @@ use PrestaShop\TranslationToolsBundle\Translation\Parser\CrowdinPhpParser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInterface
+class CrowdinPhpExtractor extends AbstractFileExtractor
 {
     /**
      * Prefix for new found message.
@@ -56,9 +56,9 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalog, array $excludedResources = [])
+    public function extract($resource, MessageCatalogue $catalog)
     {
-        $files = $this->extractFiles($resource, $excludedResources);
+        $files = $this->extractFiles($resource);
         foreach ($files as $file) {
             $generator = $this->crodwinPhpParser->parseFileTokens($file);
             for (; $generator->valid(); $generator->next()) {
@@ -107,13 +107,13 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
      *
      * @return array
      */
-    protected function extractFromDirectory($directory, $excludedResources = [])
+    protected function extractFromDirectory($directory)
     {
         $finder = new Finder();
 
         return $finder->files()
             ->name('*.php')
             ->in($directory)
-            ->exclude($excludedResources);
+            ->exclude($this->getExcludedDirectories());
     }
 }

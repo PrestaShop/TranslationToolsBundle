@@ -31,6 +31,7 @@ use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 use Twig_Environment;
 use Twig_Error;
@@ -60,6 +61,11 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     private $twigLexer;
 
     /**
+     * @var array
+     */
+    private $excludedDirectories = [];
+
+    /**
      * The twig environment.
      *
      * @var Twig_Environment
@@ -70,12 +76,27 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $this->twigLexer = new Lexer($this->twig);
     }
 
+    public function getExcludedDirectories(): array
+    {
+        return $this->excludedDirectories;
+    }
+
+    /**
+     * @return TwigExtractor
+     */
+    public function excludedDirectories(array $excludedDirectories): self
+    {
+        $this->excludedDirectories = $excludedDirectories;
+
+        return $this;
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalogue, array $excludedResources = [])
+    public function extract($resource, MessageCatalogue $catalogue)
     {
-        $files = $this->extractFiles($resource, $excludedResources);
+        $files = $this->extractFiles($resource);
         foreach ($files as $file) {
             if (!$this->canBeExtracted($file->getRealpath())) {
                 continue;
@@ -173,33 +194,32 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
      *
      * @return Finder
      */
-    protected function extractFromDirectory($directory, $excludedResources = [])
+    protected function extractFromDirectory($directory)
     {
         return $this->getFinder()->files()
             ->name('*.twig')
             ->in($directory)
-            ->exclude($excludedResources);
+            ->exclude($this->getExcludedDirectories());
     }
 
     /**
      * @param string|iterable $resource Files, a file or a directory
-     * @param array $excludedResources Directories that can be excluded from scanned resources
      *
      * @return iterable
      */
-    protected function extractFiles($resource, array $excludedResources = [])
+    protected function extractFiles($resource)
     {
         if (\is_array($resource) || $resource instanceof \Traversable) {
             $files = [];
             foreach ($resource as $file) {
-                if ($this->canBeExtracted($file) && !in_array($file, $excludedResources, true)) {
+                if ($this->canBeExtracted($file)) {
                     $files[] = $this->toSplFileInfo($file);
                 }
             }
         } elseif (is_file($resource)) {
             $files = $this->canBeExtracted($resource) ? [$this->toSplFileInfo($resource)] : [];
         } else {
-            $files = $this->extractFromDirectory($resource, $excludedResources);
+            $files = $this->extractFromDirectory($resource);
         }
 
         return $files;

@@ -32,7 +32,7 @@ use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
 use SplFileInfo;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterface
+class SmartyExtractor extends AbstractFileExtractor
 {
     use TraitExtractor;
 
@@ -64,9 +64,9 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalogue, array $excludedResources = [])
+    public function extract($resource, MessageCatalogue $catalogue)
     {
-        $files = $this->extractFiles($resource, $excludedResources);
+        $files = $this->extractFiles($resource);
         foreach ($files as $file) {
             if (!$this->canBeExtracted($file->getRealpath())) {
                 continue;
@@ -133,11 +133,11 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     /**
      * {@inheritdoc}
      */
-    protected function extractFromDirectory($directory, $excludedResources = [])
+    protected function extractFromDirectory($directory)
     {
         return $this->getFinder()
             ->name('*.tpl')
             ->in($directory)
-            ->exclude($excludedResources);
+            ->exclude($this->getExcludedDirectories());
     }
 }
