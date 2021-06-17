@@ -20,7 +20,7 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\FormType\FormTypeDeclaration;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
+class PhpExtractor extends AbstractFileExtractor
 {
     use TraitExtractor;
 
@@ -61,9 +61,9 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     /**
      * {@inheritdoc}
      */
-    public function extract($resource, MessageCatalogue $catalogue, array $excludedResources = [])
+    public function extract($resource, MessageCatalogue $catalogue)
     {
-        $files = $this->extractFiles($resource, $excludedResources);
+        $files = $this->extractFiles($resource);
 
         foreach ($files as $file) {
             $this->parseFileTokens($file, $catalogue);
@@ -157,12 +157,12 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
      *
      * @return array
      */
-    protected function extractFromDirectory($directory, $excludedResources = [])
+    protected function extractFromDirectory($directory)
     {
         return $this->getFinder()
             ->files()
             ->name('*.php')
-            ->exclude($excludedResources)
+            ->exclude($this->getExcludedDirectories())
             ->in($directory);
     }
 }
