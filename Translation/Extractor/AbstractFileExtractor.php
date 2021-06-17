@@ -24,47 +24,32 @@
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * International Registered Trademark & Property of PrestaShop SA
  */
+declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor as BaseAbstractFileExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
 
-abstract class AbstractFileExtractor extends BaseAbstractFileExtractor
+abstract class AbstractFileExtractor extends BaseAbstractFileExtractor implements ExtractorInterface
 {
     /**
-     * @param string|iterable $resource Files, a file or a directory
-     * @param array $excludedResources Directories that can be excluded from scanned resources
-     *
-     * @return iterable
+     * @var array
      */
-    protected function extractFiles($resource, array $excludedResources = [])
-    {
-        if (\is_array($resource) || $resource instanceof \Traversable) {
-            $files = [];
-            foreach ($resource as $file) {
-                if ($this->canBeExtracted($file) && !in_array($file, $excludedResources, true)) {
-                    $files[] = $this->toSplFileInfo($file);
-                }
-            }
-        } elseif (is_file($resource)) {
-            $files = $this->canBeExtracted($resource) ? [$this->toSplFileInfo($resource)] : [];
-        } else {
-            $files = $this->extractFromDirectory($resource, $excludedResources);
-        }
+    private $excludedDirectories = [];
 
-        return $files;
-    }
-
-    private function toSplFileInfo(string $file): \SplFileInfo
+    public function getExcludedDirectories(): array
     {
-        return new \SplFileInfo($file);
+        return $this->excludedDirectories;
     }
 
     /**
-     * @param string|array $resource Files, a file or a directory
-     * @param array $excludedResources Directories that can be excluded from scanned resources
-     *
-     * @return iterable files to be extracted
+     * @return AbstractFileExtractor
      */
-    abstract protected function extractFromDirectory($resource, array $excludedResources = []);
+    public function excludedDirectories(array $excludedDirectories): self
+    {
+        $this->excludedDirectories = $excludedDirectories;
+
+        return $this;
+    }
 }
