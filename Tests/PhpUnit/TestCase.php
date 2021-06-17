@@ -70,10 +70,9 @@ class TestCase extends PhpUnitTestCase
     }
 
     /**
-     * @param $messageCatalogue
      * @param array[] $expected
      */
-    protected function verifyCatalogue(MessageCatalogue $messageCatalogue, $expected)
+    protected function verifyCatalogue(MessageCatalogue $messageCatalogue, array $expected)
     {
         $domains = $messageCatalogue->getDomains();
 
