@@ -182,6 +182,67 @@ class PhpExtractorTest extends TestCase
         ];
     }
 
+    public function testExtractFromDirectory()
+    {
+        $messageCatalogue = $this->buildMessageCatalogue('directory/');
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(3, $catalogue['messages']);
+        $this->assertCount(2, $catalogue['admin.product.help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'SubdirShop' => 'SubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'admin.product.help' => [
+                'SubdirFingers' => 'SubdirFingers',
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->excludedDirectories(['subdirectory'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(2, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['admin.product.help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'admin.product.help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->excludedDirectories(['subdirectory', 'subdirectory2'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(1, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['admin.product.help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'Shop' => 'Shop',
+            ],
+            'admin.product.help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+    }
+
     /**
      * @param $fixtureResource
      *
