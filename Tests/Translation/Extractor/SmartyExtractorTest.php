@@ -141,12 +141,13 @@ class SmartyExtractorTest extends TestCase
 
         $catalogue = $messageCatalogue->all();
         $this->assertCount(1, array_keys($catalogue));
-        $this->assertCount(4, $catalogue['Modules.Wirepayment.Shop']);
+        $this->assertCount(5, $catalogue['Modules.Wirepayment.Shop']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'Modules.Wirepayment.Shop' => [
                 'Your order on %s is complete.' => 'Your order on %s is complete.',
                 'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
                 'Please specify your order reference %s in the bankwire description.' => 'Please specify your order reference %s in the bankwire description.',
                 'Your order will be sent as soon as we receive payment.' => 'Your order will be sent as soon as we receive payment.',
             ],
@@ -159,12 +160,13 @@ class SmartyExtractorTest extends TestCase
 
         $catalogue = $messageCatalogue->all();
         $this->assertCount(1, array_keys($catalogue));
-        $this->assertCount(3, $catalogue['Modules.Wirepayment.Shop']);
+        $this->assertCount(4, $catalogue['Modules.Wirepayment.Shop']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'Modules.Wirepayment.Shop' => [
                 'Your order on %s is complete.' => 'Your order on %s is complete.',
                 'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
                 'Your order will be sent as soon as we receive payment.' => 'Your order will be sent as soon as we receive payment.',
             ],
         ]);
@@ -176,12 +178,13 @@ class SmartyExtractorTest extends TestCase
 
         $catalogue = $messageCatalogue->all();
         $this->assertCount(1, array_keys($catalogue));
-        $this->assertCount(2, $catalogue['Modules.Wirepayment.Shop']);
+        $this->assertCount(3, $catalogue['Modules.Wirepayment.Shop']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'Modules.Wirepayment.Shop' => [
                 'Your order on %s is complete.' => 'Your order on %s is complete.',
                 'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
             ],
         ]);
     }
