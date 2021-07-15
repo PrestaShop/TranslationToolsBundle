@@ -39,8 +39,5 @@ class TranslationCompilerPass implements CompilerPassInterface
             'translation_tools.translation.node_visitor',
             'PrestaShop\TranslationToolsBundle\Twig\NodeVisitor\TranslationNodeVisitor'
         );
-
-        $translationDefinition = $container->getDefinition('twig.extension.trans');
-        $translationDefinition->addArgument(new Reference('translation_tools.translation.node_visitor'));
     }
 }

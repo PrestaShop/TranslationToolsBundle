@@ -2,39 +2,36 @@
 
 namespace PrestaShop\TranslationToolsBundle\Twig;
 
-class Lexer extends \Twig_Lexer
+use Twig\Source;
+use Twig\TokenStream;
+
+class Lexer extends \Twig\Lexer
 {
     /**
      * @var array
      */
     protected $comments = [];
 
-    /**
-     * @var bool
-     */
-    protected $call = false;
-
-    protected function lexComment()
+    public function tokenize($code, $name = null): TokenStream
     {
-        parent::lexComment();
-
-        if (true === $this->call) {
-            return;
+        if (!$code instanceof Source) {
+            $source = new Source($code, $name);
+        } else {
+            $source = $code;
+            $code = $source->getCode();
+        }
+        preg_match_all('|\{#\s(.+)\s#\}|i', $code, $matches, \PREG_OFFSET_CAPTURE);
+        foreach (current($matches) as $key => $match) {
+            $matchValue = end($matches)[$key][0];
+            $lineNumber = substr_count(mb_substr($code, 0, $match[1]), PHP_EOL) + 1;
+            $this->comments[] = [
+                'line' => $lineNumber,
+                'comment' => $matchValue,
+                'file' => $source->getPath().$source->getName(),
+            ];
         }
 
-        preg_match_all('|\{#\s(.+)\s#\}|i', $this->code, $commentMatch);
-
-        if (is_array($commentMatch[1])) {
-            foreach ($commentMatch[1] as $comment) {
-                $this->comments[] = [
-                    'line' => $this->lineno,
-                    'comment' => $comment,
-                    'file' => $this->filename,
-                ];
-            }
-        }
-
-        $this->call = true;
+        return parent::tokenize($source);
     }
 
     public function getComments()

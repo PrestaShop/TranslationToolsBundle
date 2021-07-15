@@ -26,17 +26,9 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
-use PrestaShop\TranslationToolsBundle\Smarty;
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
-use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
-use PrestaShop\TranslationToolsBundle\Translation\Extractor\SmartyExtractor;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\TwigExtractor;
-use PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceModule;
-use PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceParent;
-use PrestaShop\TranslationToolsBundle\Twig\NodeVisitor\TranslationNodeVisitor;
-use Smarty_Internal_Templatelexer;
-use Smarty_Internal_Templateparser;
-use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\MessageCatalogue;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -84,7 +76,7 @@ class TwigExtractorTest extends TestCase
         $twig = new Environment($loader, [
             'cache' => __DIR__ . '/../../cache/twig'
         ]);
-        $twig->addExtension(new TranslationExtension(null, new TranslationNodeVisitor()));
+        $twig->addExtension(new TranslationExtension());
 
         return new TwigExtractor($twig);
     }
