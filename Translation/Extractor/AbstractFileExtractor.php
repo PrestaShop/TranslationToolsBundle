@@ -24,52 +24,31 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  */
+declare(strict_types=1);
 
-namespace PrestaShop\TranslationToolsBundle\Translation;
+namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
-class MultilanguageCatalog
+use Symfony\Component\Translation\Extractor\AbstractFileExtractor as BaseAbstractFileExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
+
+abstract class AbstractFileExtractor extends BaseAbstractFileExtractor implements ExtractorInterface
 {
-    /** @var [] (key/locale) */
-    private $messages = [];
-
     /**
-     * @param string|int $key
-     * @param string|int $locale
-     *
-     * @return bool
+     * @var array
      */
-    public function has($key, $locale = null)
+    private $excludedDirectories = [];
+
+    public function getExcludedDirectories(): array
     {
-        return !empty($this->messages[$key]) && (is_null($locale) || !empty($this->messages[$key][$locale]));
+        return $this->excludedDirectories;
     }
 
     /**
-     * @param string|int $key
-     * @param string|int $locale
-     *
-     * @return mixed
+     * @return AbstractFileExtractor
      */
-    public function get($key, $locale = null)
+    public function excludedDirectories(array $excludedDirectories): self
     {
-        if (is_null($locale)) {
-            return $this->messages[$key];
-        }
-
-        return $this->messages[$key][$locale];
-    }
-
-    /**
-     * @param string|int $key
-     * @param string|int $locale
-     * @param mixed $translation
-     */
-    public function set($key, $locale, $translation)
-    {
-        if (!isset($this->messages[$key])) {
-            $this->messages[$key] = [];
-        }
-
-        $this->messages[$key][$locale] = $translation;
+        $this->excludedDirectories = $excludedDirectories;
 
         return $this;
     }
