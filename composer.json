@@ -31,7 +31,7 @@
     "twig/twig": "^1.38 || ^2.7 || ^3.0"
   },
   "require-dev": {
-    "doctrine/common": "~2.10.0",
+    "doctrine/common": "^2.10.0",
     "phpunit/phpunit": "^7.5 || ^8.5",
     "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
     "symfony/translation": "^3.4 || ^4.4 || ^5.0"
