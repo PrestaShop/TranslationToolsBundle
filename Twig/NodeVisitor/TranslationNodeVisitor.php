@@ -2,20 +2,33 @@
 
 namespace PrestaShop\TranslationToolsBundle\Twig\NodeVisitor;
 
-use Symfony\Bridge\Twig\Node\TransNode;
 use Symfony\Bridge\Twig\NodeVisitor\TranslationNodeVisitor as BaseTranslationNodeVisitor;
+use Twig\Environment;
+use Twig\Node\Node;
+use Twig\NodeVisitor\AbstractNodeVisitor;
 
-class TranslationNodeVisitor extends BaseTranslationNodeVisitor
+class TranslationNodeVisitor extends AbstractNodeVisitor
 {
-    const UNDEFINED_DOMAIN = '_undefined';
+    /**
+     * @var BaseTranslationNodeVisitor
+     */
+    private $baseTranslationNodeVisitor;
 
-    private $enabled = true;
     private $messages = [];
+
+    public function __construct()
+    {
+        $this->baseTranslationNodeVisitor = new BaseTranslationNodeVisitor();
+    }
 
     public function enable()
     {
-        $this->enabled = true;
-        $this->messages = [];
+        $this->baseTranslationNodeVisitor->enable();
+    }
+
+    public function disable()
+    {
+        $this->baseTranslationNodeVisitor->disable();
     }
 
     public function getMessages()
@@ -23,82 +36,32 @@ class TranslationNodeVisitor extends BaseTranslationNodeVisitor
         return $this->messages;
     }
 
+    protected function doEnterNode(Node $node, Environment $env)
+    {
+        return $this->baseTranslationNodeVisitor->enterNode($node, $env);
+    }
+
     /**
      * {@inheritdoc}
      */
-    protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
+    protected function doLeaveNode(Node $node, Environment $env): ?Node
     {
-        if (!$this->enabled) {
-            return $node;
-        }
+        $node = $this->baseTranslationNodeVisitor->leaveNode($node, $env);
 
-        if (
-            $node instanceof \Twig_Node_Expression_Filter &&
-            'trans' === $node->getNode('filter')->getAttribute('value') &&
-            $node->getNode('node') instanceof \Twig_Node_Expression_Constant
-        ) {
-            // extract constant nodes with a trans filter
-            $this->messages[] = [
-                $node->getNode('node')->getAttribute('value'),
-                $this->getReadDomainFromArguments($node->getNode('arguments'), 1),
-                'line' => $node->getTemplateLine(),
-            ];
-        } elseif (
-            $node instanceof \Twig_Node_Expression_Filter &&
-            'transchoice' === $node->getNode('filter')->getAttribute('value') &&
-            $node->getNode('node') instanceof \Twig_Node_Expression_Constant
-        ) {
-            // extract constant nodes with a trans filter
-            $this->messages[] = [
-                $node->getNode('node')->getAttribute('value'),
-                $this->getReadDomainFromArguments($node->getNode('arguments'), 2),
-                'line' => $node->getTemplateLine(),
-            ];
-        } elseif ($node instanceof TransNode) {
-            // extract trans nodes
-            $this->messages[] = [
-                $node->getNode('body')->getAttribute('data'),
-                $this->getReadDomainFromNode($node->getNode('domain')),
-                'line' => $node->getTemplateLine(),
-            ];
+        $messages = $this->baseTranslationNodeVisitor->getMessages();
+
+        if (count($messages) > count($this->messages)) {
+            $this->messages[] = array_merge(end($messages), ['line' => $node->getTemplateLine()]);
         }
 
         return $node;
     }
 
     /**
-     * @param int $index
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
-    private function getReadDomainFromArguments(\Twig_Node $arguments, $index)
+    public function getPriority(): int
     {
-        if ($arguments->hasNode('domain')) {
-            $argument = $arguments->getNode('domain');
-        } elseif ($arguments->hasNode($index)) {
-            $argument = $arguments->getNode($index);
-        } else {
-            return;
-        }
-
-        return $this->getReadDomainFromNode($argument);
-    }
-
-    /**
-     * @param \Twig_Node $node
-     *
-     * @return string|null
-     */
-    private function getReadDomainFromNode(\Twig_Node $node = null)
-    {
-        if (null === $node) {
-            return;
-        }
-
-        if ($node instanceof \Twig_Node_Expression_Constant) {
-            return $node->getAttribute('value');
-        }
-
-        return self::UNDEFINED_DOMAIN;
+        return $this->baseTranslationNodeVisitor->getPriority();
     }
 }

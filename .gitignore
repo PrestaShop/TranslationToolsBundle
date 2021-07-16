@@ -4,5 +4,6 @@ composer.lock
 phpunit.xml
 build/
 Tests/cache/*
+Tests/resources/dump
 .php_cs.cache
 .phpunit.result.cache

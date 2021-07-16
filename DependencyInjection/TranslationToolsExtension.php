@@ -36,6 +36,13 @@ class TranslationToolsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        $definition = $container->register(
+            'translation_tools.translation.extension',
+            'PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension'
+        );
+
+        $definition->addTag('twig.extension');
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
