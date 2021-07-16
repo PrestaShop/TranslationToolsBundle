@@ -59,5 +59,4 @@ class TranslationExtension extends AbstractExtension
     {
         return $this->baseTranslationExtension->getOperators();
     }
-
 }

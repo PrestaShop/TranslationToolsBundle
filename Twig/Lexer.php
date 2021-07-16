@@ -27,7 +27,7 @@ class Lexer extends \Twig\Lexer
             $this->comments[] = [
                 'line' => $lineNumber,
                 'comment' => $matchValue,
-                'file' => $source->getPath().$source->getName(),
+                'file' => $source->getPath() . $source->getName(),
             ];
         }
 

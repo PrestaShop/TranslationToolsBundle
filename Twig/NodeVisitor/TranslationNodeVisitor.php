@@ -40,6 +40,7 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
     {
         return $this->baseTranslationNodeVisitor->enterNode($node, $env);
     }
+
     /**
      * {@inheritdoc}
      */

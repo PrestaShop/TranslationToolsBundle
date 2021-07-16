@@ -74,7 +74,7 @@ class TwigExtractorTest extends TestCase
     {
         $loader = new FilesystemLoader(parent::getResource('fixtures/twig'));
         $twig = new Environment($loader, [
-            'cache' => __DIR__ . '/../../cache/twig'
+            'cache' => __DIR__ . '/../../cache/twig',
         ]);
         $twig->addExtension(new TranslationExtension());
 
