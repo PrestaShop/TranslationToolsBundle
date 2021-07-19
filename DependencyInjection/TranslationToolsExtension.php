@@ -27,6 +27,7 @@
 
 namespace PrestaShop\TranslationToolsBundle\DependencyInjection;
 
+use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -38,7 +39,7 @@ class TranslationToolsExtension extends Extension
     {
         $definition = $container->register(
             'translation_tools.translation.extension',
-            'PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension'
+            TranslationExtension::class
         );
 
         $definition->addTag('twig.extension');
