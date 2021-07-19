@@ -70,11 +70,9 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $this->twig = $twig;
         $this->twigLexer = new Lexer($this->twig);
 
-        $this->twig->registerUndefinedFunctionCallback(function () {
-        });
+        $this->twig->registerUndefinedFunctionCallback(function () {});
 
-        $this->twig->registerUndefinedFilterCallback(function () {
-        });
+        $this->twig->registerUndefinedFilterCallback(function () {});
     }
 
     /**
