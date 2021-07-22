@@ -27,15 +27,15 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
+use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
-use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
-use Twig_Environment;
-use Twig_Error;
-use Twig_Source;
+use Twig\Environment;
+use Twig\Error\Error;
+use Twig\Source;
 
 class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
 {
@@ -51,7 +51,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     /**
      * The twig environment.
      *
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
 
@@ -63,12 +63,16 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     /**
      * The twig environment.
      *
-     * @var Twig_Environment
+     * @var Environment
      */
-    public function __construct(Twig_Environment $twig)
+    public function __construct(Environment $twig)
     {
         $this->twig = $twig;
         $this->twigLexer = new Lexer($this->twig);
+
+        $this->twig->registerUndefinedFunctionCallback(function () {});
+
+        $this->twig->registerUndefinedFilterCallback(function () {});
     }
 
     /**
@@ -84,15 +88,15 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
 
             try {
                 $this->extractTemplateFile($file, $catalogue);
-            } catch (Twig_Error $e) {
+            } catch (Error $e) {
                 if ($file instanceof SplFileInfo) {
-                    $e->setSourceContext(new Twig_Source(
+                    $e->setSourceContext(new Source(
                         $e->getSourceContext()->getCode(),
                         $e->getSourceContext()->getName(),
                         $file->getRelativePathname()
                     ));
                 } elseif ($file instanceof \SplFileInfo) {
-                    $e->setSourceContext(new Twig_Source(
+                    $e->setSourceContext(new Source(
                         $e->getSourceContext()->getCode(),
                         $e->getSourceContext()->getName(),
                         $file->getRealPath()
@@ -116,9 +120,9 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $visitor = $this->twig->getExtension(TranslationExtension::class)->getTranslationNodeVisitor();
         $visitor->enable();
 
-        $this->twig->setLexer(new Lexer($this->twig));
+        $this->twig->setLexer($this->twigLexer);
 
-        $tokens = $this->twig->tokenize(new Twig_Source(file_get_contents($file->getPathname()), $file->getFilename()));
+        $tokens = $this->twig->tokenize(new Source(file_get_contents($file->getPathname()), $file->getFilename()));
         $this->twig->parse($tokens);
 
         $comments = $this->twigLexer->getComments();
@@ -167,6 +171,8 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
                 return $comment['comment'];
             }
         }
+
+        return null;
     }
 
     /**
