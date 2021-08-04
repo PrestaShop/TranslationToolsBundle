@@ -36,6 +36,7 @@
     "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
     "symfony/symfony": "^4",
     "symfony/translation": "^3.4 || ^4.4 || ^5.0",
-    "symfony/twig-bundle": "^4"
+    "symfony/twig-bundle": "^4",
+    "symfony/phpunit-bridge": "^3.4 || ^4.4 || ^5.0"
   }
 }

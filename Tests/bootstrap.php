@@ -14,4 +14,5 @@ EOT
     );
 }
 
+require_once './Tests/SymfonyIntegration/AppKernel.php';
 AnnotationRegistry::registerLoader('class_exists');

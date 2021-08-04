@@ -9,6 +9,20 @@ use Symfony\Component\HttpKernel\Kernel;
 class AppKernel extends Kernel
 {
     /**
+     * Force the container to be built everytime we instanciate AppKernel.
+     *
+     * @var string
+     */
+    private $uniqCachePath;
+
+    public function __construct()
+    {
+        $this->uniqCachePath = uniqid();
+
+        parent::__construct('test', true);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function registerBundles()
@@ -50,6 +64,6 @@ class AppKernel extends Kernel
 
     private function guessTempDirectoryFor($dirname)
     {
-        return is_writable(__DIR__ . '/../../../../build/tmp') ? __DIR__ . '/build/tmp/' . $dirname : sys_get_temp_dir() . '/TranslationToolsBundleTest/' . $dirname;
+        return is_writable(__DIR__ . '/../../../../build/tmp') ? __DIR__ . '/build/tmp/' . $this->uniqCachePath . '/' . $dirname : sys_get_temp_dir() . '/TranslationToolsBundleTest/' . $this->uniqCachePath . '/' . $dirname;
     }
 }

@@ -40,9 +40,6 @@ jobs:
     - name: PHP CS Fixer
       run: ./vendor/bin/php-cs-fixer fix --dry-run
 
-    - name: Symfony Integration
-      run: php ./Tests/SymfonyIntegration/run.php
-
     - name: Upload coverage results to Coveralls
       if: matrix.php-versions == '7.4'
       env:
