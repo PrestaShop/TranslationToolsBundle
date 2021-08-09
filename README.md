@@ -1,5 +1,8 @@
 # TranslationToolsBundle
 
+[![Tests](https://github.com/PrestaShop/TranslationToolsBundle/actions/workflows/php.yml/badge.svg)](https://github.com/PrestaShop/TranslationToolsBundle/actions/workflows/php.yml)
+[![Coverage Status](https://coveralls.io/repos/github/PrestaShop/TranslationToolsBundle/badge.svg?branch=master)](https://coveralls.io/github/PrestaShop/TranslationToolsBundle?branch=master)
+
 Embed Translation dumpers and extractors for PrestaShop eCommerce CMS.
 Can be also useful if you need to parse Smarty files.
 
