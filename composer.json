@@ -34,6 +34,8 @@
     "doctrine/common": "^2.10.0",
     "phpunit/phpunit": "^7.5 || ^8.5",
     "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
-    "symfony/translation": "^3.4 || ^4.4 || ^5.0"
+    "symfony/symfony": "^4",
+    "symfony/translation": "^3.4 || ^4.4 || ^5.0",
+    "symfony/twig-bundle": "^4"
   }
 }
