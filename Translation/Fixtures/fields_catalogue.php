@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+ *
+ * It is distributed under MIT license.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 $_FIELDS['Customer_342f5c77ed008542e78094607ce1f7f3'] = 'firstname';
 $_FIELDS['Customer_8ad75c5a8821cc294f189181722acb56'] = 'lastname';
