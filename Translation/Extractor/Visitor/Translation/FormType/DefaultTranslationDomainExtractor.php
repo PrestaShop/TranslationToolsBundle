@@ -28,12 +28,12 @@ use PhpParser\Node;
  */
 class DefaultTranslationDomainExtractor
 {
-    const CONFIGURE_OPTIONS = 'configureOptions';
+    public const CONFIGURE_OPTIONS = 'configureOptions';
 
     /**
      * Types of nodes that we are interested in inspecting
      */
-    const INTERESTING_NODE_TYPES = [
+    public const INTERESTING_NODE_TYPES = [
         Node\Stmt\ClassMethod::class,
         Node\Expr\MethodCall::class,
     ];
@@ -41,12 +41,12 @@ class DefaultTranslationDomainExtractor
     /**
      * Name of the method that sets default settings
      */
-    const SET_DEFAULTS_DECLARATION_METHOD_NAME = 'setDefaults';
+    public const SET_DEFAULTS_DECLARATION_METHOD_NAME = 'setDefaults';
 
     /**
      * Index of the OptionsResolver parameter in the configureOptions method declaration
      */
-    const OPTIONS_RESOLVER_PARAM_INDEX = 0;
+    public const OPTIONS_RESOLVER_PARAM_INDEX = 0;
 
     /**
      * The extracted default translation domain

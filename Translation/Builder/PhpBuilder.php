@@ -14,11 +14,11 @@ use Exception;
 
 class PhpBuilder
 {
-    const POS_NEWLINE = 0;
-    const POS_VAR = 1;
-    const POS_ARRAY_KEY = 2;
-    const POS_ASSIGN = 3;
-    const POS_VALUE = 4;
+    public const POS_NEWLINE = 0;
+    public const POS_VAR = 1;
+    public const POS_ARRAY_KEY = 2;
+    public const POS_ASSIGN = 3;
+    public const POS_VALUE = 4;
 
     protected $fileName;
 

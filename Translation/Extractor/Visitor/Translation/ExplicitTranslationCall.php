@@ -17,7 +17,7 @@ use PhpParser\Node;
  */
 class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 {
-    const SUPPORTED_METHODS = ['l', 'trans', 't'];
+    public const SUPPORTED_METHODS = ['l', 'trans', 't'];
 
     public function leaveNode(Node $node)
     {
