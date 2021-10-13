@@ -31,19 +31,19 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationColl
  */
 class ChoiceExtractor
 {
-    const METHOD_NAME = 'add';
+    public const METHOD_NAME = 'add';
 
-    const EXPECTED_ARG_COUNT = 3;
+    public const EXPECTED_ARG_COUNT = 3;
 
-    const CLASS_ARG_INDEX = 1;
+    public const CLASS_ARG_INDEX = 1;
 
-    const OPTIONS_ARG_INDEX = 2;
+    public const OPTIONS_ARG_INDEX = 2;
 
-    const OPTION_NAME_CHOICES = 'choices';
+    public const OPTION_NAME_CHOICES = 'choices';
 
-    const OPTION_NAME_TRANSLATION_DOMAIN = 'choice_translation_domain';
+    public const OPTION_NAME_TRANSLATION_DOMAIN = 'choice_translation_domain';
 
-    const CHOICE_CLASS_NAME = 'ChoiceType';
+    public const CHOICE_CLASS_NAME = 'ChoiceType';
 
     /**
      * @var Node|Node\Expr\MethodCall

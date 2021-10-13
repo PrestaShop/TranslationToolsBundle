@@ -24,7 +24,7 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
     /**
      * FQCN to symfony form AbstractType, separated into parts
      */
-    const SUPPORTED_FORM_TYPES = [
+    public const SUPPORTED_FORM_TYPES = [
         ['Symfony', 'Component', 'Form', 'AbstractType'],
         ['PrestaShopBundle', 'Form', 'Admin', 'Type', 'TranslatorAwareType'],
     ];
@@ -32,7 +32,7 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
     /**
      * Types of nodes that we are interested in inspecting
      */
-    const INTERESTING_NODE_TYPES = [
+    public const INTERESTING_NODE_TYPES = [
         Node\Stmt\Use_::class,
         Node\Stmt\Class_::class,
         Node\Stmt\ClassMethod::class,

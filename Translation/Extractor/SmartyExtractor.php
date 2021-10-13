@@ -21,8 +21,8 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
 {
     use TraitExtractor;
 
-    const INCLUDE_EXTERNAL_MODULES = true;
-    const EXCLUDE_EXTERNAL_MODULES = false;
+    public const INCLUDE_EXTERNAL_MODULES = true;
+    public const EXCLUDE_EXTERNAL_MODULES = false;
 
     /**
      * @var TranslationTemplateCompiler

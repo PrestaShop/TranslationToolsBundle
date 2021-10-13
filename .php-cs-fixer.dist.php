@@ -16,7 +16,7 @@ $finder = PhpCsFixer\Finder::create()->in([
     __DIR__.'/Twig',
 ]);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
@@ -33,16 +33,14 @@ return PhpCsFixer\Config::create()
         ],
         'function_to_constant' => false,
         'no_alias_functions' => false,
-        'non_printable_character' => false,
         'phpdoc_summary' => false,
         'phpdoc_align' => [
             'align' => 'left',
         ],
         'protected_to_private' => false,
-        'psr4' => false,
+        'psr_autoloading' => false,
         'self_accessor' => false,
         'yoda_style' => [],
-        'non_printable_character' => true,
         'phpdoc_no_empty_return' => false,
     ])
     ->setFinder($finder)
