@@ -21,6 +21,17 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigExtractorTest extends TestCase
 {
+    public function testExcludeDirectories(): void
+    {
+        $extractor = $this->buildExtractor();
+
+        $extractor->excludedDirectories([]);
+        $this->assertEmpty($extractor->getExcludedDirectories());
+
+        $extractor->excludedDirectories(['folder1', 'folder2']);
+        $this->assertSame(['folder1', 'folder2'], $extractor->getExcludedDirectories());
+    }
+
     /**
      * @throws Error
      */
@@ -41,6 +52,49 @@ class TwigExtractorTest extends TestCase
         ];
 
         $this->verifyCatalogue($messageCatalogue, $expected);
+
+        $fixtureDirectory = parent::getResource('fixtures/twig');
+        $expectedMetadata = [
+            'Modules.Wirepayment.Shop' => [
+                'Your order on %s is complete.' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 12,
+                    'comment' => null,
+                ],
+                'Please send us a bank wire with:' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 13,
+                    'comment' => 'here is a comment',
+                ],
+                'Please specify your order reference %s in the bankwire description.' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 18,
+                    'comment' => null,
+                ],
+                'We\'ve also sent you this information by e-mail.' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 19,
+                    'comment' => null,
+                ],
+                'Your order will be sent as soon as we receive payment.' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 21,
+                    'comment' => null,
+                ],
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 23,
+                    'comment' => null,
+                ],
+                'We noticed a problem with your order. If you think this is an error, feel free to contact our [1]expert customer support team[/1].' => [
+                    'file' => $fixtureDirectory . '/payment_return.html.twig',
+                    'line' => 27,
+                    'comment' => null,
+                ],
+            ],
+        ];
+
+        $this->verifyCatalogueMetadata($messageCatalogue, $expectedMetadata);
     }
 
     /**
@@ -71,5 +125,21 @@ class TwigExtractorTest extends TestCase
     protected function getResource($resourceName): string
     {
         return parent::getResource('fixtures/twig/' . $resourceName);
+    }
+
+    /**
+     * @param array[] $expected
+     */
+    protected function verifyCatalogueMetadata(MessageCatalogue $messageCatalogue, array $expected)
+    {
+        foreach ($expected as $expectedDomain => $expectedDomainMetadata) {
+            // all strings should be defined in the appropriate domain
+            foreach ($expectedDomainMetadata as $message => $metadata) {
+                $this->assertSame(
+                    $messageCatalogue->getMetadata($message, $expectedDomain),
+                    $metadata
+                );
+            }
+        }
     }
 }
