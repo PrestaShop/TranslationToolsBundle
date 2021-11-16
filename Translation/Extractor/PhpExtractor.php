@@ -35,9 +35,11 @@ use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\CommentsNode
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ArrayTranslationDefinition;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\ExplicitTranslationCall;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Visitor\Translation\FormType\FormTypeDeclaration;
+use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class PhpExtractor extends AbstractFileExtractor
+class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
     use TraitExtractor;
 

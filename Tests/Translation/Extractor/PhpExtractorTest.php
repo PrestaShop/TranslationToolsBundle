@@ -211,7 +211,7 @@ class PhpExtractorTest extends TestCase
 
         $messageCatalogue = new MessageCatalogue('en');
         $this->phpExtractor
-            ->excludedDirectories(['subdirectory'])
+            ->setExcludedDirectories(['subdirectory'])
             ->extract($this->getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -231,7 +231,7 @@ class PhpExtractorTest extends TestCase
 
         $messageCatalogue = new MessageCatalogue('en');
         $this->phpExtractor
-            ->excludedDirectories(['subdirectory', 'subdirectory2'])
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
             ->extract($this->getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -254,7 +254,7 @@ class PhpExtractorTest extends TestCase
         // Exclude one directory
         $messageCatalogue = new MessageCatalogue('en');
         $this->phpExtractor
-            ->excludedDirectories(['subdirectory'])
+            ->setExcludedDirectories(['subdirectory'])
             ->extract($this->getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -275,7 +275,7 @@ class PhpExtractorTest extends TestCase
         // Exclude multiple directories
         $messageCatalogue = new MessageCatalogue('en');
         $this->phpExtractor
-            ->excludedDirectories(['subdirectory', 'subdirectory2'])
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
             ->extract($this->getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
