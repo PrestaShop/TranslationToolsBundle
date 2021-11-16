@@ -25,10 +25,10 @@ class TwigExtractorTest extends TestCase
     {
         $extractor = $this->buildExtractor();
 
-        $extractor->excludedDirectories([]);
+        $extractor->setExcludedDirectories([]);
         $this->assertEmpty($extractor->getExcludedDirectories());
 
-        $extractor->excludedDirectories(['folder1', 'folder2']);
+        $extractor->setExcludedDirectories(['folder1', 'folder2']);
         $this->assertSame(['folder1', 'folder2'], $extractor->getExcludedDirectories());
     }
 

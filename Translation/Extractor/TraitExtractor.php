@@ -22,11 +22,25 @@ trait TraitExtractor
     protected $finder;
 
     /**
-     * @param $domainName
+     * Directories ignored when scanning files for catalogue extraction.
      *
-     * @return string
+     * @var array
      */
-    protected function resolveDomain($domainName)
+    protected $excludedDirectories = [];
+
+    public function getExcludedDirectories(): array
+    {
+        return $this->excludedDirectories;
+    }
+
+    public function setExcludedDirectories(array $excludedDirectories): self
+    {
+        $this->excludedDirectories = $excludedDirectories;
+
+        return $this;
+    }
+
+    protected function resolveDomain(?string $domainName): string
     {
         if (empty($domainName)) {
             return $this->defaultDomain;
@@ -36,37 +50,27 @@ trait TraitExtractor
     }
 
     /**
-     * @param $comments
-     * @param $file
-     * @param $line
-     *
-     * @return array
+     * Retrieves comments on the same line as translation string
      */
-    public function getEntryComment(array $comments, $file, $line)
+    public function getEntryComment(array $comments, string $file, int $line): ?string
     {
         foreach ($comments as $comment) {
             if ($comment['file'] == $file && $comment['line'] == $line) {
                 return $comment['comment'];
             }
         }
+
+        return null;
     }
 
-    /**
-     * @param $finder
-     *
-     * @return $this
-     */
-    public function setFinder(Finder $finder)
+    public function setFinder(Finder $finder): self
     {
         $this->finder = $finder;
 
         return $this;
     }
 
-    /**
-     * @return Finder
-     */
-    public function getFinder()
+    public function getFinder(): Finder
     {
         if (null === $this->finder) {
             return new Finder();

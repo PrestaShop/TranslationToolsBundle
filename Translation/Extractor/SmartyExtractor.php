@@ -13,9 +13,11 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
 use SplFileInfo;
+use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class SmartyExtractor extends AbstractFileExtractor
+class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
     use TraitExtractor;
 

@@ -13,6 +13,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -44,11 +45,6 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     private $twigLexer;
 
     /**
-     * @var array
-     */
-    private $excludedDirectories = [];
-
-    /**
      * The twig environment.
      *
      * @var Environment
@@ -61,21 +57,6 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
         $this->twig->registerUndefinedFunctionCallback(function () {});
 
         $this->twig->registerUndefinedFilterCallback(function () {});
-    }
-
-    public function getExcludedDirectories(): array
-    {
-        return $this->excludedDirectories;
-    }
-
-    /**
-     * @return TwigExtractor
-     */
-    public function excludedDirectories(array $excludedDirectories): self
-    {
-        $this->excludedDirectories = $excludedDirectories;
-
-        return $this;
     }
 
     /**
@@ -161,61 +142,13 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     }
 
     /**
-     * @param $comments
-     * @param $file
-     * @param $line
-     *
-     * @return array
-     */
-    public function getEntryComment($comments, $file, $line)
-    {
-        foreach ($comments as $comment) {
-            if ($comment['file'] == $file && $comment['line'] == $line) {
-                return $comment['comment'];
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * @param string $directory
-     *
-     * @return Finder
      */
-    protected function extractFromDirectory($directory)
+    protected function extractFromDirectory($directory): Finder
     {
         return $this->getFinder()->files()
             ->name('*.twig')
             ->in($directory)
             ->exclude($this->getExcludedDirectories());
-    }
-
-    /**
-     * @param string|iterable $resource Files, a file or a directory
-     *
-     * @return iterable
-     */
-    protected function extractFiles($resource)
-    {
-        if (\is_array($resource) || $resource instanceof \Traversable) {
-            $files = [];
-            foreach ($resource as $file) {
-                if ($this->canBeExtracted($file)) {
-                    $files[] = $this->toSplFileInfo($file);
-                }
-            }
-        } elseif (is_file($resource)) {
-            $files = $this->canBeExtracted($resource) ? [$this->toSplFileInfo($resource)] : [];
-        } else {
-            $files = $this->extractFromDirectory($resource);
-        }
-
-        return $files;
-    }
-
-    private function toSplFileInfo(string $file): \SplFileInfo
-    {
-        return new \SplFileInfo($file);
     }
 }

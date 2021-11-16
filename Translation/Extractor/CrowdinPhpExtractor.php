@@ -13,10 +13,14 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Translation\Manager\OriginalStringManager;
 use PrestaShop\TranslationToolsBundle\Translation\Parser\CrowdinPhpParser;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
-class CrowdinPhpExtractor extends AbstractFileExtractor
+class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
+    use TraitExtractor;
+
     /**
      * Prefix for new found message.
      *

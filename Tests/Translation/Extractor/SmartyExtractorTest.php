@@ -129,7 +129,7 @@ class SmartyExtractorTest extends TestCase
 
         $messageCatalogue = new MessageCatalogue('en');
         $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
-            ->excludedDirectories(['subdirectory'])
+            ->setExcludedDirectories(['subdirectory'])
             ->extract(parent::getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -147,7 +147,7 @@ class SmartyExtractorTest extends TestCase
 
         $messageCatalogue = new MessageCatalogue('en');
         $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
-            ->excludedDirectories(['subdirectory', 'subdirectory2'])
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
             ->extract(parent::getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -168,7 +168,7 @@ class SmartyExtractorTest extends TestCase
         // Exclude one directory
         $messageCatalogue = new MessageCatalogue('en');
         $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
-            ->excludedDirectories(['subdirectory'])
+            ->setExcludedDirectories(['subdirectory'])
             ->extract(parent::getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
@@ -187,7 +187,7 @@ class SmartyExtractorTest extends TestCase
         // Exclude multiple directories
         $messageCatalogue = new MessageCatalogue('en');
         $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
-            ->excludedDirectories(['subdirectory', 'subdirectory2'])
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
             ->extract(parent::getResource('directory/'), $messageCatalogue);
 
         $catalogue = $messageCatalogue->all();
