@@ -34,21 +34,21 @@ class PhpExtractorTest extends TestCase
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('Fingers', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('Fingers', 'Admin.Product.Help'));
     }
 
     public function testItExtractsTransMethodWithPrestashopStyleParameters(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'Admin.Product.Help'));
     }
 
     public function testItWorksWithMultiLineTrans(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'Admin.Product.Help'));
     }
 
     public function testItExtractsTransWithoutDomain(): void
@@ -188,14 +188,14 @@ class PhpExtractorTest extends TestCase
         ];
     }
 
-    public function testExtractFromDirectory(): void
+    public function testExtractFromDirectoryWithoutExclusion(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('directory/');
 
         $catalogue = $messageCatalogue->all();
         $this->assertCount(2, array_keys($catalogue));
         $this->assertCount(3, $catalogue['messages']);
-        $this->assertCount(2, $catalogue['admin.product.help']);
+        $this->assertCount(2, $catalogue['Admin.Product.Help']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'messages' => [
@@ -203,47 +203,8 @@ class PhpExtractorTest extends TestCase
                 'SubdirShop' => 'SubdirShop',
                 'Shop' => 'Shop',
             ],
-            'admin.product.help' => [
+            'Admin.Product.Help' => [
                 'SubdirFingers' => 'SubdirFingers',
-                'Fingers' => 'Fingers',
-            ],
-        ]);
-
-        $messageCatalogue = new MessageCatalogue('en');
-        $this->phpExtractor
-            ->setExcludedDirectories(['subdirectory'])
-            ->extract($this->getResource('directory/'), $messageCatalogue);
-
-        $catalogue = $messageCatalogue->all();
-        $this->assertCount(2, array_keys($catalogue));
-        $this->assertCount(2, $catalogue['messages']);
-        $this->assertCount(1, $catalogue['admin.product.help']);
-
-        $this->verifyCatalogue($messageCatalogue, [
-            'messages' => [
-                'SecondSubdirShop' => 'SecondSubdirShop',
-                'Shop' => 'Shop',
-            ],
-            'admin.product.help' => [
-                'Fingers' => 'Fingers',
-            ],
-        ]);
-
-        $messageCatalogue = new MessageCatalogue('en');
-        $this->phpExtractor
-            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
-            ->extract($this->getResource('directory/'), $messageCatalogue);
-
-        $catalogue = $messageCatalogue->all();
-        $this->assertCount(2, array_keys($catalogue));
-        $this->assertCount(1, $catalogue['messages']);
-        $this->assertCount(1, $catalogue['admin.product.help']);
-
-        $this->verifyCatalogue($messageCatalogue, [
-            'messages' => [
-                'Shop' => 'Shop',
-            ],
-            'admin.product.help' => [
                 'Fingers' => 'Fingers',
             ],
         ]);
@@ -260,14 +221,14 @@ class PhpExtractorTest extends TestCase
         $catalogue = $messageCatalogue->all();
         $this->assertCount(2, array_keys($catalogue));
         $this->assertCount(2, $catalogue['messages']);
-        $this->assertCount(1, $catalogue['admin.product.help']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'messages' => [
                 'SecondSubdirShop' => 'SecondSubdirShop',
                 'Shop' => 'Shop',
             ],
-            'admin.product.help' => [
+            'Admin.Product.Help' => [
                 'Fingers' => 'Fingers',
             ],
         ]);
@@ -281,13 +242,13 @@ class PhpExtractorTest extends TestCase
         $catalogue = $messageCatalogue->all();
         $this->assertCount(2, array_keys($catalogue));
         $this->assertCount(1, $catalogue['messages']);
-        $this->assertCount(1, $catalogue['admin.product.help']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
 
         $this->verifyCatalogue($messageCatalogue, [
             'messages' => [
                 'Shop' => 'Shop',
             ],
-            'admin.product.help' => [
+            'Admin.Product.Help' => [
                 'Fingers' => 'Fingers',
             ],
         ]);

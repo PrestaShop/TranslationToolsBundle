@@ -11,6 +11,6 @@ class SubDirTestController
 
     public function productAction()
     {
-        $this->trans('SubdirFingers', [], 'admin.product.help');
+        $this->trans('SubdirFingers', [], 'Admin.Product.Help');
     }
 }

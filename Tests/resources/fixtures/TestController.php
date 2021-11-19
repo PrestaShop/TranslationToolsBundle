@@ -11,7 +11,7 @@ class TestController
 
     public function productAction()
     {
-        $this->trans('Fingers', [], 'admin.product.help');
+        $this->trans('Fingers', [], 'Admin.Product.Help');
     }
 
     public function nothingAction()
@@ -25,18 +25,18 @@ class TestController
         $this->trans(
             'This is how symfony does it',
             [],
-            'admin.product.help'
+            'Admin.Product.Help'
         );
 
         $this->trans(
             'This is how PrestaShop does it',
-            'admin.product.help',
+            'Admin.Product.Help',
             []
         );
 
         $this->trans(
             'Look, no parameters',
-            'admin.product.help'
+            'Admin.Product.Help'
         );
 
         $this->trans(
