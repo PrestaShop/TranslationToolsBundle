@@ -9,6 +9,6 @@ class TestController
 
     public function productAction()
     {
-        $this->trans('Shop', [], 'admin.product.help');
+        $this->trans('Shop', [], 'Admin.Product.Help');
     }
 }

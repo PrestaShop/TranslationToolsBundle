@@ -11,6 +11,6 @@ class TestController
 
     public function productAction()
     {
-        $this->trans('Fingers', [], 'admin.product.help');
+        $this->trans('Fingers', [], 'Admin.Product.Help');
     }
 }

@@ -21,17 +21,6 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigExtractorTest extends TestCase
 {
-    public function testExcludeDirectories(): void
-    {
-        $extractor = $this->buildExtractor();
-
-        $extractor->setExcludedDirectories([]);
-        $this->assertEmpty($extractor->getExcludedDirectories());
-
-        $extractor->setExcludedDirectories(['folder1', 'folder2']);
-        $this->assertSame(['folder1', 'folder2'], $extractor->getExcludedDirectories());
-    }
-
     /**
      * @throws Error
      */
