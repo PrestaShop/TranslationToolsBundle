@@ -13,6 +13,7 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 use PrestaShop\TranslationToolsBundle\Twig\Extension\TranslationExtension;
 use PrestaShop\TranslationToolsBundle\Twig\Lexer;
 use Symfony\Bridge\Twig\Translation\TwigExtractor as BaseTwigExtractor;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -141,30 +142,13 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     }
 
     /**
-     * @param $comments
-     * @param $file
-     * @param $line
-     *
-     * @return array
-     */
-    public function getEntryComment($comments, $file, $line)
-    {
-        foreach ($comments as $comment) {
-            if ($comment['file'] == $file && $comment['line'] == $line) {
-                return $comment['comment'];
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * @param string $directory
-     *
-     * @return Finder
      */
-    protected function extractFromDirectory($directory)
+    protected function extractFromDirectory($directory): Finder
     {
-        return $this->getFinder()->files()->name('*.twig')->in($directory);
+        return $this->getFinder()->files()
+            ->name('*.twig')
+            ->in($directory)
+            ->exclude($this->getExcludedDirectories());
     }
 }

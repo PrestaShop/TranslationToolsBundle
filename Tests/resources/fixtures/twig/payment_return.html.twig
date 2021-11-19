@@ -1,6 +1,15 @@
+{#*
+* This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+*
+* It is distributed under MIT license.
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*#}
+
 {% if status == 'ok' %}
     <p>
-      {{ 'Your order on %s is complete.'|trans({'%s': shop_name}, 'Modules.Wirepayment.Shop') }}<br/>
+      {{ 'Your order on %s is complete.'|trans({'%s': shop_name}, 'Modules.Wirepayment.Shop') }}<br/>{# here is a comment #}
       {{ 'Please send us a bank wire with:'|trans({}, 'Modules.Wirepayment.Shop') }}<br/>
     </p>
     {% include '@Modules/ps_wirepayment/views/templates/hook/_partials/payment_infos.html.twig' %}

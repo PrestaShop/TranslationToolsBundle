@@ -59,21 +59,12 @@ class TestCase extends PhpUnitTestCase
         return $result;
     }
 
-    /**
-     * @param string $resourceName
-     *
-     * @return string
-     */
-    protected function getResource($resourceName)
+    protected function getResource(string $resourceName): string
     {
         return realpath(__DIR__ . '/../resources/' . $resourceName);
     }
 
-    /**
-     * @param $messageCatalogue
-     * @param array[] $expected
-     */
-    protected function verifyCatalogue(MessageCatalogue $messageCatalogue, $expected)
+    protected function verifyCatalogue(MessageCatalogue $messageCatalogue, array $expected): void
     {
         $domains = $messageCatalogue->getDomains();
 

@@ -1,4 +1,13 @@
 <?php
+/**
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+ *
+ * It is distributed under MIT license.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor\Util;
 
@@ -25,7 +34,7 @@ class FlattenizerTest extends TestCase
         self::$fs->remove(self::$outputPath);
     }
 
-    public function testFlatten()
+    public function testFlatten(): void
     {
         $done = Flattenizer::flatten(
             self::$fixturesPath,
@@ -44,7 +53,7 @@ class FlattenizerTest extends TestCase
         $this->assertTrue($isFilesExists);
     }
 
-    public function testFlattenFiles()
+    public function testFlattenFiles(): void
     {
         $finder = new Finder();
         $output = self::path('flattenized-translations/en-US');
@@ -67,7 +76,7 @@ class FlattenizerTest extends TestCase
         $this->assertTrue($isFilesExists);
     }
 
-    private static function path($resourceName)
+    private static function path(string $resourceName): string
     {
         return __DIR__ . '/../../../resources/' . $resourceName;
     }

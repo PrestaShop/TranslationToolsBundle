@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+ *
+ * It is distributed under MIT license.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
@@ -19,7 +27,7 @@ class TraitExtractorTest extends TestCase
         $this->instance = null;
     }
 
-    public function resolveDomainProvider()
+    public function resolveDomainProvider(): array
     {
         return [
             ['foo', 'foo'],
@@ -32,12 +40,12 @@ class TraitExtractorTest extends TestCase
     /**
      * @dataProvider resolveDomainProvider
      */
-    public function testResolveDomain($expected, $input)
+    public function testResolveDomain($expected, $input): void
     {
         $this->assertEquals($expected, $this->invokeInaccessibleMethod($this->instance, 'resolveDomain', [$input]));
     }
 
-    public function testGetEntryComment()
+    public function testGetEntryComment(): void
     {
         $comments = [
             [
@@ -58,7 +66,7 @@ class TraitExtractorTest extends TestCase
         );
     }
 
-    public function testGetSetFinder()
+    public function testGetSetFinder(): void
     {
         $finder = new Finder();
 

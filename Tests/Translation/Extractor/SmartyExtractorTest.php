@@ -1,28 +1,13 @@
 <?php
 /**
- * 2007-2018 PrestaShop
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
  *
- * NOTICE OF LICENSE
+ * It is distributed under MIT license.
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * https://opensource.org/licenses/OSL-3.0
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
- * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
- *
- * @author    PrestaShop SA <contact@prestashop.com>
- * @copyright 2007-2018 PrestaShop SA
- * @license   https://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * International Registered Trademark & Property of PrestaShop SA
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
@@ -38,7 +23,7 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 class SmartyExtractorTest extends TestCase
 {
-    public function testExtractWithDomain()
+    public function testExtractWithDomain(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('payment_return.tpl');
 
@@ -57,14 +42,14 @@ class SmartyExtractorTest extends TestCase
         $this->verifyCatalogue($messageCatalogue, $expected);
     }
 
-    public function testExtractWithoutExternalModules()
+    public function testExtractWithoutExternalModules(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl');
 
         $this->assertEmpty($messageCatalogue->getDomains());
     }
 
-    public function testWithExternalModules()
+    public function testWithExternalModules(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('oldsystem.tpl', SmartyExtractor::INCLUDE_EXTERNAL_MODULES);
 
@@ -94,13 +79,7 @@ class SmartyExtractorTest extends TestCase
         $this->verifyCatalogue($messageCatalogue, $expected);
     }
 
-    /**
-     * @param $fixtureResource
-     * @param bool $includeExternalModules
-     *
-     * @return MessageCatalogue
-     */
-    private function buildMessageCatalogue($fixtureResource, $includeExternalModules = false)
+    private function buildMessageCatalogue(string $fixtureResource, bool $includeExternalModules = false): MessageCatalogue
     {
         $messageCatalogue = new MessageCatalogue('en');
         $this->buildExtractor($includeExternalModules)->extract($this->getResource($fixtureResource), $messageCatalogue);
@@ -108,12 +87,7 @@ class SmartyExtractorTest extends TestCase
         return $messageCatalogue;
     }
 
-    /**
-     * @param bool $includeExternalModules
-     *
-     * @return SmartyExtractor
-     */
-    private function buildExtractor($includeExternalModules = false)
+    private function buildExtractor(bool $includeExternalModules = false): SmartyExtractor
     {
         $smarty = new Smarty();
         $smarty
@@ -132,12 +106,72 @@ class SmartyExtractorTest extends TestCase
         return new SmartyExtractor($compiler, $includeExternalModules);
     }
 
+    public function testExtractFromDirectoryWithoutExclusion(): void
+    {
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)->extract(
+            parent::getResource('directory/'), $messageCatalogue
+        );
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(1, array_keys($catalogue));
+        $this->assertCount(5, $catalogue['Modules.Wirepayment.Shop']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'Modules.Wirepayment.Shop' => [
+                'Your order on %s is complete.' => 'Your order on %s is complete.',
+                'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
+                'Please specify your order reference %s in the bankwire description.' => 'Please specify your order reference %s in the bankwire description.',
+                'Your order will be sent as soon as we receive payment.' => 'Your order will be sent as soon as we receive payment.',
+            ],
+        ]);
+    }
+
+    public function testExtractFromDirectoryExcludingDirectories(): void
+    {
+        // Exclude one directory
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
+            ->setExcludedDirectories(['subdirectory'])
+            ->extract(parent::getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(1, array_keys($catalogue));
+        $this->assertCount(4, $catalogue['Modules.Wirepayment.Shop']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'Modules.Wirepayment.Shop' => [
+                'Your order on %s is complete.' => 'Your order on %s is complete.',
+                'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
+                'Your order will be sent as soon as we receive payment.' => 'Your order will be sent as soon as we receive payment.',
+            ],
+        ]);
+
+        // Exclude multiple directories
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->buildExtractor(SmartyExtractor::INCLUDE_EXTERNAL_MODULES)
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
+            ->extract(parent::getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(1, array_keys($catalogue));
+        $this->assertCount(3, $catalogue['Modules.Wirepayment.Shop']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'Modules.Wirepayment.Shop' => [
+                'Your order on %s is complete.' => 'Your order on %s is complete.',
+                'Please send us a bank wire with:' => 'Please send us a bank wire with:',
+                'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].' => 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
+            ],
+        ]);
+    }
+
     /**
      * @param string $resourceName
-     *
-     * @return string
      */
-    protected function getResource($resourceName)
+    protected function getResource($resourceName): string
     {
         return parent::getResource('fixtures/smarty/' . $resourceName);
     }

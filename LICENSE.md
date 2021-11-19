@@ -1,3 +1,6 @@
+The MIT License (MIT)
+=====================
+
 Copyright (c) Since 2007 PrestaShop.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

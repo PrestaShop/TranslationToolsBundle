@@ -1,4 +1,13 @@
 <?php
+/**
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+ *
+ * It is distributed under MIT license.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
@@ -20,7 +29,7 @@ class ChainExtractorTest extends TestCase
         $this->instance = null;
     }
 
-    public function testAddExtractor()
+    public function testAddExtractor(): void
     {
         $extractor = $this->getMockBuilder('Symfony\Component\Translation\Extractor\ExtractorInterface')
             ->getMock()
@@ -28,7 +37,7 @@ class ChainExtractorTest extends TestCase
         $this->assertSame($this->instance, $this->instance->addExtractor('test', $extractor));
     }
 
-    public function testExtract()
+    public function testExtract(): void
     {
         $directory = '/';
         $catalog = new MessageCatalogue('en', []);

@@ -1,4 +1,13 @@
 <?php
+/**
+ * This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+ *
+ * It is distributed under MIT license.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
@@ -21,28 +30,28 @@ class PhpExtractorTest extends TestCase
         $this->phpExtractor = new PhpExtractor();
     }
 
-    public function testItExtractsTransMethodWithSymfonyStyleParameters()
+    public function testItExtractsTransMethodWithSymfonyStyleParameters(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('Fingers', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('Fingers', 'Admin.Product.Help'));
     }
 
-    public function testItExtractsTransMethodWithPrestashopStyleParameters()
+    public function testItExtractsTransMethodWithPrestashopStyleParameters(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'Admin.Product.Help'));
     }
 
-    public function testItWorksWithMultiLineTrans()
+    public function testItWorksWithMultiLineTrans(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'Admin.Product.Help'));
     }
 
-    public function testItExtractsTransWithoutDomain()
+    public function testItExtractsTransWithoutDomain(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
@@ -50,7 +59,7 @@ class PhpExtractorTest extends TestCase
         $this->assertTrue($messageCatalogue->defines('It works with no domain and with parameters', 'messages'));
     }
 
-    public function testItInterpolatesDomainVariables()
+    public function testItInterpolatesDomainVariables(): void
     {
         $this->markTestIncomplete("The extractor doesn't know how to interpolate variables yet");
 
@@ -59,7 +68,7 @@ class PhpExtractorTest extends TestCase
         $this->assertTrue($messageCatalogue->defines('Bar', 'admin.product.plop'));
     }
 
-    public function testItExtractsArrays()
+    public function testItExtractsArrays(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
@@ -70,7 +79,7 @@ class PhpExtractorTest extends TestCase
         $this->assertTrue($messageCatalogue->defines('This text is coming back somewhere', 'Admin.Notifications.Error'));
     }
 
-    public function testItDoesNotExtractArraysWhenItShouldNot()
+    public function testItDoesNotExtractArraysWhenItShouldNot(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
@@ -82,14 +91,14 @@ class PhpExtractorTest extends TestCase
         $this->assertFalse($messageCatalogue->defines("I'm with foo, which spoils any party, even with parameters", 'Admin.Notifications.Error'));
     }
 
-    public function testExtractWithoutNamespace()
+    public function testExtractWithoutNamespace(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestWithoutNamespaceController.php');
 
         $this->assertArrayHasKey('Shop', $messageCatalogue->all('messages'));
     }
 
-    public function testExtractLegacyController()
+    public function testExtractLegacyController(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/LegacyController.php');
 
@@ -97,7 +106,7 @@ class PhpExtractorTest extends TestCase
         $this->assertArrayHasKey('Prestashop', $messageCatalogue->all('Domain'));
     }
 
-    public function testExtractEmails()
+    public function testExtractEmails(): void
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestExtractEmails.php');
 
@@ -105,19 +114,16 @@ class PhpExtractorTest extends TestCase
     }
 
     /**
-     * @param $file
-     * @param $expected
-     *
      * @dataProvider provideFormTranslationFixtures
      */
-    public function testExtractFormTranslations($file, $expected)
+    public function testExtractFormTranslations(string $file, array $expected): void
     {
         $messageCatalogue = $this->buildMessageCatalogue($file);
 
         $this->verifyCatalogue($messageCatalogue, $expected);
     }
 
-    public function provideFormTranslationFixtures()
+    public function provideFormTranslationFixtures(): array
     {
         return [
             'TestFormChoices.php' => [
@@ -182,12 +188,73 @@ class PhpExtractorTest extends TestCase
         ];
     }
 
-    /**
-     * @param $fixtureResource
-     *
-     * @return MessageCatalogue
-     */
-    private function buildMessageCatalogue($fixtureResource)
+    public function testExtractFromDirectoryWithoutExclusion(): void
+    {
+        $messageCatalogue = $this->buildMessageCatalogue('directory/');
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(3, $catalogue['messages']);
+        $this->assertCount(2, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'SubdirShop' => 'SubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'SubdirFingers' => 'SubdirFingers',
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+    }
+
+    public function testExtractFromDirectoryExcludingSubDirectories(): void
+    {
+        // Exclude one directory
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->setExcludedDirectories(['subdirectory'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(2, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+
+        // Exclude multiple directories
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(1, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+    }
+
+    private function buildMessageCatalogue(string $fixtureResource): MessageCatalogue
     {
         $messageCatalogue = new MessageCatalogue('en');
         $this->phpExtractor->extract($this->getResource($fixtureResource), $messageCatalogue);

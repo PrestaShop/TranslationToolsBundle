@@ -19,6 +19,8 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInterface
 {
+    use TraitExtractor;
+
     /**
      * Prefix for new found message.
      *
@@ -96,6 +98,9 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
     {
         $finder = new Finder();
 
-        return $finder->files()->name('*.php')->in($directory);
+        return $finder->files()
+            ->name('*.php')
+            ->in($directory)
+            ->exclude($this->getExcludedDirectories());
     }
 }

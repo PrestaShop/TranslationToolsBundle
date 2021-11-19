@@ -1,3 +1,12 @@
+{*
+* This file is authored by PrestaShop SA and Contributors <contact@prestashop.com>
+*
+* It is distributed under MIT license.
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*}
+
 {if $status == 'ok'}
     <p>
       {l s='Your order on %s is complete.' sprintf=[$shop_name] d='Modules.Wirepayment.Shop'}<br/>
