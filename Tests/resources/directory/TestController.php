@@ -1,5 +1,7 @@
 <?php
 
+namespace Test;
+
 class TestController
 {
     public function init()
@@ -9,6 +11,6 @@ class TestController
 
     public function productAction()
     {
-        $this->trans('Shop', [], 'Admin.Product.Help');
+        $this->trans('Fingers', [], 'Admin.Product.Help');
     }
 }
