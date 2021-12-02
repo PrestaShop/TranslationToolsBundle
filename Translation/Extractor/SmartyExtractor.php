@@ -137,6 +137,9 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
      */
     protected function extractFromDirectory($directory)
     {
-        return $this->getFinder()->name('*.tpl')->in($directory);
+        return $this->getFinder()
+            ->name('*.tpl')
+            ->in($directory)
+            ->exclude($this->getExcludedDirectories());
     }
 }

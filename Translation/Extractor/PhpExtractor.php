@@ -178,6 +178,10 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
      */
     protected function extractFromDirectory($directory)
     {
-        return $this->getFinder()->files()->name('*.php')->in($directory);
+        return $this->getFinder()
+            ->files()
+            ->name('*.php')
+            ->exclude($this->getExcludedDirectories())
+            ->in($directory);
     }
 }

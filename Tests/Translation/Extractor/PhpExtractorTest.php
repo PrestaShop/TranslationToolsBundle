@@ -25,21 +25,21 @@ class PhpExtractorTest extends TestCase
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('Fingers', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('Fingers', 'Admin.Product.Help'));
     }
 
     public function testItExtractsTransMethodWithPrestashopStyleParameters()
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how PrestaShop does it', 'Admin.Product.Help'));
     }
 
     public function testItWorksWithMultiLineTrans()
     {
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/TestController.php');
 
-        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'admin.product.help'));
+        $this->assertTrue($messageCatalogue->defines('This is how symfony does it', 'Admin.Product.Help'));
     }
 
     public function testItExtractsTransWithoutDomain()
@@ -180,6 +180,72 @@ class PhpExtractorTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    public function testExtractFromDirectoryWithoutExclusion(): void
+    {
+        $messageCatalogue = $this->buildMessageCatalogue('directory/');
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(3, $catalogue['messages']);
+        $this->assertCount(2, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'SubdirShop' => 'SubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'SubdirFingers' => 'SubdirFingers',
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+    }
+
+    public function testExtractFromDirectoryExcludingSubDirectories(): void
+    {
+        // Exclude one directory
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->setExcludedDirectories(['subdirectory'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(2, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'SecondSubdirShop' => 'SecondSubdirShop',
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
+
+        // Exclude multiple directories
+        $messageCatalogue = new MessageCatalogue('en');
+        $this->phpExtractor
+            ->setExcludedDirectories(['subdirectory', 'subdirectory2'])
+            ->extract($this->getResource('directory/'), $messageCatalogue);
+
+        $catalogue = $messageCatalogue->all();
+        $this->assertCount(2, array_keys($catalogue));
+        $this->assertCount(1, $catalogue['messages']);
+        $this->assertCount(1, $catalogue['Admin.Product.Help']);
+
+        $this->verifyCatalogue($messageCatalogue, [
+            'messages' => [
+                'Shop' => 'Shop',
+            ],
+            'Admin.Product.Help' => [
+                'Fingers' => 'Fingers',
+            ],
+        ]);
     }
 
     /**
