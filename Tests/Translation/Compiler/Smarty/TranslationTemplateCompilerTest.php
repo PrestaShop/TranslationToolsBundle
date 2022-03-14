@@ -6,6 +6,7 @@ use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase as TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 use Smarty;
 use Smarty_Internal_Templateparser;
+use SmartyCompilerException;
 
 class TranslationTemplateCompilerTest extends TestCase
 {
@@ -122,14 +123,12 @@ class TranslationTemplateCompilerTest extends TestCase
     public function testGetTag()
     {
         $value = ['s' => 'translate'];
-        $exception = $this->getMockBuilder('SmartyCompilerException')
-            ->getMock()
-        ;
+        $exception = new SmartyCompilerException();
         $previousComment = [];
 
         $expected = [
             'tag' => $value,
-            'line' => $exception->line,
+            'line' => $exception->getLine(),
             'template' => $exception->template,
         ];
 
@@ -141,7 +140,12 @@ class TranslationTemplateCompilerTest extends TestCase
 
         $this->assertEquals($expected, $result);
 
-        $expected['line'] = $exception->line = 10;
+        $expected['line'] = 10;
+        if (method_exists($exception, 'setLine')) {
+            $exception->setLine(10);
+        } else {
+            $exception->line = 10;
+        }
         $previousComment = ['line' => 9, 'value' => 'someComment'];
         $expected['comment'] = 'someComment';
 
