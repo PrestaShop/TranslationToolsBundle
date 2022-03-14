@@ -20,8 +20,12 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('translation_tools');
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('translation_tools');
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $treeBuilder->root('translation_tools');
+        }
 
         return $treeBuilder;
     }
