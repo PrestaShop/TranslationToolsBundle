@@ -157,7 +157,7 @@ class TranslationTemplateCompiler extends Smarty_Internal_SmartyTemplateCompiler
     {
         $tag = [
             'tag' => $value,
-            'line' => $exception->line,
+            'line' => $exception->getLine(),
             'template' => $exception->template,
         ];
 
