@@ -69,6 +69,8 @@ class SmartyExtractorTest extends TestCase
                 'Please check that you have the rights to write to the folders /app/cache/ and /themes/',
                 'Download theme',
                 'Downloading',
+                'How to use parents/child themes',
+                'Upload child theme',
                 'Information',
                 'By using this method you can only override the CSS of your theme.',
                 'By using this method you can override the CSS and html of your theme, and add analytics tags.',
