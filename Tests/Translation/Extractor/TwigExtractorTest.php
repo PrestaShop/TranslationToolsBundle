@@ -26,7 +26,10 @@ class TwigExtractorTest extends TestCase
      */
     public function testExtractWithDomain(): void
     {
-        $messageCatalogue = $this->buildMessageCatalogue('payment_return.html.twig');
+        $messageCatalogue = $this->buildMessageCatalogue([
+            'payment_return.html.twig',
+            'log_alert.html.twig',
+        ]);
 
         $expected = [
             'Modules.Wirepayment.Shop' => [
@@ -37,6 +40,12 @@ class TwigExtractorTest extends TestCase
                 'Your order will be sent as soon as we receive payment.',
                 'If you have questions, comments or concerns, please contact our [1]expert customer support team[/1].',
                 'We noticed a problem with your order. If you think this is an error, feel free to contact our [1]expert customer support team[/1].',
+            ],
+            'Emails.Body' => [
+                'Hi {firstname} {lastname},',
+                'You have received a new log alert',
+                '[1]Warning:[/1] you have received a new log alert in your Back Office.',
+                'You can check for it in the [1]Advanced Parameters > Logs[/1] section of your back office.',
             ],
         ];
 
@@ -81,6 +90,28 @@ class TwigExtractorTest extends TestCase
                     'comment' => null,
                 ],
             ],
+            'Emails.Body' => [
+                'Hi {firstname} {lastname},' => [
+                    'file' => $fixtureDirectory . '/log_alert.html.twig',
+                    'line' => 7,
+                    'comment' => null,
+                ],
+                'You have received a new log alert' => [
+                    'file' => $fixtureDirectory . '/log_alert.html.twig',
+                    'line' => 24,
+                    'comment' => null,
+                ],
+                '[1]Warning:[/1] you have received a new log alert in your Back Office.' => [
+                    'file' => $fixtureDirectory . '/log_alert.html.twig',
+                    'line' => 29,
+                    'comment' => null,
+                ],
+                'You can check for it in the [1]Advanced Parameters > Logs[/1] section of your back office.' => [
+                    'file' => $fixtureDirectory . '/log_alert.html.twig',
+                    'line' => 30,
+                    'comment' => null,
+                ],
+            ],
         ];
 
         $this->verifyCatalogueMetadata($messageCatalogue, $expectedMetadata);
@@ -89,10 +120,13 @@ class TwigExtractorTest extends TestCase
     /**
      * @throws Error
      */
-    private function buildMessageCatalogue(string $fixtureResource): MessageCatalogue
+    private function buildMessageCatalogue(array $fixtureResources): MessageCatalogue
     {
         $messageCatalogue = new MessageCatalogue('en');
-        $this->buildExtractor()->extract($this->getResource($fixtureResource), $messageCatalogue);
+        $extractor = $this->buildExtractor();
+        foreach ($fixtureResources as $fixtureResource) {
+            $extractor->extract($this->getResource($fixtureResource), $messageCatalogue);
+        }
 
         return $messageCatalogue;
     }
