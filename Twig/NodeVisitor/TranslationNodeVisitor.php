@@ -31,11 +31,13 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
 
     public function enable()
     {
+        $this->messages = [];
         $this->baseTranslationNodeVisitor->enable();
     }
 
     public function disable()
     {
+        $this->messages = [];
         $this->baseTranslationNodeVisitor->disable();
     }
 

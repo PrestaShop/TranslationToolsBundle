@@ -84,5 +84,24 @@ class TestCase extends PhpUnitTestCase
                 );
             }
         }
+
+        // Now check that everything found was defined in expected
+        foreach ($domains as $catalogDomain) {
+            $this->assertContains(
+                $catalogDomain,
+                array_keys($expected),
+                sprintf('Found domain "%s" is not defined in expected domains %s', $catalogDomain, print_r(array_keys($expected), true))
+            );
+
+            $domainMessages = $messageCatalogue->all($catalogDomain);
+            $expectedDomainMessages = $expected[$catalogDomain];
+            foreach ($domainMessages as $domainMessage) {
+                $this->assertContains(
+                    $domainMessage,
+                    $expectedDomainMessages,
+                    sprintf('Found message "%s" is not defined in expected domain %s', $domainMessage, $catalogDomain)
+                );
+            }
+        }
     }
 }
