@@ -2,11 +2,8 @@
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Compiler\Smarty;
 
-use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase as TestCase;
+use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
-use Smarty;
-use Smarty_Internal_Templateparser;
-use SmartyCompilerException;
 
 class TranslationTemplateCompilerTest extends TestCase
 {
@@ -17,7 +14,7 @@ class TranslationTemplateCompilerTest extends TestCase
         $this->instance = new TranslationTemplateCompiler(
             'Smarty_Internal_Templatelexer',
             'Smarty_Internal_Templateparser',
-            new Smarty()
+            new \Smarty()
         );
     }
 
@@ -123,7 +120,7 @@ class TranslationTemplateCompilerTest extends TestCase
     public function testGetTag()
     {
         $value = ['s' => 'translate'];
-        $exception = new SmartyCompilerException();
+        $exception = new \SmartyCompilerException();
         $previousComment = [];
 
         $expected = [
@@ -163,10 +160,10 @@ class TranslationTemplateCompilerTest extends TestCase
         return [
             ['String', ["'String'"]],
             ['tag', ['{tag}']],
-            ['tag', ['{tag}', Smarty_Internal_Templateparser::TP_TEXT]],
-            ['tag', ['{*tag*}', Smarty_Internal_Templateparser::TP_TEXT]],
-            ['tag', ['{* tag*}', Smarty_Internal_Templateparser::TP_TEXT]],
-            ['tag', ['{* tag *}', Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{tag}', \Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{*tag*}', \Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{* tag*}', \Smarty_Internal_Templateparser::TP_TEXT]],
+            ['tag', ['{* tag *}', \Smarty_Internal_Templateparser::TP_TEXT]],
         ];
     }
 

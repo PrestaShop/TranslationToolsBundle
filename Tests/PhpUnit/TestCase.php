@@ -3,8 +3,6 @@
 namespace PrestaShop\TranslationToolsBundle\Tests\PhpUnit;
 
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
-use ReflectionMethod;
-use ReflectionProperty;
 use Symfony\Component\Translation\MessageCatalogue;
 
 class TestCase extends PhpUnitTestCase
@@ -12,12 +10,10 @@ class TestCase extends PhpUnitTestCase
     /**
      * @param object $object
      * @param string $property
-     *
-     * @return mixed
      */
     protected function getInaccessibleProperty($object, $property)
     {
-        $reflectionProperty = new ReflectionProperty($object, $property);
+        $reflectionProperty = new \ReflectionProperty($object, $property);
         $reflectionProperty->setAccessible(true);
         $result = $reflectionProperty->getValue($object);
         $reflectionProperty->setAccessible(false);
@@ -28,13 +24,12 @@ class TestCase extends PhpUnitTestCase
     /**
      * @param object $object
      * @param string $property
-     * @param mixed $value
      *
      * @return TestCase
      */
     protected function setInaccessibleProperty($object, $property, $value)
     {
-        $reflectionProperty = new ReflectionProperty($object, $property);
+        $reflectionProperty = new \ReflectionProperty($object, $property);
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($object, $value);
         $reflectionProperty->setAccessible(false);
@@ -45,13 +40,10 @@ class TestCase extends PhpUnitTestCase
     /**
      * @param object $object
      * @param string $method
-     * @param mixed $args
-     *
-     * @return mixed
      */
     protected function invokeInaccessibleMethod($object, $method, $args = [])
     {
-        $reflectionMethod = new ReflectionMethod($object, $method);
+        $reflectionMethod = new \ReflectionMethod($object, $method);
         $reflectionMethod->setAccessible(true);
         $result = $reflectionMethod->invokeArgs($object, $args);
         $reflectionMethod->setAccessible(false);

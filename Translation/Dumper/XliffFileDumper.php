@@ -39,9 +39,6 @@ class XliffFileDumper extends BaseXliffFileDumper
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dump(MessageCatalogue $messages, $options = [])
     {
         if (!array_key_exists('path', $options)) {
@@ -62,15 +59,12 @@ class XliffFileDumper extends BaseXliffFileDumper
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
     {
         if (array_key_exists('default_locale', $options)) {
             $defaultLocale = $options['default_locale'];
         } else {
-            $defaultLocale = Locale::getDefault();
+            $defaultLocale = \Locale::getDefault();
         }
 
         $xliffBuilder = new XliffBuilder();
@@ -128,9 +122,6 @@ class XliffFileDumper extends BaseXliffFileDumper
         return implode(PHP_EOL, $notes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getExtension()
     {
         return 'xlf';

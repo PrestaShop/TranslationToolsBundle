@@ -8,9 +8,6 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AppKernel extends Kernel
 {
-    /**
-     * {@inheritdoc}
-     */
     public function registerBundles()
     {
         date_default_timezone_set('UTC');

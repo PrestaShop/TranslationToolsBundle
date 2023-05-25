@@ -23,9 +23,6 @@ class PhpDumper extends FileDumper
      */
     private $builders = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function dump(MessageCatalogue $messages, $options = [])
     {
         if (!array_key_exists('path', $options)) {
@@ -57,9 +54,6 @@ class PhpDumper extends FileDumper
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
     {
         foreach ($messages->all($domain) as $source => $target) {
@@ -85,9 +79,6 @@ class PhpDumper extends FileDumper
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getExtension()
     {
         return 'php';

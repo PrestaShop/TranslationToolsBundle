@@ -12,7 +12,6 @@ namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\DomainHelper;
-use SplFileInfo;
 use Symfony\Component\Translation\Extractor\AbstractFileExtractor;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -46,9 +45,6 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
         $this->includeExternalWordings = $includeExternalWordings;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extract($resource, MessageCatalogue $catalogue)
     {
         $files = $this->extractFiles($resource);
@@ -61,7 +57,7 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
         }
     }
 
-    protected function extractFromFile(SplFileInfo $resource, MessageCatalogue $catalogue)
+    protected function extractFromFile(\SplFileInfo $resource, MessageCatalogue $catalogue)
     {
         $compiler = $this->smartyCompiler->setTemplateFile($resource->getPathname());
         $translationTags = $compiler->getTranslationTags();
@@ -99,25 +95,16 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function canBeExtracted($file)
     {
         return $this->isFile($file) && 'tpl' === pathinfo($file, PATHINFO_EXTENSION);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function extractFromDirectory($directory)
     {
         return $this->getFinder()

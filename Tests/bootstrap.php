@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-
 if (!($loader = @include __DIR__ . '/../vendor/autoload.php')) {
     exit(<<<EOT
 You need to install the project dependencies using Composer:
@@ -13,5 +11,3 @@ $ phpunit
 EOT
     );
 }
-
-AnnotationRegistry::registerLoader('class_exists');

@@ -21,9 +21,6 @@ class PreferencesType extends TranslatorAwareType
      */
     private $isSecure;
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configuration = $this->getConfiguration();
@@ -109,9 +106,6 @@ class PreferencesType extends TranslatorAwareType
         $this->isSecure = $isSecure;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -119,9 +113,6 @@ class PreferencesType extends TranslatorAwareType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'preferences';

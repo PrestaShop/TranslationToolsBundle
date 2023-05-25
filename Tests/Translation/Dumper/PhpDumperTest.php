@@ -96,7 +96,7 @@ class PhpDumperTest extends TestCase
 
         foreach ($builders as $builder) {
             // Check if all builders have at least one translation
-            $this->assertRegExp("/\\\$_[A-Z]+\['.+'\] = \'.+\';/", $builder->build());
+            $this->assertMatchesRegularExpression("/\\\$_[A-Z]+\['.+'\] = \'.+\';/", $builder->build());
         }
     }
 

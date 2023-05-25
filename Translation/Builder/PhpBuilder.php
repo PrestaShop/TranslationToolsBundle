@@ -10,8 +10,6 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Builder;
 
-use Exception;
-
 class PhpBuilder
 {
     public const POS_NEWLINE = 0;
@@ -57,12 +55,12 @@ class PhpBuilder
      *
      * @return \PrestaShop\TranslationToolsBundle\Translation\Builder\PhpBuilder
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function appendStringLine($varName, $key, $value)
     {
         if ($this->pos !== self::POS_NEWLINE) {
-            throw new Exception('Unable to append new line (current pos is ' . $this->pos . ')');
+            throw new \Exception('Unable to append new line (current pos is ' . $this->pos . ')');
         }
 
         $this->appendVar($varName)
