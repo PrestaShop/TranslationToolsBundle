@@ -10,12 +10,10 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Builder;
 
-use DOMDocument;
-
 class XliffBuilder
 {
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $dom;
 
@@ -36,12 +34,12 @@ class XliffBuilder
 
     public function __construct()
     {
-        $this->dom = new DOMDocument('1.0', 'UTF-8');
+        $this->dom = new \DOMDocument('1.0', 'UTF-8');
         $this->dom->formatOutput = true;
     }
 
     /**
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function build()
     {

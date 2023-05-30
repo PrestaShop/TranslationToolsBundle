@@ -209,7 +209,7 @@ class DefaultTranslationDomainExtractor
                    && $item->key instanceof Node\Scalar\String_
                    && $item->key->value === 'translation_domain'
                    && $item->value instanceof Node\Scalar\String_
-               ) {
+                ) {
                     $this->setDefaultTranslationDomain($item->value->value);
 
                     return true;

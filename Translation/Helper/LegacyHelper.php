@@ -41,7 +41,7 @@ class LegacyHelper
                     },
                 ];
 
-            // when we get a simple theme
+                // when we get a simple theme
             case preg_match('#themes/([A-Za-z0-9_-]+).+\.tpl$#', $inputFilename, $matches):
                 return [
                     'file' => '/lang/[locale].php',
@@ -97,14 +97,14 @@ class LegacyHelper
                     },
                 ];
 
-//            case !preg_match('#tools/|cache/|\.tpl\.php$|[a-z]{2}\.php$#', $inputFilename) && preg_match('/\.php$/', $inputFilename):
-//                return [
-//                    'file' => 'translations/[locale]/errors.php',
-//                    'var' => '_ERRORS',
-//                    'generateKey' => function ($string) {
-//                        return self::getKey($string);
-//                    },
-//                ];
+                //            case !preg_match('#tools/|cache/|\.tpl\.php$|[a-z]{2}\.php$#', $inputFilename) && preg_match('/\.php$/', $inputFilename):
+                //                return [
+                //                    'file' => 'translations/[locale]/errors.php',
+                //                    'var' => '_ERRORS',
+                //                    'generateKey' => function ($string) {
+                //                        return self::getKey($string);
+                //                    },
+                //                ];
         }
     }
 

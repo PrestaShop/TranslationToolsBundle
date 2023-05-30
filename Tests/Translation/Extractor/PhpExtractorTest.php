@@ -254,6 +254,13 @@ class PhpExtractorTest extends TestCase
         ]);
     }
 
+    public function testItExtractsTransMethodFromModernController(): void
+    {
+        $messageCatalogue = $this->buildMessageCatalogue('fixtures/ModernTestController.php');
+
+        $this->assertTrue($messageCatalogue->defines('Fingers', 'Admin.Product.Help'));
+    }
+
     private function buildMessageCatalogue(string $fixtureResource): MessageCatalogue
     {
         $messageCatalogue = new MessageCatalogue('en');

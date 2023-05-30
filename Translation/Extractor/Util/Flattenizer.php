@@ -35,9 +35,9 @@ use Symfony\Component\Finder\Finder;
  */
 class Flattenizer
 {
-    public static $finder = null;
+    public static $finder;
 
-    public static $filesystem = null;
+    public static $filesystem;
 
     /**
      * @input string $inputPath Path of directory to flattenize

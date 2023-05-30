@@ -14,9 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class PaginationType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -44,9 +41,6 @@ class PaginationType extends AbstractType
             ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -54,9 +48,6 @@ class PaginationType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'product_preferences_pagination_block';

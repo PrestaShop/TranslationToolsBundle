@@ -60,9 +60,6 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
         $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extract($resource, MessageCatalogue $catalogue)
     {
         $files = $this->extractFiles($resource);
@@ -72,17 +69,12 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
     }
 
     /**
-     * @param $file
-     *
      * @throws \Exception
      */
     protected function parseFileTokens($file, MessageCatalogue $catalog)
@@ -118,7 +110,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
                 $comment = $metadata['comment'] = $this->getEntryComment(
                     $comments,
                     $file->getFilename(),
-                    ($translation['line'] - 1)
+                    $translation['line'] - 1
                 );
 
                 $catalog->set(
@@ -145,9 +137,9 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     /**
      * @param string $file
      *
-     * @throws \InvalidArgumentException
-     *
      * @return bool
+     *
+     * @throws \InvalidArgumentException
      */
     protected function canBeExtracted($file)
     {

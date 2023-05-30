@@ -51,9 +51,6 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
         return $this->baseTranslationNodeVisitor->enterNode($node, $env);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function doLeaveNode(Node $node, Environment $env): ?Node
     {
         $node = $this->baseTranslationNodeVisitor->leaveNode($node, $env);
@@ -67,9 +64,6 @@ class TranslationNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPriority(): int
     {
         return $this->baseTranslationNodeVisitor->getPriority();

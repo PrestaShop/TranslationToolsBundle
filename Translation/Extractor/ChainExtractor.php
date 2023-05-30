@@ -37,9 +37,6 @@ class ChainExtractor extends BaseChaineExtractor
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extract($directory, MessageCatalogue $catalogue)
     {
         $finder = new Finder();

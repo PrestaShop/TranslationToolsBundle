@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/AppKernel.php';
 
-use PHPUnit\Framework\Assert as Assert;
+use PHPUnit\Framework\Assert;
 use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTemplateCompiler;
 
 $kernel = new AppKernel('test', false);

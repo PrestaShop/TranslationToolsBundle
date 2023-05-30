@@ -17,8 +17,6 @@ use PrestaShop\TranslationToolsBundle\Translation\Compiler\Smarty\TranslationTem
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\SmartyExtractor;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceModule;
 use PrestaShop\TranslationToolsBundle\Translation\Helper\Smarty\SmartyResourceParent;
-use Smarty_Internal_Templatelexer;
-use Smarty_Internal_Templateparser;
 use Symfony\Component\Translation\MessageCatalogue;
 
 class SmartyExtractorTest extends TestCase
@@ -100,8 +98,8 @@ class SmartyExtractorTest extends TestCase
         $smarty->registerResource('parent', new SmartyResourceParent());
 
         $compiler = new TranslationTemplateCompiler(
-            Smarty_Internal_Templatelexer::class,
-            Smarty_Internal_Templateparser::class,
+            \Smarty_Internal_Templatelexer::class,
+            \Smarty_Internal_Templateparser::class,
             $smarty
         );
 

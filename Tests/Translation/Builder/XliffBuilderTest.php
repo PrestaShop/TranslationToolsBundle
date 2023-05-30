@@ -37,6 +37,8 @@ class XliffBuilderTest extends TestCase
 
     public function testBuild()
     {
+        // Version must be set for correct usage because DOMElement::setAttribute doesn't accept null as parameter
+        $this->instance->setVersion('1.0');
         $this->instance->addFile('filename', 'sourceLanguage', 'targetLanguage');
         $this->instance->addTransUnit('filename', 'source', 'target', 'note');
 

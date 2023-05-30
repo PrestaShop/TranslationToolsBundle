@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0']
-        twig-versions: ['^1.38', '^2.7', '^3.0']
-        smarty-versions: ['^3.1', '^4.0']
+        php-versions: ['8.1']
+        twig-versions: ['^3.0']
+        smarty-versions: ['^4.0']
     steps:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -46,7 +46,7 @@ jobs:
       run: php ./Tests/SymfonyIntegration/run.php
 
     - name: Upload coverage results to Coveralls
-      if: matrix.php-versions == '7.4'
+      if: matrix.php-versions == '8.1'
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
