@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         date_default_timezone_set('UTC');
 
@@ -21,26 +21,17 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    /**
-     * @return null
-     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config_test.yml');
     }
 
-    /**
-     * @return string
-     */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->guessTempDirectoryFor('cache');
     }
 
-    /**
-     * @return string
-     */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->guessTempDirectoryFor('logs');
     }

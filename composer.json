@@ -26,15 +26,15 @@
     "php": ">=8.1",
     "nikic/php-parser": "^4",
     "smarty/smarty": "^3.1 || ^4.0",
-    "symfony/twig-bridge": "^3.4 || ^4.4 || ^5.0",
+    "symfony/twig-bridge": "^3.4 || ^4.4 || ^5.0 || ^6.0",
     "twig/twig": "^1.38 || ^2.7 || ^3.0"
   },
   "require-dev": {
     "doctrine/common": "^3",
     "friendsofphp/php-cs-fixer": "^3.2",
     "phpunit/phpunit": "~9.5.10",
-    "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0",
-    "symfony/symfony": "^5.4",
-    "symfony/translation": "^3.4 || ^4.4 || ^5.0"
+    "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0 || ^6.0",
+    "symfony/symfony": "^6.0",
+    "symfony/translation": "^3.4 || ^4.4 || ^5.0 || ^6.0"
   }
 }

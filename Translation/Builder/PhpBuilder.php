@@ -53,7 +53,7 @@ class PhpBuilder
      * @param string $key
      * @param string $value
      *
-     * @return \PrestaShop\TranslationToolsBundle\Translation\Builder\PhpBuilder
+     * @return PhpBuilder
      *
      * @throws \Exception
      */

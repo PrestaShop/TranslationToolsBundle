@@ -54,8 +54,10 @@ class PhpDumper extends FileDumper
         }
     }
 
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = []): string
     {
+        $content = '';
+
         foreach ($messages->all($domain) as $source => $target) {
             $metadata = $messages->getMetadata($source, $domain);
 
@@ -76,10 +78,14 @@ class PhpDumper extends FileDumper
                 $outputInfo['generateKey']($target),
                 $target
             );
+
+            $content .= $this->builders[$outputFile]->build();
         }
+
+        return $content;
     }
 
-    public function getExtension()
+    public function getExtension(): string
     {
         return 'php';
     }
