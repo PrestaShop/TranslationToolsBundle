@@ -59,7 +59,7 @@ class XliffFileDumper extends BaseXliffFileDumper
         }
     }
 
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = []): string
     {
         if (array_key_exists('default_locale', $options)) {
             $defaultLocale = $options['default_locale'];
@@ -122,7 +122,7 @@ class XliffFileDumper extends BaseXliffFileDumper
         return implode(PHP_EOL, $notes);
     }
 
-    public function getExtension()
+    public function getExtension(): string
     {
         return 'xlf';
     }

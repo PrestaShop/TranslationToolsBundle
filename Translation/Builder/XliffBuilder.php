@@ -67,7 +67,7 @@ class XliffBuilder
      * @param string $sourceLanguage
      * @param string $targetLanguage
      *
-     * @return \PrestaShop\TranslationToolsBundle\Translation\Builder\XliffBuilder
+     * @return XliffBuilder
      */
     public function addFile($filename, $sourceLanguage, $targetLanguage)
     {
@@ -90,7 +90,7 @@ class XliffBuilder
      * @param string $target
      * @param string $note
      *
-     * @return \PrestaShop\TranslationToolsBundle\Translation\Builder\XliffBuilder
+     * @return XliffBuilder
      */
     public function addTransUnit($filename, $source, $target, $note)
     {
@@ -121,7 +121,7 @@ class XliffBuilder
     /**
      * @param string $version
      *
-     * @return \PrestaShop\TranslationToolsBundle\Translation\Builder\XliffBuilder
+     * @return XliffBuilder
      */
     public function setVersion($version)
     {

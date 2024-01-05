@@ -35,7 +35,7 @@ $_FIELDS['Address_2df2ca5cf808744c2977e4073f6b59c8'] = 'phone_mobile';
 $_FIELDS['Address_eec0a9661213354fa7a52519eea3f827'] = 'vat_number';
 $_FIELDS['Address_d56f5e97524d5d1ad77ec197ae11dad0'] = 'dni';
 
-$catalogue = new \Symfony\Component\Translation\MessageCatalogue();
+$catalogue = new Symfony\Component\Translation\MessageCatalogue();
 
 function addEntry($catalogue, $original, $translation, $domain = 'messages')
 {
