@@ -18,6 +18,13 @@ class TestController
     {
         // the parser should not capture this
         $version = phpversion();
+
+        // encountering first-class callable syntax should not cause the extractor to fail with an error
+        $closure = $this->fooAction(...);
+
+        $messages = array_map($this->trans(...), [
+            'Extracting messages translated this way is not supported',
+        ]);
     }
 
     public function fooAction()
