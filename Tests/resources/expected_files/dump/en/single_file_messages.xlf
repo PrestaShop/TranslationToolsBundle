@@ -9,6 +9,7 @@
       <trans-unit id="8b04d5e3775d298e78455efc5ca404d5">
         <source>first</source>
         <target>first</target>
+        <note>File: controllers/admin/AdminAccessController.php [Line: 6]</note>
       </trans-unit>
       <trans-unit id="c0759f2416498708841e7975566360ce">
         <source>fourth</source>
@@ -17,6 +18,7 @@
       <trans-unit id="a9f0e61a137d86aa9db53465e0801612">
         <source>second</source>
         <target>second</target>
+        <note>File: override/controllers/admin/AdminAccessController.php [Line: 6]</note>
       </trans-unit>
       <trans-unit id="5098d245aa911c02a50e276087c0b4a9">
         <source>seventh</source>
@@ -29,6 +31,7 @@
       <trans-unit id="dd5c8bf51558ffcbe5007071908e9524">
         <source>third</source>
         <target>third</target>
+        <note>File: classes/helper/Helper.php [Line: 6]</note>
       </trans-unit>
     </body>
   </file>

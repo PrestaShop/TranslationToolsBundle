@@ -108,21 +108,7 @@ class XliffFileDumper extends BaseXliffFileDumper
 
         foreach ($messages->all($domain) as $source => $target) {
             if (!empty($source)) {
-                $metadata = $messages->getMetadata($source, $domain);
-
-                /*
-                 * Handle original file information from xliff file.
-                 * This is needed if at least part of the catalogue was read from xliff files
-                 */
-                if (is_array($metadata['file']) && !empty($metadata['file']['original'])) {
-                    $metadata['file'] = $metadata['file']['original'];
-                }
-
-                $metadata['file'] = Configuration::getRelativePath(
-                    $metadata['file'],
-                    !empty($options['root_dir']) ? realpath($options['root_dir']) : false
-                );
-
+                $metadata = $this->getMetadata($messages, $source, $domain);
                 $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
                 $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
             }
@@ -161,10 +147,37 @@ class XliffFileDumper extends BaseXliffFileDumper
         $singleFileName = $domain . '.xlf';
         $xliffBuilder->addFile($singleFileName, $defaultLocale, $messages->getLocale());
         foreach ($transUnits as $source => $target) {
-            $xliffBuilder->addTransUnit($singleFileName, $source, $target);
+            $metadata = $this->getMetadata($messages, $source, $domain);
+            if (!empty($metadata['file']) && !empty($metadata['line'])) {
+                $note = sprintf('File: %s [Line: %s]', $metadata['file'], $metadata['line']);
+            } else {
+                $note = '';
+            }
+
+            $xliffBuilder->addTransUnit($singleFileName, $source, $target, $note);
         }
 
         return html_entity_decode($xliffBuilder->build()->saveXML());
+    }
+
+    private function getMetadata(MessageCatalogue $messages, string $source, string $domain): array
+    {
+        $metadata = $messages->getMetadata($source, $domain);
+
+        /*
+         * Handle original file information from xliff file.
+         * This is needed if at least part of the catalogue was read from xliff files
+         */
+        if (is_array($metadata['file']) && !empty($metadata['file']['original'])) {
+            $metadata['file'] = $metadata['file']['original'];
+        }
+
+        $metadata['file'] = Configuration::getRelativePath(
+            $metadata['file'],
+            !empty($options['root_dir']) ? realpath($options['root_dir']) : false
+        );
+
+        return $metadata;
     }
 
     /**
