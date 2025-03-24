@@ -109,6 +109,7 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     {
         return $this->getFinder()
             ->name('*.tpl')
+            ->sortByName(useNaturalSort: true)
             ->in($directory)
             ->exclude($this->getExcludedDirectories());
     }

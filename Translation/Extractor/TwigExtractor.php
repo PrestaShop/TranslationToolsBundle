@@ -142,6 +142,7 @@ class TwigExtractor extends BaseTwigExtractor implements ExtractorInterface
     {
         return $this->getFinder()->files()
             ->name('*.twig')
+            ->sortByName(useNaturalSort: true)
             ->in($directory)
             ->exclude($this->getExcludedDirectories());
     }

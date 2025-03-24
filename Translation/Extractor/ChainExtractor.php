@@ -42,6 +42,7 @@ class ChainExtractor extends BaseChaineExtractor
         $finder = new Finder();
 
         $finder->ignoreUnreadableDirs();
+        $finder->sortByName(true);
 
         foreach (Configuration::getPaths() as $item) {
             $finder->path('{^' . $item . '}');

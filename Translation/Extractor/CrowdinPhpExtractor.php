@@ -94,6 +94,7 @@ class CrowdinPhpExtractor extends AbstractFileExtractor implements ExtractorInte
 
         return $finder->files()
             ->name('*.php')
+            ->sortByName(useNaturalSort: true)
             ->in($directory)
             ->exclude($this->getExcludedDirectories());
     }
