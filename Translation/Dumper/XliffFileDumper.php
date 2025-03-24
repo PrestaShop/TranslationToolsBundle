@@ -39,7 +39,19 @@ class XliffFileDumper extends BaseXliffFileDumper
         ]);
     }
 
-    public function dump(MessageCatalogue $messages, $options = [])
+    /**
+     * Options array:
+     *   'path' => Path where the XLIFF files are dumped,
+     *   'root_dir' => Root folder for PrestaShop,
+     *   'default_locale' => Default locale (en by default),
+     *   'split_files' => Boolean, indicates of th XLIFF files must split the trans units into separate files nodes (default: true),
+     *
+     * @param MessageCatalogue $messages
+     * @param array $options
+     * @return void
+     */
+
+    public function dump(MessageCatalogue $messages, array $options = [])
     {
         if (!array_key_exists('path', $options)) {
             throw new \InvalidArgumentException('The file dumper needs a path option.');
@@ -67,6 +79,30 @@ class XliffFileDumper extends BaseXliffFileDumper
             $defaultLocale = \Locale::getDefault();
         }
 
+        if (array_key_exists('split_files', $options)) {
+            $splitFiles = $options['split_files'];
+        } else {
+            $splitFiles = true;
+        }
+
+        if ($splitFiles) {
+            return $this->formatSplitFiles($messages, $domain, $defaultLocale);
+        }
+
+        return $this->formatSingleFile($messages, $domain, $defaultLocale);
+    }
+
+    /**
+     * The historic format of PrestaShop XLIFF catalog splits the trans units messages into separate
+     * files node representing the file where they were extracted from.
+     *
+     * @param MessageCatalogue $messages
+     * @param string $domain
+     * @param string $defaultLocale
+     * @return string
+     */
+    private function formatSplitFiles(MessageCatalogue $messages, string $domain, string $defaultLocale): string
+    {
         $xliffBuilder = new XliffBuilder();
         $xliffBuilder->setVersion('1.2');
 
@@ -90,6 +126,42 @@ class XliffFileDumper extends BaseXliffFileDumper
                 $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
                 $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
             }
+        }
+
+        return html_entity_decode($xliffBuilder->build()->saveXML());
+    }
+
+    /**
+     * The new PrestaShop format (starting from V9) uses a single file node not linked to any particular existing code file
+     * (we use a common placeholder) that stores all the trans units, the units are also sorted alphabetically. The purpose
+     * is to have some extracts that are less prone to changes because of code evolution.
+     *
+     * We also remove the note part that contained the line in the original file, since the file is not indicated anymore the
+     * line is not relevant anymore. Besides just giving a file and a line did not give much context for the translators anyway.
+     *
+     * @param MessageCatalogue $messages
+     * @param string $domain
+     * @param string $defaultLocale
+     * @return string
+     */
+    private function formatSingleFile(MessageCatalogue $messages, string $domain, string $defaultLocale): string
+    {
+        $xliffBuilder = new XliffBuilder();
+        $xliffBuilder->setVersion('1.2');
+
+        $transUnits = [];
+        foreach ($messages->all($domain) as $source => $target) {
+            if (!empty($source)) {
+                $transUnits[$source] = $target;
+            }
+        }
+        // Sort alphabetically based on the source key
+        ksort($transUnits);
+
+        $singleFileName = $domain . '.xlf';
+        $xliffBuilder->addFile($singleFileName, $defaultLocale, $messages->getLocale());
+        foreach ($transUnits as $source => $target) {
+            $xliffBuilder->addTransUnit($singleFileName, $source, $target);
         }
 
         return html_entity_decode($xliffBuilder->build()->saveXML());
