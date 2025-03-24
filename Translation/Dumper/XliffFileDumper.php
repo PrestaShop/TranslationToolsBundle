@@ -46,11 +46,8 @@ class XliffFileDumper extends BaseXliffFileDumper
      *   'default_locale' => Default locale (en by default),
      *   'split_files' => Boolean, indicates of th XLIFF files must split the trans units into separate files nodes (default: true),
      *
-     * @param MessageCatalogue $messages
-     * @param array $options
      * @return void
      */
-
     public function dump(MessageCatalogue $messages, array $options = [])
     {
         if (!array_key_exists('path', $options)) {
@@ -95,11 +92,6 @@ class XliffFileDumper extends BaseXliffFileDumper
     /**
      * The historic format of PrestaShop XLIFF catalog splits the trans units messages into separate
      * files node representing the file where they were extracted from.
-     *
-     * @param MessageCatalogue $messages
-     * @param string $domain
-     * @param string $defaultLocale
-     * @return string
      */
     private function formatSplitFiles(MessageCatalogue $messages, string $domain, string $defaultLocale): string
     {
@@ -124,11 +116,6 @@ class XliffFileDumper extends BaseXliffFileDumper
      *
      * We also remove the note part that contained the line in the original file, since the file is not indicated anymore the
      * line is not relevant anymore. Besides just giving a file and a line did not give much context for the translators anyway.
-     *
-     * @param MessageCatalogue $messages
-     * @param string $domain
-     * @param string $defaultLocale
-     * @return string
      */
     private function formatSingleFile(MessageCatalogue $messages, string $domain, string $defaultLocale): string
     {

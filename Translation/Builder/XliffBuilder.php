@@ -85,11 +85,6 @@ class XliffBuilder
     }
 
     /**
-     * @param string $filename
-     * @param string $source
-     * @param string $target
-     * @param string $note
-     *
      * @return XliffBuilder
      */
     public function addTransUnit(string $filename, string $source, string $target, string $note = '')

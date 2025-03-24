@@ -40,8 +40,9 @@ return (new PhpCsFixer\Config())
         'protected_to_private' => false,
         'psr_autoloading' => false,
         'self_accessor' => false,
-        'yoda_style' => [],
+        'yoda_style' => false,
         'phpdoc_no_empty_return' => false,
+        'blank_line_after_opening_tag' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/.php_cs.cache')

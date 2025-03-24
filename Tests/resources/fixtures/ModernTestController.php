@@ -8,7 +8,7 @@ class ModernTestController
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
-        public TranslatorInterface $translatorPublic
+        public TranslatorInterface $translatorPublic,
     ) {
     }
 
