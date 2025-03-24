@@ -82,25 +82,27 @@ class XliffFileDumper extends BaseXliffFileDumper
             $splitFiles = true;
         }
 
+        $rootDir = !empty($options['root_dir']) ? realpath($options['root_dir']) : null;
+
         if ($splitFiles) {
-            return $this->formatSplitFiles($messages, $domain, $defaultLocale);
+            return $this->formatSplitFiles($messages, $domain, $defaultLocale, $rootDir);
         }
 
-        return $this->formatSingleFile($messages, $domain, $defaultLocale);
+        return $this->formatSingleFile($messages, $domain, $defaultLocale, $rootDir);
     }
 
     /**
      * The historic format of PrestaShop XLIFF catalog splits the trans units messages into separate
      * files node representing the file where they were extracted from.
      */
-    private function formatSplitFiles(MessageCatalogue $messages, string $domain, string $defaultLocale): string
+    private function formatSplitFiles(MessageCatalogue $messages, string $domain, string $defaultLocale, ?string $rootDir): string
     {
         $xliffBuilder = new XliffBuilder();
         $xliffBuilder->setVersion('1.2');
 
         foreach ($messages->all($domain) as $source => $target) {
             if (!empty($source)) {
-                $metadata = $this->getMetadata($messages, $source, $domain);
+                $metadata = $this->getMetadata($messages, $source, $domain, $rootDir);
                 $xliffBuilder->addFile($metadata['file'], $defaultLocale, $messages->getLocale());
                 $xliffBuilder->addTransUnit($metadata['file'], $source, $target, $this->getNote($metadata));
             }
@@ -117,7 +119,7 @@ class XliffFileDumper extends BaseXliffFileDumper
      * We also remove the note part that contained the line in the original file, since the file is not indicated anymore the
      * line is not relevant anymore. Besides just giving a file and a line did not give much context for the translators anyway.
      */
-    private function formatSingleFile(MessageCatalogue $messages, string $domain, string $defaultLocale): string
+    private function formatSingleFile(MessageCatalogue $messages, string $domain, string $defaultLocale, ?string $rootDir): string
     {
         $xliffBuilder = new XliffBuilder();
         $xliffBuilder->setVersion('1.2');
@@ -134,7 +136,7 @@ class XliffFileDumper extends BaseXliffFileDumper
         $singleFileName = $domain . '.xlf';
         $xliffBuilder->addFile($singleFileName, $defaultLocale, $messages->getLocale());
         foreach ($transUnits as $source => $target) {
-            $metadata = $this->getMetadata($messages, $source, $domain);
+            $metadata = $this->getMetadata($messages, $source, $domain, $rootDir);
             if (!empty($metadata['file']) && !empty($metadata['line'])) {
                 $note = sprintf('File: %s [Line: %s]', $metadata['file'], $metadata['line']);
             } else {
@@ -147,7 +149,7 @@ class XliffFileDumper extends BaseXliffFileDumper
         return html_entity_decode($xliffBuilder->build()->saveXML());
     }
 
-    private function getMetadata(MessageCatalogue $messages, string $source, string $domain): array
+    private function getMetadata(MessageCatalogue $messages, string $source, string $domain, ?string $rootDir): array
     {
         $metadata = $messages->getMetadata($source, $domain);
 
@@ -161,7 +163,7 @@ class XliffFileDumper extends BaseXliffFileDumper
 
         $metadata['file'] = Configuration::getRelativePath(
             $metadata['file'],
-            !empty($options['root_dir']) ? realpath($options['root_dir']) : false
+            $rootDir
         );
 
         return $metadata;
