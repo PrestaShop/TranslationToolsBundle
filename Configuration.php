@@ -93,11 +93,11 @@ class Configuration
 
     /**
      * @param string $path
-     * @param string|bool $rootDir
+     * @param string|null $rootDir
      *
      * @return string
      */
-    public static function getRelativePath($path, $rootDir = false)
+    public static function getRelativePath(string $path, ?string $rootDir = null)
     {
         $realpath = realpath($path);
         $path = empty($realpath) ? $path : $realpath;

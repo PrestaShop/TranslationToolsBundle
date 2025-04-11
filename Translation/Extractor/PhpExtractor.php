@@ -156,6 +156,7 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
         return $this->getFinder()
             ->files()
             ->name('*.php')
+            ->sortByName(useNaturalSort: true)
             ->exclude($this->getExcludedDirectories())
             ->in($directory);
     }

@@ -85,7 +85,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     }
 
     /**
-     * @param Node|\PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\FuncCall $node
+     * @param Node|Node\Expr\MethodCall|Node\Expr\FuncCall $node
      */
     private function getNodeName(Node $node)
     {

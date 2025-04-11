@@ -39,7 +39,7 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
      */
     public function __construct(
         TranslationTemplateCompiler $smartyCompiler,
-        $includeExternalWordings = self::EXCLUDE_EXTERNAL_MODULES
+        $includeExternalWordings = self::EXCLUDE_EXTERNAL_MODULES,
     ) {
         $this->smartyCompiler = $smartyCompiler;
         $this->includeExternalWordings = $includeExternalWordings;
@@ -109,6 +109,7 @@ class SmartyExtractor extends AbstractFileExtractor implements ExtractorInterfac
     {
         return $this->getFinder()
             ->name('*.tpl')
+            ->sortByName(useNaturalSort: true)
             ->in($directory)
             ->exclude($this->getExcludedDirectories());
     }

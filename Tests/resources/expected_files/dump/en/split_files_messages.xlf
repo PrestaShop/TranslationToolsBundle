@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="classes/helper/Helper.php" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="dd5c8bf51558ffcbe5007071908e9524">
+        <source>third</source>
+        <target>third</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="controllers/admin/AdminAccessController.php" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="8b04d5e3775d298e78455efc5ca404d5">
+        <source>first</source>
+        <target>first</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="none (skip)" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="5098d245aa911c02a50e276087c0b4a9">
+        <source>seventh</source>
+        <target>seventh</target>
+        <note>Line: 0</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="override/classes/pdf/PDF.php" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="93c38fcf0d200be001335ef572650346">
+        <source>sixth</source>
+        <target>sixth</target>
+        <note>Line: 0</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="override/controllers/admin/AdminAccessController.php" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="a9f0e61a137d86aa9db53465e0801612">
+        <source>second</source>
+        <target>second</target>
+        <note>Line: 6</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="themes/classic/modules/blockcart/modal.tpl" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="c0759f2416498708841e7975566360ce">
+        <source>fourth</source>
+        <target>fourth</target>
+        <note>Line: 0</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="themes/classic/templates/catalog/category.tpl" source-language="en" target-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="0883a6520e6eb6c9304dcfb71034d053">
+        <source>fifth</source>
+        <target>fifth</target>
+        <note>Line: 0</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

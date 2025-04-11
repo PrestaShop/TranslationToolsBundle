@@ -85,14 +85,9 @@ class XliffBuilder
     }
 
     /**
-     * @param string $filename
-     * @param string $source
-     * @param string $target
-     * @param string $note
-     *
      * @return XliffBuilder
      */
-    public function addTransUnit($filename, $source, $target, $note)
+    public function addTransUnit(string $filename, string $source, string $target, string $note = '')
     {
         $id = md5($source);
         $translation = $this->dom->createElement('trans-unit');
@@ -101,7 +96,6 @@ class XliffBuilder
         // Does the target contain characters requiring a CDATA section?
         $source_value = 1 === preg_match('/[&<>]/', $source) ? $this->dom->createCDATASection($source) : $this->dom->createTextNode($source);
         $target_value = 1 === preg_match('/[&<>]/', $target) ? $this->dom->createCDATASection($target) : $this->dom->createTextNode($target);
-        $note_value = 1 === preg_match('/[&<>]/', $note) ? $this->dom->createCDATASection($note) : $this->dom->createTextNode($note);
 
         $s = $translation->appendChild($this->dom->createElement('source'));
         $s->appendChild($source_value);
@@ -110,8 +104,11 @@ class XliffBuilder
         $z = $translation->appendChild($this->dom->createElement('target'));
         $z->appendChild($target_value);
 
-        $n = $translation->appendChild($this->dom->createElement('note'));
-        $n->appendChild($note_value);
+        if (!empty($note)) {
+            $note_value = 1 === preg_match('/[&<>]/', $note) ? $this->dom->createCDATASection($note) : $this->dom->createTextNode($note);
+            $n = $translation->appendChild($this->dom->createElement('note'));
+            $n->appendChild($note_value);
+        }
 
         $this->transUnits[$filename][$id] = $translation;
 

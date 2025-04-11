@@ -91,7 +91,7 @@ class XliffFileDumperTest extends TestCase
         $this->instance->dump($this->getFilledMessageCatalogue(), ['path' => $directory]);
     }
 
-    public function testDumpWithValidConfig()
+    public function testDumpWithValidConfigSplitFiles()
     {
         $directory = $this->getResource('') . '/dump';
 
@@ -101,5 +101,23 @@ class XliffFileDumperTest extends TestCase
         );
 
         $this->assertFileExists($this->getResource('dump/en/messages.xlf'));
+        $dumpContent = file_get_contents($this->getResource('dump/en/messages.xlf'));
+        $expectedDumpContent = file_get_contents($this->getResource('expected_files/dump/en/split_files_messages.xlf'));
+        $this->assertEquals($expectedDumpContent, $dumpContent);
+    }
+
+    public function testDumpWithValidConfigSingleFile()
+    {
+        $directory = $this->getResource('') . '/dump';
+
+        $this->instance->dump(
+            $this->getFilledMessageCatalogue(),
+            ['path' => $directory, 'default_locale' => 'en', 'split_files' => false]
+        );
+
+        $this->assertFileExists($this->getResource('dump/en/messages.xlf'));
+        $dumpContent = file_get_contents($this->getResource('dump/en/messages.xlf'));
+        $expectedDumpContent = file_get_contents($this->getResource('expected_files/dump/en/single_file_messages.xlf'));
+        $this->assertEquals($expectedDumpContent, $dumpContent);
     }
 }
