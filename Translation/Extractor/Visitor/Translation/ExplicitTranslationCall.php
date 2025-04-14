@@ -33,8 +33,11 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
         /** @var $node \PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\FuncCall */
         $nodeName = $this->getNodeName($node);
 
-        $key = $this->getValue($node->args[0]);
-        if (!in_array($nodeName, self::SUPPORTED_METHODS) || empty($key)) {
+        if (
+            !in_array($nodeName, self::SUPPORTED_METHODS)
+            || !$node->args[0] instanceof Node\Arg
+            || null === $key = $this->getValue($node->args[0])
+        ) {
             return [];
         }
 
@@ -79,9 +82,9 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     {
         if ($arg->value instanceof Node\Scalar\String_) {
             return $arg->value->value;
-        } elseif (gettype($arg) === 'string') {
-            return $arg->value;
         }
+
+        return null;
     }
 
     /**
