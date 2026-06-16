@@ -140,11 +140,12 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
         if ($node instanceof Node\Stmt\Use_ && !$this->useSfFormAbstractTypeFound) {
             foreach ($node->uses as $useData) {
                 if ($useData instanceof Node\Stmt\UseUse
-                    && $useData->name instanceof Node\Name
-                    && in_array($useData->name->parts, self::SUPPORTED_FORM_TYPES)
+                    && in_array($useData->name->getParts(), self::SUPPORTED_FORM_TYPES, true)
                 ) {
                     $this->useSfFormAbstractTypeFound = true;
-                    $this->sfFormAbstractTypeAlias = end($useData->name->parts);
+                    // php-parser v5: Name::$parts removed; end() needs a variable reference
+                    $nameParts = $useData->name->getParts();
+                    $this->sfFormAbstractTypeAlias = end($nameParts);
                 }
             }
         }
@@ -162,7 +163,7 @@ class FormTypeDeclaration extends AbstractTranslationNodeVisitor
             }
 
             if ($node->extends instanceof Node\Name) {
-                $this->classIsKnownToBeFormType = in_array($this->sfFormAbstractTypeAlias, $node->extends->parts);
+                $this->classIsKnownToBeFormType = in_array($this->sfFormAbstractTypeAlias, $node->extends->getParts());
             }
         }
     }

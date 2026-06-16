@@ -10,7 +10,6 @@
 
 namespace PrestaShop\TranslationToolsBundle\Translation\Extractor;
 
-use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\Util\TranslationCollection;
@@ -39,25 +38,16 @@ class PhpExtractor extends AbstractFileExtractor implements ExtractorInterface
     private $prefix = '';
 
     /**
-     * @var \PhpParser\Parser\Multiple
+     * @var \PhpParser\Parser
      */
     private $parser;
 
     public function __construct()
     {
-        $lexer = new Lexer(
-            [
-                'usedAttributes' => [
-                    'comments',
-                    'startLine',
-                    'endLine',
-                    'startTokenPos',
-                    'endTokenPos',
-                ],
-            ]
-        );
-
-        $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, $lexer);
+        // php-parser v5: the parser is built for the newest supported PHP grammar
+        // (so PHP 8.4+ syntax tokenizes), and its default lexer already records
+        // comments + start/end line + start/end token positions.
+        $this->parser = (new ParserFactory())->createForNewestSupportedVersion();
     }
 
     public function extract($resource, MessageCatalogue $catalogue)

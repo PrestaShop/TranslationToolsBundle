@@ -98,7 +98,7 @@ class ChoiceExtractor
                 ) {
                     $choices[] = TranslationCollection::newTranslationItem(
                         $optionItem->key->value,
-                        $optionItem->getLine(),
+                        $optionItem->getStartLine(),
                         $domain
                     );
                 }
@@ -192,7 +192,7 @@ class ChoiceExtractor
         return
             $node->value instanceof Node\Expr\ClassConstFetch
             && $node->value->class instanceof Node\Name
-            && in_array(self::CHOICE_CLASS_NAME, $node->value->class->parts)
+            && in_array(self::CHOICE_CLASS_NAME, $node->value->class->getParts())
         ;
     }
 }

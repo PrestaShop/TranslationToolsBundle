@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace PrestaShop\TranslationToolsBundle\Tests\Translation\Extractor;
 
+use PhpParser\Error;
+use PhpParser\ParserFactory;
 use PrestaShop\TranslationToolsBundle\Tests\PhpUnit\TestCase;
 use PrestaShop\TranslationToolsBundle\Translation\Extractor\PhpExtractor;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -259,6 +261,30 @@ class PhpExtractorTest extends TestCase
         $messageCatalogue = $this->buildMessageCatalogue('fixtures/ModernTestController.php');
 
         $this->assertTrue($messageCatalogue->defines('Fingers', 'Admin.Product.Help'));
+    }
+
+    public function testItExtractsTransFromFileUsingPhp84NewWithoutParentheses(): void
+    {
+        if (!$this->phpParserSupportsPhp84Syntax()) {
+            $this->markTestSkipped('nikic/php-parser >= 5 is required to parse PHP 8.4 "new without parentheses" syntax.');
+        }
+
+        $messageCatalogue = $this->buildMessageCatalogue('fixtures/Test84NewWithoutParenthesesController.php');
+
+        $this->assertTrue($messageCatalogue->defines('Eight point four', 'Admin.Product.Help'));
+    }
+
+    private function phpParserSupportsPhp84Syntax(): bool
+    {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+
+        try {
+            $parser->parse('<?php new \DateTime()->format("Y");');
+
+            return true;
+        } catch (Error) {
+            return false;
+        }
     }
 
     private function buildMessageCatalogue(string $fixtureResource): MessageCatalogue
