@@ -32,7 +32,7 @@
   "require-dev": {
     "doctrine/common": "^3",
     "friendsofphp/php-cs-fixer": "^3.2",
-    "phpunit/phpunit": "~9.5.10",
+    "phpunit/phpunit": "~9.6",
     "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0 || ^6.0",
     "symfony/symfony": "^6.0",
     "symfony/translation": "^3.4 || ^4.4 || ^5.0 || ^6.0"
