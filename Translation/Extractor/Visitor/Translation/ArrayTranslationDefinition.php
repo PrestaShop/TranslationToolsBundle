@@ -47,7 +47,7 @@ class ArrayTranslationDefinition extends AbstractTranslationNodeVisitor
             return [];
         }
 
-        /** @var $node Node\Expr\Array_ */
+        /** @var Node\Expr\Array_ $node */
         $translation = [
             'source' => null,
             'domain' => null,

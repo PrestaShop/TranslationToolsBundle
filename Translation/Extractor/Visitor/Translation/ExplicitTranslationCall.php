@@ -30,14 +30,14 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
             return [];
         }
 
-        /** @var $node \PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\FuncCall */
+        /** @var Node\Expr\MethodCall|Node\Expr\FuncCall $node */
         $nodeName = $this->getNodeName($node);
         if (!in_array($nodeName, self::SUPPORTED_METHODS)) {
             return [];
         }
 
         // Sometimes the arg is a PhpParser\Node\VariadicPlaceholder, we ignore such cases
-        if (!($node->args[0] instanceof Node\Arg)) {
+        if (!$node->args[0] instanceof Node\Arg) {
             return [];
         }
 
