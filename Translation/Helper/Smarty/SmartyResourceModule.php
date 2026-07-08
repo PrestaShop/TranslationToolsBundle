@@ -24,6 +24,5 @@ class SmartyResourceModule extends \Smarty_Resource_Custom
      */
     protected function fetch($name, &$source, &$mtime)
     {
-        return;
     }
 }
