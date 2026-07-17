@@ -53,7 +53,7 @@ class CommentsNodeVisitor extends NodeVisitorAbstract
         if (is_array($comments)) {
             foreach ($comments as $comment) {
                 $this->comments[] = [
-                    'line' => $comment->getLine(),
+                    'line' => $comment->getStartLine(),
                     'file' => $this->file,
                     'comment' => trim($comment->getText(), " \t\n\r\0\x0B/*"),
                 ];

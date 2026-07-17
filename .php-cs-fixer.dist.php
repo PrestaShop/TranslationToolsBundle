@@ -14,7 +14,11 @@ $finder = PhpCsFixer\Finder::create()->in([
     __DIR__.'/Tests',
     __DIR__.'/Translation',
     __DIR__.'/Twig',
-]);
+])
+    // This test fixture intentionally uses PHP 8.4 "new without parentheses"
+    // syntax to exercise the extractor. PHP CS Fixer lints files with the host
+    // PHP version before fixing, so it cannot be processed on PHP < 8.4.
+    ->notName('Test84NewWithoutParenthesesController.php');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)

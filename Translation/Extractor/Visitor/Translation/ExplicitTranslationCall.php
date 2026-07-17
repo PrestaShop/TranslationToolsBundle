@@ -48,7 +48,7 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
 
         $translation = [
             'source' => $key,
-            'line' => $node->args[0]->getLine(),
+            'line' => $node->args[0]->getStartLine(),
         ];
 
         if ($nodeName == 'trans') {
@@ -98,8 +98,8 @@ class ExplicitTranslationCall extends AbstractTranslationNodeVisitor
     private function getNodeName(Node $node)
     {
         if ($node->name instanceof Node\Name) {
-            // $node->name is an instance of Identifier
-            return $node->name->parts[0];
+            // php-parser v5: Name::$parts was removed, use getParts()
+            return $node->name->getParts()[0];
         }
 
         return $node->name->name;
